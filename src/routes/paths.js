@@ -1,0 +1,33 @@
+import Config from "../config";
+
+// ----------------------------------------------------------------------
+
+function paths(root, sublink) {
+    return `${root}${sublink}`;
+}
+
+const ROOTS_DASHBOARD = '/adcl';
+
+// ----------------------------------------------------------------------
+
+export const PATH_AUTH = {
+    login: '/login',
+};
+
+export const PATH_DASHBOARD = {
+    root: ROOTS_DASHBOARD,
+    affaire: {
+        root: paths(ROOTS_DASHBOARD, '/affaire'),
+        new: paths(ROOTS_DASHBOARD, '/affaire/new'),
+        view: (num) => paths(ROOTS_DASHBOARD, `/affaire/${num}`),
+        edit: (num) => paths(ROOTS_DASHBOARD, `/affaire/${num}/edit`),
+    },
+    fiche: paths(ROOTS_DASHBOARD, '/fiche'),
+    planning: paths(ROOTS_DASHBOARD, '/planning'),
+    // user: {
+    //   root: paths(ROOTS_DASHBOARD, '/user'),
+    //   four: paths(ROOTS_DASHBOARD, '/user/four'),
+    //   five: paths(ROOTS_DASHBOARD, '/user/five'),
+    //   six: paths(ROOTS_DASHBOARD, '/user/six'),
+    // },
+};
