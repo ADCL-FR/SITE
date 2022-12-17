@@ -1,16 +1,16 @@
 // components
 import Page from './Page';
 // sections
-import Login from '../sections/auth/Login';
 // ----------------------------------------------------------------------
-
+//user
+import {useAuthContext} from "../auth/useAuthContext";
 export default function TestLog() {
-
+    const { user } = useAuthContext();
+    console.log("user: ", user);
     return (
-        <Page title="Se connecter">
-            <p>
-                Test
-            </p>
+        <Page title={user.username}>
+            <h1>hello {user.username}</h1>
+            <p>{user.groups}</p>
         </Page>
     );
 

@@ -72,11 +72,9 @@ export function AuthProvider({ children }) {
             if (accessToken && isValidToken(accessToken)) {
                 setSession(accessToken);
 
-                const response = await axios.get('/api/account/my-account');
-                console.log('response : ', response);
+                const response = await axios.get('/api/user/');
 
-                const { user } = response.data;
-
+                const user  = response.data;
                 dispatch({
                     type: 'INITIAL',
                     payload: {
@@ -114,17 +112,22 @@ export function AuthProvider({ children }) {
         const response = await axios.post('/auth/token', {
             username,
             password,
+        }).catch((error) => {
+            throw  error.detail;
         });
-        const { access, user } = response.data;
 
+        const { access } = response.data;
         setSession(access);
+        const user_response = await axios.get('/api/user/');
 
+        const  user = user_response.data;
         dispatch({
             type: 'LOGIN',
             payload: {
                 user,
             },
         });
+
     };
 
     // REGISTER
