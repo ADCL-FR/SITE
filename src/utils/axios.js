@@ -1,10 +1,10 @@
 import axios from 'axios';
 // config
-import Config from '../config';
+import { API_URL } from '../config';
 
 // ----------------------------------------------------------------------
 
-const axiosInstance = axios.create({ baseURL: Config.API_URL });
+const axiosInstance = axios.create({ baseURL: API_URL });
 
 axiosInstance.interceptors.response.use(
   (response) => response,

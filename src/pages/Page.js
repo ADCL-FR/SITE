@@ -5,13 +5,13 @@ import { forwardRef } from 'react';
 import { Box } from '@mui/material';
 
 // settings
-import Config from '../config';
+import { APP_NAME } from '../config';
 // ----------------------------------------------------------------------
 
 const Page = forwardRef(({ children, title = '', meta, ...other }, ref) => (
     <>
         <Helmet>
-            <title>{`${title} | ${Config.APP_NAME}`}</title>
+            <title>{`${title} | ${APP_NAME}`}</title>
             {meta}
         </Helmet>
 

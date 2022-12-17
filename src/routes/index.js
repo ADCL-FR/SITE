@@ -2,11 +2,12 @@ import { Navigate, useRoutes } from 'react-router-dom';
 // auth
 import AuthGuard from '../auth/AuthGuard';
 import GuestGuard from '../auth/GuestGuard';
+import RoleBasedGuard from "../auth/RoleBasedGuard";
 // layouts
 //import CompactLayout from '../layouts/compact';
 //import DashboardLayout from '../layouts/dashboard';
 // config
-import Config from '../config';
+import { PATH_AFTER_LOGIN } from '../config';
 //
 import { LoginPage, TestLog } from './elements';
 
@@ -17,7 +18,7 @@ export default function Router() {
         {
             path: '/',
             children: [
-                { element: <Navigate to={Config.PATH_AFTER_LOGIN} replace />, index: true },
+                { element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true },
                 {
                     path: 'login',
                     element: (
@@ -35,9 +36,13 @@ export default function Router() {
                 {
                     path: '',
                     element: (
+
+                            //<RoleBasedGuard roles={['test']}>
                         <AuthGuard>
                             <TestLog />
                         </AuthGuard>
+                            //</RoleBasedGuard>
+
                     ),
                 },
             ],
