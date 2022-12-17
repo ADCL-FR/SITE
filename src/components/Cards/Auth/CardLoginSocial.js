@@ -23,7 +23,9 @@ export default function CardLoginSocial({
 
   async function handleSubmit(e) {
     e.preventDefault();
-    login(usernameForm, passwordForm);
+    await login(usernameForm, passwordForm)
+
+        .catch((error) => {console.log(error)});
   }
   return (
     <>
