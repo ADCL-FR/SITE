@@ -5,11 +5,11 @@ import GuestGuard from '../auth/GuestGuard';
 import RoleBasedGuard from "../auth/RoleBasedGuard";
 // layouts
 //import CompactLayout from '../layouts/compact';
-//import DashboardLayout from '../layouts/dashboard';
+import DashboardLayout from '../layouts/dashboard/dashboardLayout';
 // config
 import { PATH_AFTER_LOGIN } from '../config';
 //
-import { LoginPage, TestLog } from './elements';
+import { LoginPage, ListeAffaire, NouvelleAffaire } from './elements';
 
 // ----------------------------------------------------------------------
 
@@ -30,20 +30,23 @@ export default function Router() {
             ],
         },
         {
-            path: '/adcl/affaire',
+            path: '/adcl',
+            element: (
+                <AuthGuard>
+                    <DashboardLayout/>
+                </AuthGuard>
+            ),
             children: [
 
                 {
-                    path: '',
-                    element: (
+                    path: 'affaire',
+                    children: [
+                        // { element: <AffaireList /> },
+                        { path: '', element: <ListeAffaire /> },
+                        { path: 'nouvelle', element: <NouvelleAffaire /> },
 
-                            //<RoleBasedGuard roles={['test']}>
-                        <AuthGuard>
-                            <TestLog />
-                        </AuthGuard>
-                            //</RoleBasedGuard>
 
-                    ),
+                    ]
                 },
             ],
         },

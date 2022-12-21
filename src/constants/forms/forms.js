@@ -23,10 +23,9 @@ export const affaireForm = {
                         id: "client",
                         label: "Client",
                         defaultValue: "",
+                        placeholder: "Sélectionner un client",
                         options: [ /*Les options sont à chargées ? ou options de bases ?*/
-                            { value: "", label: "None" },
-                            { value: "uid1", label: "Client 1" },
-                            { value: "uid2", label: "Client 2" },
+
                         ],
                     }
                 },
@@ -95,7 +94,6 @@ export const affaireForm = {
                     width: 6,
                     select: {
                         id: "etat",
-
                         options: [ /*Les options sont à chargées ? ou options de bases ?*/
                             { value: "", label: "None" },
                             { value: "en_cours", label: "En cours" },
@@ -120,9 +118,9 @@ export const affaireForm = {
                     width: 6,
                     select: {
                         id: "charge_affaire",
+                        placeholder: "Sélectionner un chargé d'affaire",
+                        defaultValue: "",
                         options: [
-                            { value: "uid1", label: "Chargé d'affaire 1" },
-                            { value: "uid2", label: "Chargé d'affaire 2" },
                         ]
                     }
                 },

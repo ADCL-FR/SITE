@@ -18,7 +18,7 @@ export const PATH_DASHBOARD = {
     root: ROOTS_DASHBOARD,
     affaire: {
         root: paths(ROOTS_DASHBOARD, '/affaire'),
-        new: paths(ROOTS_DASHBOARD, '/affaire/new'),
+        new: paths(ROOTS_DASHBOARD, '/affaire/nouvelle'),
         view: (num) => paths(ROOTS_DASHBOARD, `/affaire/${num}`),
         edit: (num) => paths(ROOTS_DASHBOARD, `/affaire/${num}/edit`),
     },
