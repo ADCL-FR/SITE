@@ -3,8 +3,13 @@ import PropTypes from "prop-types";
 import classnames from "classnames";
 import { Link } from "react-router-dom";
 
-export default function Sidebar({ brand, items, activeColor }) {
+import {navConfig} from "../../config";
+
+export default function Sidebar() {
   const [sidebarShow, setSidebarShow] = React.useState("-translate-x-full");
+
+  const { brand, activeColor, items } = navConfig;
+
   const activeColors = {
     red: "text-red-500 hover:text-red-700",
     orange: "text-orange-500 hover:text-orange-700",

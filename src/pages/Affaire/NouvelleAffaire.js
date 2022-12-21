@@ -1,25 +1,27 @@
 // React
 import React, {useEffect, useState} from "react";
+import { useNavigate } from 'react-router-dom';
 
 // components
-import Page from './Page';
+import Page from "../Page";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
 // sections
 // ----------------------------------------------------------------------
 //user
-import {useAuthContext} from "../auth/useAuthContext";
-import FormCard from "../components/Form/FormCard";
-import {affaireForm} from "../constants/forms/forms";
-import API from "../api/api";
+import {useAuthContext} from "../../auth/useAuthContext"
+import FormCard from "../../components/Form/FormCard";
+import {affaireForm} from "../../constants/forms/forms";
+import API from "../../api/api";
+import PageHeader from "../../components/Headers/PageHeader";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={60} ref={ref} variant="filled" {...props} />;
 });
 
-export default function TestLog() {
-
+export default function NouvelleAffaire() {
+    const navigate = useNavigate();
     const { user } = useAuthContext();
     //Formulaire
     const [formData, setFormData]  = useState({});
@@ -52,13 +54,14 @@ export default function TestLog() {
             setMessage('Affaire ajoutée avec succès');
             setSuccess(true);
             setOpen(true);
+            navigate('/adcl/affaire');
         }).catch((error) => {
             setMessage('Erreur lors de la création de l\'affaire');
             setSuccess(false);
             setOpen(true);
         });
 
-        console.log("response3 : ", response);
+
     }
 
     const fetchClients = async () => {
@@ -97,24 +100,22 @@ export default function TestLog() {
     }, []);
 
     return (
-        <Page title={user.username} >
+        <Page title="Nouvelle Affaire" className="flex flex-col bg-blueGray-100">
+            <PageHeader title="Nouvelle Affaire" />
+            <div className="md:px-10 mb-20  h-full" style={{"margin-top": "-8rem"}}>
+                <Snackbar
+                    open={open}
+                    autoHideDuration={4000}
+                    message=""
+                    onClose={handleClose}
+                >
+                    <Alert onClose={handleClose} severity={success ? 'success' : 'error' } sx={{ width: '100%' }}>
+                        {message}
+                    </Alert>
+                </Snackbar>
+                <FormCard {...formulaire} onSubmit={handleSubmit} onChange={handleChange} onCheck={handleCheck} onSelect={handleSelectChange}/>
+            </div>
 
-            <h1>hello {user.username}</h1>
-            <main>
-                <div className="w-full lg:w-8/12">
-                    <Snackbar
-                        open={open}
-                        autoHideDuration={4000}
-                        message="Note archived"
-                        onClose={handleClose}
-                    >
-                        <Alert onClose={handleClose} severity={success ? 'success' : 'error' } sx={{ width: '100%' }}>
-                            {message}
-                        </Alert>
-                    </Snackbar>
-                    <FormCard {...formulaire} onSubmit={handleSubmit} onChange={handleChange} onCheck={handleCheck} onSelect={handleSelectChange}/>
-                </div>
-            </main>
 
 
         </Page>

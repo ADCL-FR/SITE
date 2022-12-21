@@ -1,15 +1,19 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Input from "../../components/Elements/Input.js";
+import Select from 'react-select';
+
 import PropTypes from "prop-types";
 
 import Button from "../Elements/Button";
 export default function FormCard({
     onSubmit,
     onChange,
+    onSelect,
     onCheck,
     button,
     title,
     forms,
+
 }) {
     const widths = {
         1: "lg:w-1/12",
@@ -25,6 +29,7 @@ export default function FormCard({
         11: "lg:w-11/12",
         12: "lg:w-12/12",
     };
+
 
     return (
         <>
@@ -57,14 +62,19 @@ export default function FormCard({
                                                                 {/*INPUT CLASSIQUE*/}
                                                                 {input.input && input.input.type !== "checkbox" &&<Input {...input.input} onChange={(event) => onChange(event)} />}
                                                                 {/*INPUT SELECT*/}
-                                                                {input.select && (
-                                                                    <select onChange={(event) => onChange(event)} className="border rounded-lg " {...input.select}>
+                                                                {input.select  && (
+                                                                    <Select
+                                                                        onChange={(value, type) => onSelect(value.value, input.select.id)}
+                                                                        {...input.select}
+                                                                        options={input.select.options}
+                                                                    />
+                                                                    /*<select onChange={(event) => onChange(event)} className="border rounded-lg " {...input.select}>
                                                                         {
                                                                             input.select.options.map((option, key) => (
                                                                                 <option key={key} value={option.value} className="text-sm pt-2 pb-0 px-4 font-bold block w-full whitespace-nowrap bg-transparent text-blueGray-500">{option.label}</option>
                                                                             ))
                                                                         }
-                                                                    </select>
+                                                                    </select>*/
                                                                 )}
                                                                 {/*INPUT CHECKBOX*/}
                                                                 {input.input && input.input.type === "checkbox" && (
@@ -103,6 +113,7 @@ export default function FormCard({
 FormCard.propTypes = {
     onSubmit: PropTypes.func,
     onChange: PropTypes.func,
+    onSelect: PropTypes.func,
     onCheck: PropTypes.func,
     button: PropTypes.object,
     forms: PropTypes.array,
