@@ -72,7 +72,7 @@ export function AuthProvider({ children }) {
             if (accessToken && isValidToken(accessToken)) {
                 setSession(accessToken);
 
-                const response = await axios.get('/api/user/');
+                const response = await axios.get('/api/user');
 
                 const user  = response.data;
                 dispatch({
@@ -118,7 +118,7 @@ export function AuthProvider({ children }) {
 
         const { access } = response.data;
         setSession(access);
-        const user_response = await axios.get('/api/user/');
+        const user_response = await axios.get('/api/user');
 
         const  user = user_response.data;
         dispatch({
