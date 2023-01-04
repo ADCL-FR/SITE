@@ -6,7 +6,7 @@ function paths(root, sublink) {
     return `${root}${sublink}`;
 }
 
-const ROOTS_DASHBOARD = '/adcl';
+const ROOTS_DASHBOARD = '/dashboard';
 
 // ----------------------------------------------------------------------
 
@@ -19,8 +19,8 @@ export const PATH_DASHBOARD = {
     affaire: {
         root: paths(ROOTS_DASHBOARD, '/affaire'),
         new: paths(ROOTS_DASHBOARD, '/affaire/nouvelle'),
-        view: (num) => paths(ROOTS_DASHBOARD, `/affaire/${num}`),
-        edit: (num) => paths(ROOTS_DASHBOARD, `/affaire/${num}/edit`),
+        //view: (num) => paths(ROOTS_DASHBOARD, `/affaire/${num}`),
+        //edit: (num) => paths(ROOTS_DASHBOARD, `/affaire/${num}/edit`),
     },
     fiche: paths(ROOTS_DASHBOARD, '/fiche'),
     planning: paths(ROOTS_DASHBOARD, '/planning'),

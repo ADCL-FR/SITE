@@ -6,7 +6,7 @@ import SvgColor from "./components/SvgColor";
 
 export const APP_NAME = "ADCL"
 export const API_URL = "https://adcl-api.herokuapp.com"
-export const PATH_AFTER_LOGIN = PATH_DASHBOARD.affaire.root
+export const PATH_AFTER_LOGIN = PATH_DASHBOARD.affaire.root;
 
 
 const icon = (name) => <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />;
