@@ -30,24 +30,27 @@ export default function Router() {
             ],
         },
         {
-            path: '/adcl',
+            path: '/dashboard',
             element: (
                 <AuthGuard>
                     <DashboardLayout/>
                 </AuthGuard>
+
             ),
             children: [
-
-                {
+                { element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true },
+                {path: 'affaire', element: <ListeAffaire />},
+                {path: 'affaire/nouvelle', element: <NouvelleAffaire />},
+                /*{
                     path: 'affaire',
                     children: [
-                        // { element: <AffaireList /> },
+                        { element: <ListeAffaire /> },
                         { path: '', element: <ListeAffaire /> },
                         { path: 'nouvelle', element: <NouvelleAffaire /> },
 
 
                     ]
-                },
+                },*/
             ],
         },
       /* {
