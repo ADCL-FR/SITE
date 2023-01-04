@@ -3,15 +3,13 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 // ----------------------------------------------------------------------
 
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
-import { HelmetProvider } from 'react-helmet-async';
+
 // components
 
 
 // Check our docs
 // https://docs.minimals.cc/authentication/js-version
 
-import { AuthProvider } from './auth/JwtContext';
 
 //
 import App from './App';
@@ -23,13 +21,7 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-    <AuthProvider>
-        <HelmetProvider>
-                <BrowserRouter>
-                    <App />
-                </BrowserRouter>
-        </HelmetProvider>
-    </AuthProvider>
+    <App />
 );
 
 
