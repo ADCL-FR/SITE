@@ -42,6 +42,8 @@ export default function Router() {
                 {path: 'affaire', element: <ListeAffaire />},
                 {path: 'affaire/nouvelle', element: <NouvelleAffaire />},
                 /*{
+
+                    
                     path: 'affaire',
                     children: [
                         { element: <ListeAffaire /> },
