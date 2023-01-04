@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 // components
-//import LoadingScreen from '../components/loading-screen'; // TODO: add loading screen
+import LoadingScreen from '../components/loading-screen'; // TODO: add loading screen
 //
 import Login from '../pages/LoginPage';
 import { useAuthContext } from './useAuthContext';
@@ -21,7 +21,8 @@ export default function AuthGuard({ children }) {
     const [requestedLocation, setRequestedLocation] = useState(null);
 
     if (!isInitialized) {
-        //return <LoadingScreen />;
+        console.log('loading screen');
+        return <LoadingScreen />;
         console.log('loading screen');
     }
 
