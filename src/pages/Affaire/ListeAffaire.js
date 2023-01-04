@@ -40,7 +40,6 @@ export default function ListeAffaire() {
            return response.results;
         })
         setAffaires(response);
-        console.log(response);
     };
     const body = [
         [
@@ -59,7 +58,7 @@ export default function ListeAffaire() {
     return (
         <Page title="Liste des Affaires" className="flex flex-col bg-blueGray-100">
             <PageHeader title="Affaires" />
-            <div className="md:px-10 mb-20  h-full" style={{"margin-top": "-8rem"}}>
+            <div className="md:px-10 mb-20  h-full" style={{"marginTop": "-8rem"}}>
                 <Snackbar
                     open={open}
                     autoHideDuration={4000}

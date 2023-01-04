@@ -115,7 +115,7 @@ export default function Table({ title, head, body, color, RowComponent }) {
                         </tr>
                         </thead>
                         <tbody>
-                        {body.map((prop, key) => (
+                        {body?.map((prop, key) => (
                             <RowComponent key={key} row={prop}/>
                         ))}
                         </tbody>
@@ -151,74 +151,7 @@ Table.propTypes = {
         "purple",
         "pink",
     ]),
-    body: PropTypes.arrayOf(
-        PropTypes.arrayOf(
-            PropTypes.oneOfType([
-                // simple string
-                PropTypes.string,
-                // bold text
-                PropTypes.shape({
-                    bold: PropTypes.string,
-                }),
-                // image and text
-                PropTypes.shape({
-                    image: PropTypes.string,
-                    text: PropTypes.string,
-                }),
-                // round icon and text
-                PropTypes.shape({
-                    text: PropTypes.string,
-                    color: PropTypes.oneOf([
-                        "white",
-                        "blueGray",
-                        "red",
-                        "orange",
-                        "amber",
-                        "emerald",
-                        "teal",
-                        "lightBlue",
-                        "indigo",
-                        "purple",
-                        "pink",
-                    ]),
-                }),
-                // arrow icon and text
-                PropTypes.shape({
-                    text: PropTypes.string,
-                    arrow: PropTypes.oneOf(["up", "down"]),
-                    color: PropTypes.oneOf([
-                        "white",
-                        "blueGray",
-                        "red",
-                        "orange",
-                        "amber",
-                        "emerald",
-                        "teal",
-                        "lightBlue",
-                        "indigo",
-                        "purple",
-                        "pink",
-                    ]),
-                }),
-                PropTypes.shape({
-                    // props to pass to the ImagesOverlap component
-                    images: PropTypes.object,
-                }),
-                PropTypes.shape({
-                    text: PropTypes.string,
-                    // props to pass to the Progress component
-                    progress: PropTypes.object,
-                }),
-                PropTypes.shape({
-                    // props to pass to the DropdownButton component
-                    dropdown: PropTypes.object,
-                }),
-                // if you want to pass your own component
-                // NOTE: your component might break this Card component
-                PropTypes.node,
-            ])
-        )
-    ),
+   
     // this will appear at the bottom of the Table, for example,
     // you can use this to make a pagination component
     children: PropTypes.node,

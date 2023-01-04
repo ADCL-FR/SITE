@@ -10,8 +10,11 @@ import { APP_NAME } from '../config';
 
 const Page = forwardRef(({ children, title = '', meta, ...other }, ref) => (
     <>
+    
         <Helmet>
             <title>{`${title} | ${APP_NAME}`}</title>
+            <meta http-equiv="Pragma" content="no-cache"/>
+            <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate"/>
             {meta}
         </Helmet>
 

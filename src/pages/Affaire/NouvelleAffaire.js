@@ -102,7 +102,7 @@ export default function NouvelleAffaire() {
     return (
         <Page title="Nouvelle Affaire" className="flex flex-col bg-blueGray-100">
             <PageHeader title="Nouvelle Affaire" />
-            <div className="md:px-10 mb-20  h-full" style={{"margin-top": "-8rem"}}>
+            <div className="md:px-10 mb-20  h-full" style={{"marginTop": "-8rem"}}>
                 <Snackbar
                     open={open}
                     autoHideDuration={4000}
