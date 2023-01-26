@@ -136,3 +136,133 @@ export const affaireForm = {
         },
     ],
 };
+export const ficheForm = {
+    button: { children: "Ajouter la fiche", size: "sm", color: "lightBlue" },
+    forms: [
+        {
+            title: "Informations générales",
+            inputs: [
+                {
+                    label: "N° de fiche",
+                    width: 6,
+                    input: {
+                        id: "numero_de_fiche",
+                        placeholder: "num_fiche",
+                        type: "text",
+                        defaultValue: "",
+                        maxLength: 200,
+                        required: true,
+                    },
+                },
+                {
+                    label: "Nom de la pièce",
+                    width: 6,
+                    select: {
+                        id: "nom_de_la_pièce",
+                        label: "nom_de_la_piece",
+                        defaultValue: "",
+                    }
+                },
+                {
+                    label: "Matière",
+                    width: 6,
+                    input: {
+                        id: "matiere",
+                        placeholder: "Matière",
+                        type: "text",
+                        defaultValue: "",
+                        maxLength: 200,
+                    },
+                },
+                {
+                    label: "Plan",
+                    width: 6,
+                    input: {
+                        id: "Plan",
+                        placeholder: "Plan",
+                        type: "text",
+                        defaultValue: "",
+                        maxLength: 1000,
+                    },
+                },
+                {
+                    label: "Repère",
+                    width: 6,
+                    input: {
+                        placeholder: "Repere",
+                        id: "repere",
+                        type: "textarea",
+                        defaultValue: "",
+                    },
+                },
+                {
+                    label: "Quantité",
+                    width: 6,
+                    input: {
+                        id: "quantite",
+                        type: "number"
+                    }
+                },
+                {
+                    label: "N° d'étape",
+                    width: 6,
+                    input: {
+                        id: "num_etape",
+                        type: "number"
+                    }
+                },
+                {
+                    label: "Machine",
+                    width: 6,
+                    select: {
+                        id: "machine",
+                        options: [ /*Les options sont à chargées ? ou options de bases ?*/
+                            { value: "", label: "None" },
+                            { value: "Tour12/44", label: "Tour 12/44" },
+                            { value: "Aléseuse", label: "Aléseuse" },
+                            { value: "Fraiseuse", label: "Fraiseuse" },
+                            { value: "Ajustage", label: "Ajsutage" },
+                            { value: "Démontage", label: "Démontage" },
+                            { value: "Tour numérique", label: "Tour numérique" },
+                        ],
+                    }
+                },
+                {
+                    label: "Action",
+                    width: 12,
+                    input: {
+                        placeholder: "Description",
+                        id: "description",
+                        type: "textarea",
+                        defaultValue: "",
+                    },
+                        
+                },
+                {
+                    label: "Temps",
+                    width: 6,
+                    input: {
+                        id: "montant",
+                        placeholder: "Montant",
+                        type: "number",
+                        defaultValue: "",
+                        required: true,
+                    },
+                },
+                {
+                    label: "Fourniture",
+                    width: 6,
+                    select: {
+                        id: "fourniture",
+                        options: [ /*Les options sont à chargées ? ou options de bases ?*/
+                            { value: "", label: "None" },
+                            { value: "EPI", label: "EPI" },
+                            { value: "Consommable", label: "Consommable" },
+                        ],
+                    },
+                },
+                
+            ],
+        },
+    ],
+};
