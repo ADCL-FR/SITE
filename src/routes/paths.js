@@ -23,7 +23,12 @@ export const PATH_DASHBOARD = {
         //edit: (num) => paths(ROOTS_DASHBOARD, `/affaire/${num}/edit`),
     },
     fiche: paths(ROOTS_DASHBOARD, '/fiche'),
-    planning: paths(ROOTS_DASHBOARD, '/planning'),
+    planning: {
+        operateur: paths(ROOTS_DASHBOARD, '/operateur'),
+        
+        //view: (num) => paths(ROOTS_DASHBOARD, `/affaire/${num}`),
+        //edit: (num) => paths(ROOTS_DASHBOARD, `/affaire/${num}/edit`),
+    },
     // user: {
     //   root: paths(ROOTS_DASHBOARD, '/user'),
     //   four: paths(ROOTS_DASHBOARD, '/user/four'),
