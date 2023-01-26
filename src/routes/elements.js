@@ -53,3 +53,4 @@ export const LoginPage = Loadable(lazyWithRetry(() => import('../pages/LoginPage
 export const TestLog = Loadable(lazyWithRetry(() => import('../pages/TestLog')));
 export const NouvelleAffaire = Loadable(lazyWithRetry(() => import('../pages/Affaire/NouvelleAffaire')));
 export const ListeAffaire = Loadable(lazyWithRetry(() => import('../pages/Affaire/ListeAffaire')));
+export const PlanningOperateur = Loadable(lazyWithRetry(() => import('../pages/Planning/Operateur')));

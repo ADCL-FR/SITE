@@ -9,7 +9,7 @@ import DashboardLayout from '../layouts/dashboard/dashboardLayout';
 // config
 import { PATH_AFTER_LOGIN } from '../config';
 //
-import { LoginPage, ListeAffaire, NouvelleAffaire } from './elements';
+import { LoginPage, ListeAffaire, NouvelleAffaire, PlanningOperateur} from './elements';
 
 // ----------------------------------------------------------------------
 
@@ -54,7 +54,7 @@ export default function Router() {
                 {
                     path: 'planning',
                     children: [
-                        { path: 'operateur', element: <ListeAffaire /> },
+                        { path: 'operateur', element: <PlanningOperateur /> },
                     ]
                 },
             ],
