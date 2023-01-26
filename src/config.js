@@ -40,6 +40,13 @@ export const navConfig = {
             text: "Nouvelle Affaire",
             link: { href: PATH_DASHBOARD.affaire.new },
         },
+        { divider: true },
+        { title: "Planning" },
+        {
+            icon: "fas fa-tv",
+            text: "Opérateur",
+            link: { href: PATH_DASHBOARD.planning.operateur },
+        },
     ]
 
 }
