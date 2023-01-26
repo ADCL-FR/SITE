@@ -24,7 +24,8 @@ export const PATH_DASHBOARD = {
     },
     fiche: paths(ROOTS_DASHBOARD, '/fiche'),
     planning: {
-        operateur: paths(ROOTS_DASHBOARD, '/operateur'),
+        root: paths(ROOTS_DASHBOARD, '/planning'),
+        operateur: paths(ROOTS_DASHBOARD, '/planning/operateur'),
         
         //view: (num) => paths(ROOTS_DASHBOARD, `/affaire/${num}`),
         //edit: (num) => paths(ROOTS_DASHBOARD, `/affaire/${num}/edit`),
