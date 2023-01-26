@@ -39,9 +39,7 @@ export default function Router() {
             ),
             children: [
                 { element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true },
-                {path: 'affaire', element: <ListeAffaire />},
-                {path: 'affaire/nouvelle', element: <NouvelleAffaire />},
-                /*{
+                {
 
                     
                     path: 'affaire',
@@ -52,7 +50,13 @@ export default function Router() {
 
 
                     ]
-                },*/
+                },
+                {
+                    path: 'planning',
+                    children: [
+                        { path: 'operateur', element: <ListeAffaire /> },
+                    ]
+                },
             ],
         },
       /* {
