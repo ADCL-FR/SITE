@@ -23,7 +23,6 @@ export default function AuthGuard({ children }) {
     if (!isInitialized) {
         console.log('loading screen');
         return <LoadingScreen />;
-        console.log('loading screen');
     }
 
     if (!isAuthenticated) {
