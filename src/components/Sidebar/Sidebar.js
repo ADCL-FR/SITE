@@ -25,7 +25,7 @@ export default function Sidebar() {
     <>
       <nav
         className={
-          "block py-4 px-6 top-0 bottom-0 w-64 bg-white shadow-xl left-0 fixed flex-row flex-nowrap md:z-10 z-9999 transition-all duration-300 ease-in-out transform md:translate-x-0 " +
+          "block py-4 px-6 top-0 bottom-0 w-64 bg-white shadow-xl fixed left-0 flex-row flex-nowrap md:z-10 z-9999 transition-all duration-300 ease-in-out transform  " +
           sidebarShow
         }
       >
@@ -39,7 +39,7 @@ export default function Sidebar() {
             }
           }}
         >
-          {sidebarShow === "" ? <i class="fas fa-sharp fa-solid fa-arrow-left"></i> : <i className="fas fa-ellipsis-v"></i>}
+          {sidebarShow === "" ? <i class="fas fa-arrow-left"></i> : <i className="fas fa-arrow-right"></i>}
         </button>
         {/* Collapse */}
         <div className="flex-col min-h-full px-0 flex flex-wrap items-center justify-between w-full mx-auto overflow-y-auto overflow-x-hidden">
