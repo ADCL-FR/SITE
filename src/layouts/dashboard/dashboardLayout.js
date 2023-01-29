@@ -14,9 +14,9 @@ export default function DashboardLayout({ sidebar, navbar, header, footer, child
 
         <>
             <Sidebar {...sidebar} />
-            <main className="relative md:ml-64 h-full">
+            <main className="h-full bg-blueGray-100">
                 <Outlet/>
-            </main>
+            </main>  
         </>
 
     );
