@@ -56,11 +56,11 @@ export default function ListeAffaire() {
     }, []);
 
     return (
-        <Page title="Liste des Affaires" className="flex flex-col bg-blueGray-100">
+        <Page title="Liste des Affaires" className="flex flex-col h-full bg-blueGray-100">
             <PageHeader title="Affaires" />
-            <div className="md:px-10 mb-20  h-full" style={{"marginTop": "-8rem"}}>
+            <div className="md:px-10 mb-20" style={{"marginTop": "-8rem"}}>
                 <Snackbar
-                    open={open}
+                    open={open}        
                     autoHideDuration={4000}
                     message=""
                     onClose={handleClose}
