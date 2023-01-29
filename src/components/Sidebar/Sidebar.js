@@ -30,7 +30,7 @@ export default function Sidebar() {
         }
       >
         <button
-          className="md:hidden flex items-center justify-center cursor-pointer text-blueGray-700 w-6 h-10 border-l-0 border-r border-t border-b border-solid border-blueGray-100 text-xl leading-none bg-white rounded-r border border-solid border-transparent absolute top-1/2 -right-24-px focus:outline-none z-9998"
+          className="flex items-center justify-center cursor-pointer text-blueGray-700 w-6 h-10 border-l-0 border-r border-t border-b border-solid border-blueGray-100 text-xl leading-none bg-white rounded-r border border-solid border-transparent absolute top-1/2 -right-24-px focus:outline-none z-9998"
           onClick={() => {
             if (sidebarShow === "") {
               setSidebarShow("-translate-x-full");
@@ -39,7 +39,7 @@ export default function Sidebar() {
             }
           }}
         >
-          <i className="fas fa-ellipsis-v"></i>
+          {sidebarShow === "" ? <i class="fas fa-sharp fa-solid fa-arrow-left"></i> : <i className="fas fa-ellipsis-v"></i>}
         </button>
         {/* Collapse */}
         <div className="flex-col min-h-full px-0 flex flex-wrap items-center justify-between w-full mx-auto overflow-y-auto overflow-x-hidden">
