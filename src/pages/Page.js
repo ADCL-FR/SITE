@@ -18,7 +18,7 @@ const Page = forwardRef(({ children, title = '', meta, ...other }, ref) => (
             {meta}
         </Helmet>
 
-        <Box ref={ref} {...other} >
+        <Box ref={ref} {...other} className='w-full'>
             {children}
         </Box>
     </>
