@@ -25,7 +25,12 @@ export const PATH_DASHBOARD = {
     fiche: paths(ROOTS_DASHBOARD, '/fiche'),
     planning: {
         root: paths(ROOTS_DASHBOARD, '/planning'),
-        operateur: paths(ROOTS_DASHBOARD, '/planning/operateur'),
+        operateur: paths(ROOTS_DASHBOARD, '/planning/operateur'), 
+        zones: paths(ROOTS_DASHBOARD, '/planning/zones'),
+        machines: paths(ROOTS_DASHBOARD, '/planning/machines'),
+        // TODO : Zone : fiche vers zone pour machine ajustage 
+        // planning machine fiche  en fonction des machines nécessaire
+        // TODO : ajout / supression utilisateur / employés
         
         //view: (num) => paths(ROOTS_DASHBOARD, `/affaire/${num}`),
         //edit: (num) => paths(ROOTS_DASHBOARD, `/affaire/${num}/edit`),
