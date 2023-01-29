@@ -1,6 +1,5 @@
-import React, {useRef} from 'react';
-import { useDrag, useDrop } from "react-dnd";
-import { COLUMN_NAMES } from "../../constants/dragAndDrop/coloumns";
+import React from 'react';
+import { useDrag } from "react-dnd";
 
 
 export default function Droppable({ item, style, type}){
