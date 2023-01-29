@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import Button from "../Elements/Button"
 
 export default function PageHeader({
-                                       image,
                                        title,
                                        description,
                                        button,
@@ -39,15 +38,9 @@ export default function PageHeader({
     return (
         <>
             <div
-                className="min-h-330-px w-full bg-cover bg-center-top relative pb-20 items-center flex text-white"
-                style={{ backgroundImage: "url(" + image + ")" }}
+                className={"min-h-330-px z-10 w-full bg-cover bg-center-top pb-20 items-center flex text-white " + bgColors[color + gradientText]}
             >
-        <span
-            className={
-                "opacity-90 absolute top-0 left-o w-full h-full " +
-                bgColors[color + gradientText]
-            }
-        ></span>
+                
                 <div className="md:px-8 px-4 items-center flex w-full mx-auto">
                     <div className="flex flex-wrap -mx-4 w-full">
                         <div className="relative w-full px-4 md:w-10/12 lg:w-7/12">
