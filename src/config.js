@@ -47,6 +47,16 @@ export const navConfig = {
             text: "Opérateur",
             link: { href: PATH_DASHBOARD.planning.operateur },
         },
+        {
+            icon: "fas fa-tv",
+            text: "Machines",
+            link: { href: PATH_DASHBOARD.planning.machines },
+        },
+        {
+            icon: "fas fa-tv",
+            text: "Zones",
+            link: { href: PATH_DASHBOARD.planning.zones },
+        },
     ]
 
 }
