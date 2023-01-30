@@ -9,7 +9,7 @@ import DashboardLayout from '../layouts/dashboard/dashboardLayout';
 // config
 import { PATH_AFTER_LOGIN } from '../config';
 //
-import { LoginPage, ListeAffaire, NouvelleAffaire } from './elements';
+import { LoginPage, ListeAffaire, NouvelleAffaire, PlanningOperateur, PlanningMachine, PlanningZone} from './elements';
 
 // ----------------------------------------------------------------------
 
@@ -39,9 +39,7 @@ export default function Router() {
             ),
             children: [
                 { element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true },
-                {path: 'affaire', element: <ListeAffaire />},
-                {path: 'affaire/nouvelle', element: <NouvelleAffaire />},
-                /*{
+                {
 
                     
                     path: 'affaire',
@@ -52,7 +50,15 @@ export default function Router() {
 
 
                     ]
-                },*/
+                },
+                {
+                    path: 'planning',
+                    children: [
+                        { path: 'operateur', element: <PlanningOperateur /> }, // TODO: remove operateur
+                        { path: 'zones', element: <PlanningZone /> },
+                        { path: 'machines', element: <PlanningMachine /> },
+                    ]
+                },
             ],
         },
       /* {

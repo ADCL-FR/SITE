@@ -4,17 +4,15 @@ import {HelmetProvider} from "react-helmet-async";
 import {BrowserRouter} from "react-router-dom";
 import {AuthProvider} from "./auth/JwtContext";
 
-
 function App() {
-  return (
+  return ( 
       <AuthProvider>
         <HelmetProvider>
           <BrowserRouter>
-            <Router />
+            <Router />            
           </BrowserRouter>
         </HelmetProvider>
-      </AuthProvider>
-
+      </AuthProvider>   
   );
 }
 
