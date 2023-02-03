@@ -12,12 +12,12 @@ export default function DashboardLayout({ sidebar, navbar, header, footer, child
 
     return (
 
-        <>
+        <div className="h-full">
             <Sidebar {...sidebar} />
-            <main className="relative md:ml-64 h-full">
+            <main className="w-full h-full bg-blueGray-100">
                 <Outlet/>
-            </main>
-        </>
+            </main>  
+        </div>
 
     );
 }

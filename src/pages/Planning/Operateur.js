@@ -10,11 +10,7 @@ import MuiAlert from '@mui/material/Alert';
 // sections
 // ----------------------------------------------------------------------
 //user
-import {affaireForm} from "../../constants/forms/forms";
 import {tableAffaireHeaders, tableAffaireTitle} from "../../constants/tables/affaire";
-import Table from "../../components/Table/table";
-import AffaireRow from "../../components/Table/AffaireRow";
-import API from "../../api/api";
 import PageHeader from "../../components/Headers/PageHeader";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -22,7 +18,6 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 export default function ListeAffaire() {
-    const [affaires, setAffaires] = useState([]);
 
     //Alerte
     const [open, setOpen] =useState(false);
@@ -35,32 +30,13 @@ export default function ListeAffaire() {
         setOpen(false);
     }
 
-    const getAffaires = async () => {
-        const response = await API.get_affaires().then((response) => {
-           return response.results;
-        })
-        setAffaires(response);
-    };
-    const body = [
-        [
-            "test",
-            "toto"
-        ]
-    ]
-
-
-
-
-    useEffect(() => {
-        getAffaires();
-    }, []);
 
     return (
-        <Page title="Liste des Affaires" className="flex flex-col h-full bg-blueGray-100">
-            <PageHeader title="Affaires" />
-            <div className="md:px-10 mb-20" style={{"marginTop": "-8rem"}}>
+        <Page title="Planning Opérateur" className="flex flex-col bg-blueGray-100">
+            <PageHeader title="Planning Opérateur" />
+            <div className="md:px-10 mb-20  h-full" style={{"marginTop": "-8rem"}}>
                 <Snackbar
-                    open={open}        
+                    open={open}
                     autoHideDuration={4000}
                     message=""
                     onClose={handleClose}
@@ -69,11 +45,8 @@ export default function ListeAffaire() {
                         {message}
                     </Alert>
                 </Snackbar>
-                <Table head={tableAffaireHeaders} title={tableAffaireTitle} body={affaires} RowComponent={AffaireRow}/>
             </div>
-
-
-
+            <p>This is a test</p>
         </Page>
     );
 
