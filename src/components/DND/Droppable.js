@@ -2,7 +2,7 @@ import React from 'react';
 import { useDrag } from "react-dnd";
 
 
-export default function Droppable({ item, style, type}){
+export default function Droppable({children, item, style, type}){
   const [{ isDragging }, dragRef] = useDrag({
     type: "any",
     item: item,
@@ -11,8 +11,10 @@ export default function Droppable({ item, style, type}){
     })
   })
   return (
-      <div style={style} ref={dragRef}>
-          heheh
+      <div style={style} ref={dragRef} key={item.id}>
+
+          {item.description}
+          {children}
           {isDragging && '🥰🤓🧐'}
           
       </div>

@@ -12,18 +12,13 @@ import Select from 'react-select';
 
 
 // drap and drop
-import { DndProvider, useDrag, useDrop } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 import { COLUMN_NAMES } from "../../constants/dragAndDrop/coloumns";
 
-//Constants
-import { ZONES } from "../../constants/zones";
 // ----------------------------------------------------------------------
 //user
 import PageHeader from "../../components/Headers/PageHeader";
-import { borderRadius } from "tailwindcss/defaultTheme";
-import { width } from "@mui/system";
 
+import API from "../../api/api";
 
 const {DO_IT} = COLUMN_NAMES;
 const tasks = [
@@ -36,14 +31,137 @@ let options = []
 for (let i = 1; i <= 52; i++) {
     options.push({value: i, label: i})
 }
-
+const fichess = [
+    {
+      "id": 1,
+      "affectation_zone": {
+        "id": 1,
+        "semaine_affectation": "2023-01-30",
+        "fiche": 1,
+        "zone": 1
+      },
+      "description": "reparer machin",
+      "observation": null,
+      "ref_doc": null,
+      "terminee": false,
+      "fourniture": false,
+      "date_creation": "2023-01-25",
+      "date_modification": "2023-01-30T14:58:57.546097+01:00",
+      "date_cloture": null,
+      "affaire": 1
+    },
+    {
+      "id": 2,
+      "affectation_zone": {
+        "id": 2,
+        "semaine_affectation": "2023-01-30",
+        "fiche": 2,
+        "zone": 1
+      },
+      "description": "remplacer TEST",
+      "observation": null,
+      "ref_doc": null,
+      "terminee": false,
+      "fourniture": false,
+      "date_creation": "2023-01-30",
+      "date_modification": "2023-01-30T14:59:37.737346+01:00",
+      "date_cloture": null,
+      "affaire": 1
+    }
+  ]
+const zoness = [
+    {
+      "id": 1,
+      "fiches": [
+        {
+          "id": 1,
+          "affectation_zone": {
+            "id": 1,
+            "semaine_affectation": "2023-01-30",
+            "fiche": 1,
+            "zone": 1
+          },
+          "description": "reparer machin",
+          "observation": null,
+          "ref_doc": null,
+          "terminee": false,
+          "fourniture": false,
+          "date_creation": "2023-01-25",
+          "date_modification": "2023-01-30T14:58:57.546097+01:00",
+          "date_cloture": null,
+          "affaire": 1
+        },
+        {
+          "id": 2,
+          "affectation_zone": {
+            "id": 2,
+            "semaine_affectation": "2023-01-30",
+            "fiche": 2,
+            "zone": 1
+          },
+          "description": "remplacer TEST",
+          "observation": null,
+          "ref_doc": null,
+          "terminee": false,
+          "fourniture": false,
+          "date_creation": "2023-01-30",
+          "date_modification": "2023-01-30T14:59:37.737346+01:00",
+          "date_cloture": null,
+          "affaire": 1
+        }
+      ],
+      "nom": "Zone 1",
+      "description": "ceci est la zone 1"
+    },
+    {
+      "id": 2,
+      "fiches": [],
+      "nom": "Zone 2",
+      "description": "ceci est la zone 2"
+    },
+    {
+      "id": 4,
+      "fiches": [],
+      "nom": "Zone 3",
+      "description": "description"
+    }
+  ]
 
 export default function PlanningZone() {
 
-    const [zone1, setZone1] = useState([])
-    const [zone2, setZone2] = useState([])
-    const [fiche, setFiche] = useState(tasks)
+   
+    const [fiches, setFiches] = useState([])
+    const [zones, setZones] = useState([])
     const [week, setWeek] = useState(getWeekNumber(new Date()))
+
+
+    function getZones(){
+        API.planning_zone(week).then((response) => {
+            setZones(response.results)
+        })
+    }
+
+    function get_fiches_a_planifier(){
+        API.fiches_a_planifier().then((response) => {
+            setFiches(response.results)
+        })
+    }
+
+    // change state of zones (add or remove fiche)
+    function change_fiche_from_zoneA_to_zoneB(fiche, zoneAId, zoneBId){
+        let newZones = zones.map((zone) => {
+            // remove fiche from zoneA
+            if (zone.id === zoneAId){
+                zone.fiches = zone.fiches.filter((f) => f.id !== fiche.id)
+            }
+            // add fiche to zoneB
+            if (zone.id ===  zoneBId){
+                zone.fiches.push(fiche)
+            }
+            return zone
+        })
+        setZones(newZones)
+    }
 
     // calculate the week number
     function getWeekNumber(d) {
@@ -54,53 +172,89 @@ export default function PlanningZone() {
         return weekNo;
     }
 
-    // week number to date
+    // week number to date in format YYYY-MM-DD
     function getWeekDate(weekNumber){
-        var d = new Date();
-        var num = d.getYear();
-        var start = new Date(num, 0, 1);
-        var startDate = start.getDay();
-        var weekStart = new Date(num, 0, 2 + ((7 - startDate) % 7) + (weekNumber - 1) * 7);
-        return weekStart;
+        let d = new Date();
+        let numDays = (weekNumber - getWeekNumber(d)) * 7;
+        d.setDate(d.getDate() + numDays);
+        return d.toISOString().split('T')[0];
     }
     
-   
 
-    function ajout_fiche_zone1(item){
-        setZone1((zone1) => 
-                            !zone1.includes(item) ? [...zone1, item] : zone1)
-        setFiche((fiche) => fiche.filter((current) => current.id !== item.id))
-        // remove from zone2
-        setZone2((zone2) => zone2.filter((current) => current.id !== item.id))
-    
-    }
-    function ajout_fiche_zone2(item){
-        setZone2((zone2) => 
-                            !zone2.includes(item) ? [...zone2, item] : zone2)
-        setFiche((fiche) => fiche.filter((current) => current.id !== item.id))
-        // remove from zone1
-        setZone1((zone1) => zone1.filter((current) => current.id !== item.id))
+   
+    // chaange zone fiches list given an fiche entry and remove it from other zones
+    // TODO : check if the fiche was dropped from list zone
+    function changeZoneFichesAndUpdateAffectation(fiche, zoneId){
+        // check if the fiche is already in the zone
+        if (fiche.affectation_zone?.zone == zoneId){
+            return
+        }
+        // check if the fiche comes from list zone
+        if (fiche.affectation_zone == null){
+            
+            let newAffectation = {
+                "semaine_affectation": getWeekDate(week),
+                "fiche": fiche.id,
+                "zone": zoneId
+            }
+            API.create_affectation(newAffectation).then((response) => {
+                let newZones = zones.map((z) => {
+                    fiche.affectation_zone = response
+                    if (z.id == zoneId){
+                        z.fiches.push(fiche)
+                        console.log(z)
+                    }
+                    return z
+                })
+                setZones(newZones)
+            })
+        
+            // filter out fiche from fiches list
+            setFiches(fiches.filter((f) => f.id != fiche.id))
+            return
+        }
+
+        // check if the fiche comes from another zone
+        if (fiche.affectation_zone.zone != zoneId){
+            let affectation = fiche.affectation_zone
+            let oldZoneId = affectation.zone
+            affectation.zone = zoneId
+            
+            API.update_affectation(affectation).then((response) => {
+                fiche.affectation_zone = response
+                console.log("affectation updated : ", response)
+                change_fiche_from_zoneA_to_zoneB(fiche, oldZoneId, zoneId)
+            })
+            
+            return
+        }
         
         
     }
 
-    function ajout_fiche_a_plannifier(item){
-        setFiche((fiche) => 
-                            !fiche.includes(item) ? [...fiche, item] : fiche)
-        setZone1((zone1) => zone1.filter((current) => current.id !== item.id))
-        setZone2((zone2) => zone2.filter((current) => current.id !== item.id))
-    }
+    // delete affectation when delete button is clicked
+    function deleteAffectation(fiche){
+        let affectationId = fiche.affectation_zone.id
+        
+        API.delete_affectation(affectationId).then((response) => {
+            console.log(response)
+        })
 
-   
-    const { DO_IT, IN_PROGRESS, AWAITING_REVIEW, DONE } = COLUMN_NAMES;
+        // remove the fiche from the zones state
+        let newZones = zones.map((z) => {
+            z.fiches = z.fiches.filter((f) => f.affectation_zone.id != affectationId)
+            return z
+        }
+        )
+        setZones(newZones)
+        // add the fiche to the fiches list
+        fiche.affectation_zone = null
+        setFiches([...fiches, fiche])
+    }
 
     useEffect(() => {
-        // get the week number
-        const date = new Date();
-        const week = getWeekNumber(date);
-        console.log(week)
-        setWeek(week)
-        
+        getZones()
+        get_fiches_a_planifier()
     }, [week])
 
     return (
@@ -110,8 +264,8 @@ export default function PlanningZone() {
                 <div className=" h-full h-min-330px mb-8 shadow-lg rounded-lg" style={{"marginLeft":"3rem", "marginRight":"3rem","backgroundColor":"white", "padding": "10px",}} >
                     
                     <div style={ContainerStyle}>
-                        <Zone style={ZonePlannifierStyle}  title={"Fiche à plannifier"} onDrop={(item) => ajout_fiche_a_plannifier(item)}>
-                            {fiche.map(pet => <Droppable draggable item={pet} type="fiche" />)}
+                        <Zone style={ZonePlannifierStyle}  title={"Fiche à plannifier"} onDrop={() => {}} accept={[]}>
+                            {fiches.map(fiche => <Droppable draggable item={fiche} type="fiche" />)}
                         </Zone>
                     
                         <div style={DropZoneStyle}>
@@ -120,19 +274,21 @@ export default function PlanningZone() {
                                 <Select
                                     options={options}
                                     defaultValue={{ label: week, value: week }}
+                                    onChange={(e) => setWeek(e.value)}
                                     
                                 />
                             </div>
                             <div style={ZoneContainer}>
-                                <Zone style={ZoneStyle} title={"Zone 1"} onDrop={(item) => ajout_fiche_zone1(item)}>
-                                    {zone1.map(pet => <Droppable draggable item={pet} type="fiche" />)}
-                                </Zone>
-                                <Zone style={ZoneStyle} title={"Zone 2"} onDrop={(item) => ajout_fiche_zone2(item)}>
-                                    {zone2.map(pet => <Droppable draggable item={pet} type="fiche" />)}
-                                </Zone>
-                                <Zone style={ZoneStyle} title={"Zone 3"} onDrop={(item) => ajout_fiche_zone2(item)}>
-                                    {zone2.map(pet => <Droppable draggable item={pet} type="fiche" />)}
-                                </Zone>
+                                {zones.map((zone) => {
+                                    return <Zone key={zone.id} 
+                                                fiches={zone.fiches} 
+                                                accept={["any", "fiche"]} 
+                                                style={ZoneStyle} 
+                                                title={zone.nom} 
+                                                onDrop={(fiche) => changeZoneFichesAndUpdateAffectation(fiche, zone.id)} 
+                                                onDeleteFiche={(fiche) => deleteAffectation(fiche)}/>
+                                })}
+                                
                             </div>
                             
                         </div>
