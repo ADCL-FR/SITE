@@ -3,12 +3,13 @@ import React, {useEffect, useState} from "react";
 
 // drap and drop
 import { useDrop } from 'react-dnd'
+import Droppable from "../DND/Droppable";
 
 
-export default function Zone  ({ children, title, style, onDrop}) {
+export default function Zone  ({ id, accept, children,fiches, title, style, onDrop, onDeleteFiche}) {
 
     const [{ isOver, canDrop }, drop] = useDrop({
-      accept: "any",
+      accept: accept,
       drop: onDrop,
       collect: (monitor) => ({
         isOver: monitor.isOver(),
@@ -28,14 +29,25 @@ export default function Zone  ({ children, title, style, onDrop}) {
         return "";
       }
     };
-  
+    console.log(fiches)
     return (
       <div
+        key ={id}
         ref={drop}
         style={{ ...style, backgroundColor: getBackgroundColor() }}
       >
         <p style={title_style}>{title}</p>
         <div style={children_style}>
+          {fiches?.map(fiche => { return (
+            <div>
+              <Droppable  draggable item={fiche} type="fiche" >
+                <button onClick={() => onDeleteFiche(fiche)}> Supprimer</button>
+              </Droppable>
+              
+            </div>
+            )
+          
+          })}
           {children}
         </div>
         

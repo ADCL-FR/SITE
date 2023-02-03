@@ -55,13 +55,84 @@ const recuperer_salaries = async () => {
     return response;
 };
 
+const planning_zone = async (semaine) => {
+    const response = await axiosInstance.get(`/api/planning/zone`, {params: {semaine: semaine}})
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            throw error;
+        });
+    return response;
+}
+
+const get_zones = async () => {
+    const response = await axiosInstance.get(`/api/zones`)
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            throw error;
+        });
+    return response;
+}
+
+const update_affectation = async (affectation) => {
+    const response = await axiosInstance.put(`/api/affectations/${affectation.id}`, {...affectation})
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            throw error;
+        });
+    return response;
+}
+
+const create_affectation = async (affectation) => {
+    const response = await axiosInstance.post(`/api/affectations`, {...affectation})
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            throw error;
+        });
+    return response;
+}
+
+const delete_affectation = async (affectationId) => {
+    const response = await axiosInstance.delete(`/api/affectations/${affectationId}`)
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            throw error;
+        });
+    return response;
+}
+
+const fiches_a_planifier = async () => {
+    const response = await axiosInstance.get(`/api/fiches/a_planifier`)
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            throw error;
+        });
+    return response;
+}
+
 const API = {
     nouvelle_affaire,
     recuperer_statuts,
     recuperer_clients,
     recuperer_salaries,
-    get_affaires
-
+    get_affaires,
+    planning_zone,
+    get_zones,
+    update_affectation,
+    delete_affectation,
+    fiches_a_planifier,
+    create_affectation
 };
 
 export default API;
