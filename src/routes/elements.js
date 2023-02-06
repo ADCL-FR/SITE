@@ -1,35 +1,26 @@
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy } from "react";
 // components
-import LoadingScreen from '../components/loading-screen';
+import LoadingScreen from "../components/loading-screen";
 
 // ----------------------------------------------------------------------
-
 
 const lazyWithRetry = (componentImport) =>
   lazy(async () => {
     const pageHasAlreadyBeenForceRefreshed = JSON.parse(
-      window.localStorage.getItem(
-        'page-has-been-force-refreshed'
-      ) || 'false'
+      window.localStorage.getItem("page-has-been-force-refreshed") || "false"
     );
 
     try {
       const component = await componentImport();
 
-      window.localStorage.setItem(
-        'page-has-been-force-refreshed',
-        'false'
-      );
+      window.localStorage.setItem("page-has-been-force-refreshed", "false");
 
       return component;
     } catch (error) {
       if (!pageHasAlreadyBeenForceRefreshed) {
         // Assuming that the user is not on the latest version of the application.
         // Let's refresh the page immediately.
-        window.localStorage.setItem(
-          'page-has-been-force-refreshed',
-          'true'
-        );
+        window.localStorage.setItem("page-has-been-force-refreshed", "true");
         return window.location.reload();
       }
 
@@ -41,18 +32,27 @@ const lazyWithRetry = (componentImport) =>
   });
 
 const Loadable = (Component) => (props) =>
-    (
-        <Suspense fallback={<LoadingScreen />}>
-            <Component {...props} />
-        </Suspense>
-    );
+  (
+    <Suspense fallback={<LoadingScreen />}>
+      <Component {...props} />
+    </Suspense>
+  );
 
 // ----------------------------------------------------------------------
 
-export const LoginPage = Loadable(lazyWithRetry(() => import('../pages/LoginPage')));
-export const TestLog = Loadable(lazyWithRetry(() => import('../pages/TestLog')));
-export const NouvelleAffaire = Loadable(lazyWithRetry(() => import('../pages/Affaire/NouvelleAffaire')));
-export const ListeAffaire = Loadable(lazyWithRetry(() => import('../pages/Affaire/ListeAffaire')));
-export const PlanningOperateur = Loadable(lazyWithRetry(() => import('../pages/Planning/Operateur')));
-export const PlanningZone = Loadable(lazyWithRetry(() => import('../pages/Planning/Zones')));
-export const PlanningMachine = Loadable(lazyWithRetry(() => import('../pages/Planning/Machines')));
+export const LoginPage = Loadable(
+  lazyWithRetry(() => import("../pages/LoginPage"))
+);
+export const NouvelleAffaire = Loadable(
+  lazyWithRetry(() => import("../pages/Affaire/NouvelleAffaire"))
+);
+export const ListeAffaire = Loadable(
+  lazyWithRetry(() => import("../pages/Affaire/ListeAffaire"))
+);
+
+export const PlanningZone = Loadable(
+  lazyWithRetry(() => import("../pages/Planning/Zones"))
+);
+export const PlanningMachine = Loadable(
+  lazyWithRetry(() => import("../pages/Planning/Machines"))
+);

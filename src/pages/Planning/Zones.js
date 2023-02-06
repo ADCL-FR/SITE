@@ -1,18 +1,12 @@
 // React
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 // components
 import Page from "../Page";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert from "@mui/material/Alert";
 import ZoneDropFiches from "../../components/Zones/ZoneDropFiches";
-import FicheDropRow from "../../components/Zones/FicheDropRow";
-import Droppable from "../../components/DND/Droppable";
 import Select from "react-select";
 
 // drap and drop
-import { COLUMN_NAMES } from "../../constants/dragAndDrop/coloumns";
 
 // ----------------------------------------------------------------------
 //user
@@ -20,129 +14,15 @@ import PageHeader from "../../components/Headers/PageHeader";
 
 import API from "../../api/api";
 
-const { DO_IT } = COLUMN_NAMES;
-const tasks = [
-  { id: 1, name: "Item 1", column: DO_IT },
-  { id: 2, name: "Item 2", column: DO_IT },
-  { id: 3, name: "Item 3", column: DO_IT },
-  { id: 4, name: "Item 4", column: DO_IT },
-];
 let options = [];
 for (let i = 1; i <= 52; i++) {
   options.push({ value: i, label: i });
 }
-const fichess = [
-  {
-    id: 1,
-    affectation_zone: {
-      id: 1,
-      semaine_affectation: "2023-01-30",
-      fiche: 1,
-      zone: 1,
-    },
-    description: "reparer machin",
-    observation: null,
-    ref_doc: null,
-    terminee: false,
-    fourniture: false,
-    date_creation: "2023-01-25",
-    date_modification: "2023-01-30T14:58:57.546097+01:00",
-    date_cloture: null,
-    affaire: 1,
-  },
-  {
-    id: 2,
-    affectation_zone: {
-      id: 2,
-      semaine_affectation: "2023-01-30",
-      fiche: 2,
-      zone: 1,
-    },
-    description: "remplacer TEST",
-    observation: null,
-    ref_doc: null,
-    terminee: false,
-    fourniture: false,
-    date_creation: "2023-01-30",
-    date_modification: "2023-01-30T14:59:37.737346+01:00",
-    date_cloture: null,
-    affaire: 1,
-  },
-];
-const zoness = [
-  {
-    id: 1,
-    fiches: [
-      {
-        id: 1,
-        affectation_zone: {
-          id: 1,
-          semaine_affectation: "2023-01-30",
-          fiche: 1,
-          zone: 1,
-        },
-        description: "reparer machin",
-        observation: null,
-        ref_doc: null,
-        terminee: false,
-        fourniture: false,
-        date_creation: "2023-01-25",
-        date_modification: "2023-01-30T14:58:57.546097+01:00",
-        date_cloture: null,
-        affaire: 1,
-      },
-      {
-        id: 2,
-        affectation_zone: {
-          id: 2,
-          semaine_affectation: "2023-01-30",
-          fiche: 2,
-          zone: 1,
-        },
-        description: "remplacer TEST",
-        observation: null,
-        ref_doc: null,
-        terminee: false,
-        fourniture: false,
-        date_creation: "2023-01-30",
-        date_modification: "2023-01-30T14:59:37.737346+01:00",
-        date_cloture: null,
-        affaire: 1,
-      },
-    ],
-    nom: "Zone 1",
-    description: "ceci est la zone 1",
-  },
-  {
-    id: 2,
-    fiches: [],
-    nom: "Zone 2",
-    description: "ceci est la zone 2",
-  },
-  {
-    id: 4,
-    fiches: [],
-    nom: "Zone 3",
-    description: "description",
-  },
-];
 
 export default function PlanningZone() {
   const [fiches, setFiches] = useState([]);
   const [zones, setZones] = useState([]);
   const [week, setWeek] = useState(getWeekNumber(new Date()));
-
-  function getZones() {
-    API.planning_zone(week).then((response) => {
-      setZones(response.results);
-    });
-  }
-
-  function get_fiches_a_planifier() {
-    API.fiches_a_planifier().then((response) => {
-      setFiches(response.results);
-    });
-  }
 
   // change state of zones (add or remove fiche)
   function change_fiche_from_zoneA_to_zoneB(fiche, zoneAId, zoneBId) {
@@ -181,11 +61,11 @@ export default function PlanningZone() {
   // TODO : check if the fiche was dropped from list zone
   function changeZoneFichesAndUpdateAffectation(fiche, zoneId) {
     // check if the fiche is already in the zone
-    if (fiche.affectation_zone?.zone == zoneId) {
+    if (fiche.affectation_zone?.zone === zoneId) {
       return;
     }
     // check if the fiche comes from list zone
-    if (fiche.affectation_zone == null) {
+    if (fiche.affectation_zone === null) {
       let newAffectation = {
         semaine_affectation: getWeekDate(week),
         fiche: fiche.id,
@@ -194,7 +74,7 @@ export default function PlanningZone() {
       API.create_affectation(newAffectation).then((response) => {
         let newZones = zones.map((z) => {
           fiche.affectation_zone = response;
-          if (z.id == zoneId) {
+          if (z.id === zoneId) {
             z.fiches.push(fiche);
             console.log(z);
           }
@@ -204,12 +84,12 @@ export default function PlanningZone() {
       });
 
       // filter out fiche from fiches list
-      setFiches(fiches.filter((f) => f.id != fiche.id));
+      setFiches(fiches.filter((f) => f.id !== fiche.id));
       return;
     }
 
     // check if the fiche comes from another zone
-    if (fiche.affectation_zone.zone != zoneId) {
+    if (fiche.affectation_zone.zone !== zoneId) {
       let affectation = fiche.affectation_zone;
       let oldZoneId = affectation.zone;
       affectation.zone = zoneId;
@@ -234,7 +114,9 @@ export default function PlanningZone() {
 
     // remove the fiche from the zones state
     let newZones = zones.map((z) => {
-      z.fiches = z.fiches.filter((f) => f.affectation_zone.id != affectationId);
+      z.fiches = z.fiches.filter(
+        (f) => f.affectation_zone.id !== affectationId
+      );
       return z;
     });
     setZones(newZones);
@@ -244,8 +126,13 @@ export default function PlanningZone() {
   }
 
   useEffect(() => {
-    getZones();
-    get_fiches_a_planifier();
+    API.planning_zone(week).then((response) => {
+      setZones(response.results);
+    });
+
+    API.fiches_a_planifier().then((response) => {
+      setFiches(response.results);
+    });
   }, [week]);
 
   return (
@@ -345,7 +232,6 @@ const ZonePlannifierStyle = {
   alignItems: "flex-start",
   padding: "0px",
   gap: "10px",
-  width: "100%",
   width: "30%",
   border: "1px dashed #000000",
 };

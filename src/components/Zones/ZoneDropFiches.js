@@ -1,10 +1,8 @@
 // React
-import { faL } from "@fortawesome/free-solid-svg-icons";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 // drap and drop
-import { useDrop } from "react-dnd";
-import Droppable from "../DND/Droppable";
+
 import DropZone from "../DND/DropZone";
 import FicheDropRow from "./FicheDropRow";
 export default function ZoneDropFiches({
@@ -19,7 +17,7 @@ export default function ZoneDropFiches({
   isZone = false,
 }) {
   const [isOver, setIsOver] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
+  //const [isDragging, setIsDragging] = useState(false);
   const getBackgroundColor = () => {
     if (isOver) {
       return "#ECECEC";

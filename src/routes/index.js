@@ -1,67 +1,66 @@
-import { Navigate, useRoutes } from 'react-router-dom';
+import { Navigate, useRoutes } from "react-router-dom";
 // auth
-import AuthGuard from '../auth/AuthGuard';
-import GuestGuard from '../auth/GuestGuard';
-import RoleBasedGuard from "../auth/RoleBasedGuard";
+import AuthGuard from "../auth/AuthGuard";
+import GuestGuard from "../auth/GuestGuard";
 // layouts
 //import CompactLayout from '../layouts/compact';
-import DashboardLayout from '../layouts/dashboard/dashboardLayout';
+import DashboardLayout from "../layouts/dashboard/dashboardLayout";
 // config
-import { PATH_AFTER_LOGIN } from '../config';
+import { PATH_AFTER_LOGIN } from "../config";
 //
-import { LoginPage, ListeAffaire, NouvelleAffaire, PlanningOperateur, PlanningMachine, PlanningZone} from './elements';
+import {
+  LoginPage,
+  ListeAffaire,
+  NouvelleAffaire,
+  PlanningMachine,
+  PlanningZone,
+} from "./elements";
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
-    return useRoutes([
+  return useRoutes([
+    {
+      path: "/",
+      children: [
+        { element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true },
         {
-            path: '/',
-            children: [
-                { element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true },
-                {
-                    path: 'login',
-                    element: (
-                        <GuestGuard>
-                            <LoginPage />
-                        </GuestGuard>
-                    ),
-                },
-            ],
+          path: "login",
+          element: (
+            <GuestGuard>
+              <LoginPage />
+            </GuestGuard>
+          ),
+        },
+      ],
+    },
+    {
+      path: "/dashboard",
+      element: (
+        <AuthGuard>
+          <DashboardLayout />
+        </AuthGuard>
+      ),
+      children: [
+        { element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true },
+        {
+          path: "affaire",
+          children: [
+            { element: <ListeAffaire /> },
+            { path: "", element: <ListeAffaire /> },
+            { path: "nouvelle", element: <NouvelleAffaire /> },
+          ],
         },
         {
-            path: '/dashboard',
-            element: (
-                <AuthGuard>
-                    <DashboardLayout/>
-                </AuthGuard>
-
-            ),
-            children: [
-                { element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true },
-                {
-
-                    
-                    path: 'affaire',
-                    children: [
-                        { element: <ListeAffaire /> },
-                        { path: '', element: <ListeAffaire /> },
-                        { path: 'nouvelle', element: <NouvelleAffaire /> },
-
-
-                    ]
-                },
-                {
-                    path: 'planning',
-                    children: [
-                        { path: 'operateur', element: <PlanningOperateur /> }, // TODO: remove operateur
-                        { path: 'zones', element: <PlanningZone /> },
-                        { path: 'machines', element: <PlanningMachine /> },
-                    ]
-                },
-            ],
+          path: "planning",
+          children: [
+            { path: "zones", element: <PlanningZone /> },
+            { path: "machines", element: <PlanningMachine /> },
+          ],
         },
-      /* {
+      ],
+    },
+    /* {
             path: '/' + Config.APP_NAME,
             element: (
                 <AuthGuard>
@@ -93,10 +92,10 @@ export default function Router() {
                 // },
             ],
         },*/
-        /*{
+    /*{
             element: <CompactLayout />,
             children: [{ path: '404', element: <Page404 /> }],
         },
         { path: '*', element: <Navigate to="/404" replace /> },*/
-    ]);
+  ]);
 }
