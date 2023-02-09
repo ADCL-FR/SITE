@@ -5,11 +5,12 @@ import React, { useState } from "react";
 
 import DropZone from "../DND/DropZone";
 import FicheDropRow from "./FicheDropRow";
-export default function ZoneDropFiches({
+import AffaireDropDown from "./AffaireDropDown";
+export default function ZoneDropAffaires({
   id,
   accept,
   children,
-  fiches,
+  affaires,
   title,
   style,
   onDrop,
@@ -40,7 +41,17 @@ export default function ZoneDropFiches({
       <p style={title_style}>{title}</p>
       {isZone && (
         <div style={children_style}>
-          {fiches?.map((fiche) => {
+          {affaires?.map((affaire) => {
+            return (
+              <AffaireDropDown
+                extended={false}
+                affaire={affaire}
+                onDeleteFiche={(item) => onDeleteFiche(item)}
+                isZone={true}
+              />
+            );
+          })}
+          {/* {affaires?.fiches?.map((fiche) => {
             return (
               <FicheDropRow
                 fiche={fiche}
@@ -48,18 +59,18 @@ export default function ZoneDropFiches({
                 isPlanned={true}
               />
             );
-          })}
+          })} */}
           {children}
         </div>
       )}
       {!isZone && (
         <div style={children_style}>
-          {fiches?.map((fiche) => {
+          {affaires?.map((affaire) => {
             return (
-              <FicheDropRow
-                fiche={fiche}
+              <AffaireDropDown
+                extended={false}
+                affaire={affaire}
                 onDeleteFiche={(item) => onDeleteFiche(item)}
-                isPlanned={false}
               />
             );
           })}

@@ -5,6 +5,7 @@ export default function FicheDropRow({
   fiche,
   onDeleteFiche = () => {},
   isPlanned = false,
+  style = {},
 }) {
   const [isDragging, setIsDragging] = useState(false);
   return (
@@ -15,7 +16,7 @@ export default function FicheDropRow({
       type="fiche"
       isDragging={(val) => setIsDragging(val)}
     >
-      <div style={row_style}>
+      <div style={style}>
         {fiche.description}
         {isPlanned && (
           <button onClick={() => onDeleteFiche(fiche)}>
@@ -32,6 +33,7 @@ export default function FicheDropRow({
 }
 
 const row_style = {
+  width: "100%",
   display: "flex",
   flexDirection: "row",
   alignItems: "flex-end",

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 // components
 import Page from "../Page";
-import ZoneDropFiches from "../../components/Zones/ZoneDropFiches";
+import ZoneDropAffaires from "../../components/Zones/ZoneDropFiches";
 import Select from "react-select";
 
 // drap and drop
@@ -19,21 +19,91 @@ for (let i = 1; i <= 52; i++) {
   options.push({ value: i, label: i });
 }
 
+const zoness = [
+  {
+    id: 1,
+    nom: "Zone 1",
+    description: "ceci est la zone 1",
+    affaires: [
+      {
+        id: 1,
+        raison: "Affaire 1",
+        fiches: [
+          {
+            id: 8,
+            affectation_zone: {
+              id: 60,
+              semaine_affectation: "2023-02-19",
+              fiche: 8,
+              zone: 1,
+            },
+            description: "fiche 2 pr affaire 1",
+            observation: null,
+            ref_doc: null,
+            terminee: false,
+            fourniture: false,
+            date_creation: "2023-02-09",
+            date_modification: "2023-02-09T10:19:39.444219+01:00",
+            date_cloture: null,
+            affaire: 1,
+          },
+        ],
+        charge_affaire: "ezfzef",
+      },
+    ],
+  },
+  {
+    id: 2,
+    nom: "Zone 2",
+    description: "ceci est la zone 2",
+    affaires: [],
+  },
+  {
+    id: 4,
+    nom: "Zone 3",
+    description: "description",
+    affaires: [],
+  },
+];
+
 export default function PlanningZone() {
-  const [fiches, setFiches] = useState([]);
-  const [zones, setZones] = useState([]);
+  const [affaires, setAffaires] = useState([]);
+  const [zones, setZones] = useState(zoness);
   const [week, setWeek] = useState(getWeekNumber(new Date()));
 
-  // change state of zones (add or remove fiche)
+  // change state of zones, move fiches from one zone to another with affaire infos
   function change_fiche_from_zoneA_to_zoneB(fiche, zoneAId, zoneBId) {
+    // remove fiche from zone A
     let newZones = zones.map((zone) => {
-      // remove fiche from zoneA
       if (zone.id === zoneAId) {
-        zone.fiches = zone.fiches.filter((f) => f.id !== fiche.id);
+        zone.affaires = zone.affaires.map((affaire) => {
+          affaire.fiches = affaire.fiches.filter(
+            (ficheInZone) => ficheInZone.id !== fiche.id
+          );
+          return affaire;
+        });
       }
-      // add fiche to zoneB
+      return zone;
+    });
+    // add fiche to zone B and create affaire if not exist
+    newZones = newZones.map((zone) => {
       if (zone.id === zoneBId) {
-        zone.fiches.push(fiche);
+        zone.affaires = zone.affaires.map((affaire) => {
+          if (affaire.id === fiche.affaire) {
+            affaire.fiches.push(fiche);
+          }
+          return affaire;
+        });
+        // if affaire is not in zone B
+        if (!zone.affaires.some((affaire) => affaire.id === fiche.affaire)) {
+          let newAffaire = {
+            id: fiche.affaire,
+            raison: fiche.affaire_raison,
+            fiches: [fiche],
+            charge_affaire: fiche.charge_affaire,
+          };
+          zone.affaires.push(newAffaire);
+        }
       }
       return zone;
     });
@@ -75,16 +145,35 @@ export default function PlanningZone() {
         let newZones = zones.map((z) => {
           fiche.affectation_zone = response;
           if (z.id === zoneId) {
-            z.fiches.push(fiche);
-            console.log(z);
+            z.affaires = z.affaires.map((a) => {
+              if (a.id === fiche.affaire) {
+                a.fiches.push(fiche);
+              }
+              return a;
+            });
+            // if affaire is not in zone B
+            if (!z.affaires.some((affaire) => affaire.id === fiche.affaire)) {
+              let newAffaire = {
+                id: fiche.affaire,
+                raison: fiche.affaire_raison,
+                fiches: [fiche],
+                charge_affaire: fiche.charge_affaire,
+              };
+              z.affaires.push(newAffaire);
+            }
           }
           return z;
         });
         setZones(newZones);
+        // filter out fiche from fiches/affaires list
       });
 
-      // filter out fiche from fiches list
-      setFiches(fiches.filter((f) => f.id !== fiche.id));
+      // filter out fiche from affaires list
+      let newAffaires = affaires.map((a) => {
+        a.fiches = a.fiches.filter((f) => f.id !== fiche.id);
+        return a;
+      });
+      setAffaires(newAffaires);
       return;
     }
 
@@ -105,24 +194,29 @@ export default function PlanningZone() {
   }
 
   // delete affectation when delete button is clicked
-  function deleteAffectation(fiche) {
+  async function deleteAffectation(fiche) {
     let affectationId = fiche.affectation_zone.id;
 
-    API.delete_affectation(affectationId).then((response) => {
+    await API.delete_affectation(affectationId).then((response) => {
       console.log(response);
     });
 
-    // remove the fiche from the zones state
-    let newZones = zones.map((z) => {
-      z.fiches = z.fiches.filter(
-        (f) => f.affectation_zone.id !== affectationId
-      );
-      return z;
+    // remove the fiche from the zones -> affaires state
+    let newZones = zones.map((zone) => {
+      zone.affaires = zone.affaires.map((affaire) => {
+        affaire.fiches = affaire.fiches.filter(
+          (ficheInZone) => ficheInZone.id !== fiche.id
+        );
+        return affaire;
+      });
+      return zone;
     });
     setZones(newZones);
-    // add the fiche to the fiches list
-    fiche.affectation_zone = null;
-    setFiches([...fiches, fiche]);
+
+    // TODO: change state and do not call API again
+    API.fiches_a_planifier().then((response) => {
+      setAffaires(response.results);
+    });
   }
 
   useEffect(() => {
@@ -131,7 +225,7 @@ export default function PlanningZone() {
     });
 
     API.fiches_a_planifier().then((response) => {
-      setFiches(response.results);
+      setAffaires(response.results);
     });
   }, [week]);
 
@@ -152,12 +246,12 @@ export default function PlanningZone() {
           }}
         >
           <div style={ContainerStyle}>
-            <ZoneDropFiches
+            <ZoneDropAffaires
               style={ZonePlannifierStyle}
               title={"Fiche à plannifier"}
               onDrop={() => {}}
               accept={[]}
-              fiches={fiches}
+              affaires={affaires}
               isZone={false}
             />
 
@@ -173,10 +267,10 @@ export default function PlanningZone() {
               <div style={ZoneContainer}>
                 {zones.map((zone) => {
                   return (
-                    <ZoneDropFiches
+                    <ZoneDropAffaires
                       key={zone.id}
                       isZone={true}
-                      fiches={zone.fiches}
+                      affaires={zone.affaires}
                       accept={["any", "fiche"]}
                       style={ZoneStyle}
                       title={zone.nom}
