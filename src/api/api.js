@@ -11,8 +11,8 @@ const nouvelle_affaire = async (affaire) => {
     return response;
 }
 
-const get_affaires = async (page=1, perPage=10) => {
-    const response = await axiosInstance.get(`/api/affaires?page=${page}&per_page=${perPage}`)
+const get_affaires = async (page=1, perPage=10, ordering="-date_rendu") => {
+    const response = await axiosInstance.get(`/api/affaires?page=${page}&per_page=${perPage}&ordering=${ordering}`)
         .then((response) => {
             return response.data;
         })

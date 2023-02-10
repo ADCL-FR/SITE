@@ -26,6 +26,7 @@ const columns = [
         name: 'Numéro',
         selector: row => row.num_affaire,
         sortable: true,
+        sortField: 'num_affaire',
     },
     {
         name: 'Raison',
@@ -45,7 +46,7 @@ const columns = [
         selector: row => row.montant,
         hide: "md",
         right: true,
-        sortable: true,
+        //sortable: true,
     },
     {
         name: 'Chargé d\'affaire',
@@ -65,7 +66,8 @@ const columns = [
         selector: row => row.date_rendu,
         hide: "md",
         right: true,
-        //sortable: true,
+        sortable: true,
+        sortField: 'date_rendu',
     },
     {
         name: 'Statut',
@@ -89,6 +91,8 @@ export default function ListeAffaire() {
     const [loading, setloading] = useState(false);
     const [totalRows, setTotalRows] = useState(0);
     const [perPage, setPerPage] = useState(10);
+    const [ordering, setOrdering] = useState("date_rendu");
+    const [direction, setDirection]= useState('-')
 
     //Alerte
     const [open, setOpen] =useState(false);
@@ -101,9 +105,9 @@ export default function ListeAffaire() {
         setOpen(false);
     }
 
-    const getAffaires = async (page, perPage) => {
+    const getAffaires = async (page, perPage, ordering, direction) => {
         setloading(true)
-        const response = await API.get_affaires(page, perPage).then((response) => {
+        const response = await API.get_affaires(page, perPage, direction+ordering).then((response) => {
             setTotalRows(response.count)
             setloading(false)
             console.log(response)
@@ -112,10 +116,20 @@ export default function ListeAffaire() {
         setAffaires(response);
     };
 
+    const handleSort = (column, sortDirection) => {
+        // simulate server sort
+        console.log(column, sortDirection);
+
+        setOrdering(column.sortField)
+        setDirection(sortDirection === 'asc' ? '-' : '')
+        // instead of setTimeout this is where you would handle your API call.
+
+    };
+
 
     useEffect(() => {
-        getAffaires(1, perPage);
-    }, [perPage]);
+        getAffaires(1, perPage, ordering, direction);
+    }, [perPage, ordering, direction]);
 
     return (
         <Page title="Liste des Affaires" className="flex flex-col h-full bg-blueGray-100">
@@ -144,6 +158,10 @@ export default function ListeAffaire() {
                     onChangePage={(page) => getAffaires(page, perPage)}
                     onChangeRowsPerPage={(nb_page) => setPerPage(nb_page)}
                     progressPending={loading}
+                    sortServer
+                    onSort={handleSort}
+
+
                 />
                 {/*<Table head={tableAffaireHeaders} title={tableAffaireTitle} body={affaires} RowComponent={AffaireRow}/>*/}
             </div>
