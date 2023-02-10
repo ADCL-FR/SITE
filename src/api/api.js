@@ -11,8 +11,8 @@ const nouvelle_affaire = async (affaire) => {
     return response;
 }
 
-const get_affaires = async () => {
-    const response = await axiosInstance.get(`/api/affaires`)
+const get_affaires = async (page=1, perPage=10) => {
+    const response = await axiosInstance.get(`/api/affaires?page=${page}&per_page=${perPage}`)
         .then((response) => {
             return response.data;
         })
@@ -111,7 +111,7 @@ const delete_affectation = async (affectationId) => {
 }
 
 const fiches_a_planifier = async () => {
-    const response = await axiosInstance.get(`/api/fiches/a_planifier`)
+    const response = await axiosInstance.get(`/api/fiches/ajustage/a_planifier`)
         .then((response) => {
             return response.data;
         })
