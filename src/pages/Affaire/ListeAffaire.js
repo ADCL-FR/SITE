@@ -16,11 +16,11 @@ import Table from "../../components/Table/table";
 import AffaireRow from "../../components/Table/AffaireRow";
 import API from "../../api/api";
 import PageHeader from "../../components/Headers/PageHeader";
-
+import FichesTable from "../../components/Table/FichesTable"
 
 // table
 import DataTable from 'react-data-table-component';
-const ExpandedComponent = ({ data }) => <pre>{JSON.stringify(data.client_detail, null, 2)}</pre>;
+const ExpandedComponent = ({ data }) => <FichesTable affaireId={data.id} />;
 const columns = [
     {
         name: 'Numéro',
@@ -107,7 +107,7 @@ export default function ListeAffaire() {
 
     const getAffaires = async (page, perPage, ordering, direction) => {
         setloading(true)
-        const response = await API.get_affaires(page, perPage, direction+ordering).then((response) => {
+        const response = await API.affaire.get_affaires(page, perPage, direction+ordering).then((response) => {
             setTotalRows(response.count)
             setloading(false)
             console.log(response)
@@ -160,6 +160,10 @@ export default function ListeAffaire() {
                     progressPending={loading}
                     sortServer
                     onSort={handleSort}
+                    fixedHeader
+                    fixedHeaderScrollHeight="500px"
+                    expandOnRowClicked
+                    striped
 
 
                 />

@@ -136,3 +136,83 @@ export const affaireForm = {
         },
     ],
 };
+
+// {
+//     "num_etape": 0,
+//     "terminee": true,
+//     "description": "string",
+//     "ref_doc": "string",
+//     "nom_piece": "string",
+//     "matiere": "string",
+//     "quantite": 0,
+//     "temps": 0,
+//     "date_cloture": "2023-02-11",
+//     "fiche": 0
+// }
+export const etapeForm = {
+    button: { children: "Ajouter l'étape", size: "sm", color: "lightBlue" },
+    forms: [
+        {
+            title: "Ajouter une étape",
+            inputs : [
+                {
+                    label: "Numéro d'étape",
+                    width: 6,
+                    input: {
+                        id: "num_etape",
+                        placeholder: "",
+                        type: "number",
+                        defaultValue: "",
+                        maxLength: 200,
+                        required: true,
+                    },
+                },
+                {
+                    label: "Description",
+                    width: 12,
+                    input: {
+                        placeholder: "Description",
+                        id: "description",
+                        type: "textarea",
+                        defaultValue: "",
+                    },
+                },
+                {
+                    label: "Quantité",
+                    width: 6,
+                    input: {
+                        placeholder: "Quantité",
+                        id: "quantite",
+                        type: "number",
+                        defaultValue: "",
+                        required: true
+                    },
+                },
+                {
+                    label: "Temps (h)",
+                    width: 6,
+                    input: {
+                        placeholder: "Temps nécessaire",
+                        id: "temps",
+                        type: "number",
+                        defaultValue: "",
+                        required: true
+                    },
+                },
+                {
+                    label: "Machine",
+                    width: 6,
+                    select: {
+                        id: "machine",
+                        label: "Machine",
+                        defaultValue: "",
+                        placeholder: "Sélectionner une machine",
+                        options: [
+
+                        ],
+                    }
+                },
+            ]
+        }
+    ]
+}

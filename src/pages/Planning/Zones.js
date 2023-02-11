@@ -214,7 +214,7 @@ export default function PlanningZone() {
     setZones(newZones);
 
     // TODO: change state and do not call API again
-    API.fiches_a_planifier().then((response) => {
+    API.fiches_ajustage_a_planifier().then((response) => {
       setAffaires(response.results);
     });
   }
@@ -224,7 +224,7 @@ export default function PlanningZone() {
       setZones(response.results);
     });
 
-    API.fiches_a_planifier().then((response) => {
+    API.fiches_ajustage_a_planifier().then((response) => {
       setAffaires(response.results);
     });
   }, [week]);

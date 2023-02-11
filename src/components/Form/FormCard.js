@@ -33,7 +33,7 @@ export default function FormCard({
 
     return (
         <>
-            <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg">
+            <div className="relative flex flex-col min-w-0 break-words bg-white w-full shadow-lg rounded-lg">
                 <div className="px-4 py-5 flex-auto">
                     <form onSubmit={onSubmit}>
                         <div className="container mx-auto px-4">
@@ -64,9 +64,12 @@ export default function FormCard({
                                                                 {/*INPUT SELECT*/}
                                                                 {input.select  && (
                                                                     <Select
+                                                                        s
                                                                         onChange={(value, type) => onSelect(value.value, input.select.id)}
                                                                         {...input.select}
                                                                         options={input.select.options}
+                                                                        //menuPortalTarget={document.body}
+                                                                        menuPosition={'fixed'}
                                                                     />
                                                                     /*<select onChange={(event) => onChange(event)} className="border rounded-lg " {...input.select}>
                                                                         {

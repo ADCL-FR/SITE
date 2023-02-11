@@ -6,12 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import Page from "../Page";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import FormCard from "../../components/Form/FormCard";
 
 // sections
 // ----------------------------------------------------------------------
 //user
 import {useAuthContext} from "../../auth/useAuthContext"
-import FormCard from "../../components/Form/FormCard";
 import {affaireForm} from "../../constants/forms/forms";
 import API from "../../api/api";
 import PageHeader from "../../components/Headers/PageHeader";
@@ -50,7 +50,7 @@ export default function NouvelleAffaire() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const response = await API.nouvelle_affaire(formData).then((response) => {
+        const response = await API.affaire.nouvelle_affaire(formData).then((response) => {
             setMessage('Affaire ajoutée avec succès');
             setSuccess(true);
             setOpen(true);
