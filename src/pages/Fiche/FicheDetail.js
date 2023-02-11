@@ -166,7 +166,7 @@ export default function FicheDetail() {
                     </Alert>
                 </Snackbar>
                 <DataTable
-                    title={`Fiche ${infos.description}`}
+                    title={`Étapes de ${infos.description}`}
                     columns={columns}
                     data={etapes}
                     progressPending={loading}

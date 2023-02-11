@@ -24,8 +24,19 @@ class affaire {
         return response;
     };
 
-    static get_affaire = async (affaireId) => {
-        const response = await axiosInstance.get(`/api/affaires/${affaireId}`)
+    static get_affaire_detail = async (affaireId) => {
+        return await axiosInstance.get(`/api/affaires/${affaireId}`)
+            .then((response) => {
+                return response.data;
+            })
+            .catch((error) => {
+                throw error;
+            });
+
+    }
+
+    static get_affaire_et_fiches = async (affaireId) => {
+        const response = await axiosInstance.get(`/api/affaires/${affaireId}/fiches`)
             .then((response) => {
                 return response.data;
             })

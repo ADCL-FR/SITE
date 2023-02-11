@@ -20,6 +20,7 @@ import FichesTable from "../../components/Table/FichesTable"
 
 // table
 import DataTable from 'react-data-table-component';
+import {PATH_DASHBOARD} from "../../routes/paths";
 const ExpandedComponent = ({ data }) => <FichesTable affaireId={data.id} />;
 const columns = [
     {
@@ -85,6 +86,9 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 export default function ListeAffaire() {
+
+    const navigate = useNavigate();
+
     const [affaires, setAffaires] = useState([]);
 
     // table
@@ -126,6 +130,10 @@ export default function ListeAffaire() {
 
     };
 
+    const handleAffaireClick = row => {
+        navigate(PATH_DASHBOARD.affaire.view(row.id))
+    }
+
 
     useEffect(() => {
         getAffaires(1, perPage, ordering, direction);
@@ -164,6 +172,7 @@ export default function ListeAffaire() {
                     fixedHeaderScrollHeight="500px"
                     expandOnRowClicked
                     striped
+                    onRowDoubleClicked={(row) => handleAffaireClick(row)}
 
 
                 />

@@ -70,7 +70,7 @@ const conditionalRowStyles = [
     },
 ]
 
-export default function FichesTable({affaireId}) {
+export default function FichesTable({affaireId, title=""}) {
 
     const navigate = useNavigate();
 
@@ -84,7 +84,7 @@ export default function FichesTable({affaireId}) {
     }
 
     useEffect(() => {
-            API.affaire.get_affaire(affaireId).then((response) => {
+            API.affaire.get_affaire_et_fiches(affaireId).then((response) => {
                     setFiches(response.fiches)
                     setLoading(false)
                 }
@@ -96,7 +96,7 @@ export default function FichesTable({affaireId}) {
     return (
         <DataTable
             style={{marginLeft: "15px"}}
-            //title={"Liste des fiches"}
+            title={title}
             columns={columns}
             data={fiches}
             progressPending={loading}

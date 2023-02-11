@@ -49,7 +49,9 @@ export const NouvelleAffaire = Loadable(
 export const ListeAffaire = Loadable(
   lazyWithRetry(() => import("../pages/Affaire/ListeAffaire"))
 );
-
+export const DetailsAffaire = Loadable(
+    lazyWithRetry(() => import("../pages/Affaire/AffaireDetail"))
+);
 export const DetailsFiche = Loadable(
     lazyWithRetry(() => import("../pages/Fiche/FicheDetail"))
 );
