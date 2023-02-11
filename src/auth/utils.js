@@ -48,24 +48,35 @@ export const tokenExpired = (exp) => {
     clearTimeout(expiredTimer);
 
     expiredTimer = setTimeout(() => {
-        alert('Token expired');
 
-        localStorage.removeItem('accessToken');
+        const refresh_token = localStorage.getItem('refreshToken');
+        if (refresh_token) {
+            axios.post('/auth/token/refresh', {refresh: refresh_token})
+                .then((response) => {
+                    const { access } = response.data;
+                    setSession(access)
+                }).catch((error) => {
+                localStorage.removeItem('refreshToken');
+                window.location.href = PATH_AUTH.login;
+            })
+        } else {
+            localStorage.removeItem('refreshToken');
+            window.location.href = PATH_AUTH.login;
+        }
 
-        window.location.href = PATH_AUTH.login;
+
     }, timeLeft);
 };
 
 // ----------------------------------------------------------------------
 
-export const setSession = (accessToken) => {
-    if (accessToken) {
-        localStorage.setItem('accessToken', accessToken);
-
-        axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+export const setSession = (access) => {
+    if (access) {
+        localStorage.setItem('accessToken', access);
+        axios.defaults.headers.common.Authorization = `Bearer ${access}`;
 
         // This function below will handle when token is expired
-        const { exp } = jwtDecode(accessToken); // ~3 days by minimals server
+        const { exp } = jwtDecode(access); // ~3 days by minimals server
 
         tokenExpired(exp);
     } else {

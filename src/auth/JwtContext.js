@@ -116,7 +116,8 @@ export function AuthProvider({ children }) {
             throw  error.detail;
         });
 
-        const { access } = response.data;
+        const { access, refresh } = response.data;
+        localStorage.setItem('refreshToken', refresh);
         setSession(access);
         const user_response = await axios.get('/api/user');
 
@@ -149,6 +150,16 @@ export function AuthProvider({ children }) {
             },
         });
     };
+
+    // refresh token
+    const refresh_token = async () => {
+        const refreshToken = typeof window !== 'undefined' ? localStorage.getItem('refreshToken') : '';
+        if (refreshToken && isValidToken(refreshToken)){
+
+        }else{
+
+        }
+    }
 
     // LOGOUT
     const logout = async () => {
