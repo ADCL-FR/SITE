@@ -14,6 +14,7 @@ import {
   NouvelleAffaire,
   PlanningMachine,
   PlanningZone,
+  DetailsFiche
 } from "./elements";
 
 // ----------------------------------------------------------------------
@@ -52,10 +53,20 @@ export default function Router() {
           ],
         },
         {
+          path: "fiche",
+          children: [
+            { element: <ListeAffaire /> },
+            { path: "", element: <ListeAffaire /> },
+            { path: "nouvelle", element: <NouvelleAffaire /> },
+            { path: ':id', element: <DetailsFiche /> },
+          ],
+        },
+        {
           path: "planning",
           children: [
             { path: "zones", element: <PlanningZone /> },
             { path: "machines", element: <PlanningMachine /> },
+
           ],
         },
       ],

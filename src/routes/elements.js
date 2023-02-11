@@ -50,6 +50,10 @@ export const ListeAffaire = Loadable(
   lazyWithRetry(() => import("../pages/Affaire/ListeAffaire"))
 );
 
+export const DetailsFiche = Loadable(
+    lazyWithRetry(() => import("../pages/Fiche/FicheDetail"))
+);
+
 export const PlanningZone = Loadable(
   lazyWithRetry(() => import("../pages/Planning/Zones"))
 );

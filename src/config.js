@@ -3,7 +3,7 @@ import { PATH_DASHBOARD } from "./routes/paths";
 
 import SvgColor from "./components/SvgColor";
 
-export const APP_NAME = "ADCL";
+export const APP_NAME = "SGM";
 export const API_URL = "https://adcl-api.herokuapp.com";
 //export const API_URL = "http://127.0.0.1:8000";
 export const PATH_AFTER_LOGIN = PATH_DASHBOARD.affaire.root;
@@ -44,12 +44,19 @@ export const navConfig = {
       link: { href: PATH_DASHBOARD.affaire.new },
     },
     { divider: true },
-    { title: "Planning" },
+    { title: "Fiche" },
     {
       icon: "fas fa-tv",
-      text: "Opérateur",
-      link: { href: PATH_DASHBOARD.planning.operateur },
+      text: "Liste",
+      link: { href: PATH_DASHBOARD.fiche.root },
     },
+    {
+      icon: "fas fa-tools",
+      text: "Nouvelle Affaire",
+      link: { href: PATH_DASHBOARD.fiche.new },
+    },
+    { divider: true },
+    { title: "Planning" },
     {
       icon: "fas fa-tv",
       text: "Machines",

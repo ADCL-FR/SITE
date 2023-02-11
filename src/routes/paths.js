@@ -17,13 +17,17 @@ export const PATH_DASHBOARD = {
   affaire: {
     root: paths(ROOTS_DASHBOARD, "/affaire"),
     new: paths(ROOTS_DASHBOARD, "/affaire/nouvelle"),
-    //view: (num) => paths(ROOTS_DASHBOARD, `/affaire/${num}`),
+    view: (num) => paths(ROOTS_DASHBOARD, `/affaire/${num}`),
     //edit: (num) => paths(ROOTS_DASHBOARD, `/affaire/${num}/edit`),
   },
-  fiche: paths(ROOTS_DASHBOARD, "/fiche"),
+  fiche: {
+    root: paths(ROOTS_DASHBOARD, "/fiche"),
+    new: paths(ROOTS_DASHBOARD, `/fiche/nouvelle`),
+    view: (num) => paths(ROOTS_DASHBOARD, `/fiche/${num}`),
+    //edit: (num) => paths(ROOTS_DASHBOARD, `/affaire/${num}/edit`),
+  },
   planning: {
     root: paths(ROOTS_DASHBOARD, "/planning"),
-    operateur: paths(ROOTS_DASHBOARD, "/planning/operateur"),
     zones: paths(ROOTS_DASHBOARD, "/planning/zones"),
     machines: paths(ROOTS_DASHBOARD, "/planning/machines"),
     // TODO : Zone : fiche vers zone pour machine ajustage
