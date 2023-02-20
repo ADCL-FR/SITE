@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import API from "../../api/api";
 import DataTable from "react-data-table-component";
 import { PATH_DASHBOARD } from "../../routes/paths";
+import Button from "../../components/Elements/Button";
 
 
 const columns = [{
@@ -70,7 +71,7 @@ const conditionalRowStyles = [
     },
 ]
 
-export default function FichesTable({affaireId, title=""}) {
+export default function FichesTable({affaireId, title="", detail= false}) {
 
     const navigate = useNavigate();
 
@@ -78,6 +79,9 @@ export default function FichesTable({affaireId, title=""}) {
     const [fiches, setFiches] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    function actions(){
+        return <div><Button onClick={() => console.log('ajouter une fiche')} >Ajouter une étape</Button></div>
+    }
 
     function handleClick(row) {
         navigate(PATH_DASHBOARD.fiche.view(row.id))
@@ -107,6 +111,7 @@ export default function FichesTable({affaireId, title=""}) {
             highlightOnHover
             pointerOnHover
             onRowDoubleClicked={(row) => handleClick(row)}
+            actions={detail && actions()}
         />
     );
 }

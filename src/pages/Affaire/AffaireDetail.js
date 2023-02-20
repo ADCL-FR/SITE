@@ -55,7 +55,7 @@ export default function AffaireDetail() {
                         {message}
                     </Alert>
                 </Snackbar>
-                <FichesTable affaireId={id} title={"Liste des fiches :"}/>
+                <FichesTable affaireId={id} title={"Liste des fiches :"} detail={true}/>
                 {/*<Table head={tableAffaireHeaders} title={tableAffaireTitle} body={affaires} RowComponent={AffaireRow}/>*/}
             </div>
 
