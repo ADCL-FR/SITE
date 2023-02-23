@@ -23,7 +23,7 @@ const columns = [{
 },
     {
         name: 'Groupe Machine',
-        selector: row => row.groupe_machine,
+        selector: row => row.groupe_machine.nom_groupe_machine,
 
     },
     {
