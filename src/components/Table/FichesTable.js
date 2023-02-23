@@ -12,7 +12,8 @@ import API from "../../api/api";
 import DataTable from "react-data-table-component";
 import { PATH_DASHBOARD } from "../../routes/paths";
 import Button from "../../components/Elements/Button";
-
+import FicheForm from "../Form/fiche/FicheForm";
+import Dialog from "@mui/material/Dialog";
 
 const columns = [{
     name: 'Description',
@@ -78,9 +79,10 @@ export default function FichesTable({affaireId, title="", detail= false}) {
 
     const [fiches, setFiches] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [openDialog, setOpenDialog] = useState(false);
 
     function actions(){
-        return <div><Button onClick={() => console.log('ajouter une fiche')} >Ajouter une étape</Button></div>
+        return <div><Button onClick={() => setOpenDialog(true)} >Ajouter une Fiche</Button></div>
     }
 
     function handleClick(row) {
@@ -89,6 +91,7 @@ export default function FichesTable({affaireId, title="", detail= false}) {
 
     useEffect(() => {
             API.affaire.get_affaire_et_fiches(affaireId).then((response) => {
+                console.log(response)
                     setFiches(response.fiches)
                     setLoading(false)
                 }
@@ -98,21 +101,27 @@ export default function FichesTable({affaireId, title="", detail= false}) {
     // change state of zones, move fiches from one zone to another with affaire infos
 
     return (
-        <DataTable
-            style={{marginLeft: "15px"}}
-            title={title}
-            columns={columns}
-            data={fiches}
-            progressPending={loading}
-            selectableRows={true}
-            customStyles={customStyles}
-            //conditionalRowStyles={conditionalRowStyles}
-            dense
-            highlightOnHover
-            pointerOnHover
-            onRowDoubleClicked={(row) => handleClick(row)}
-            actions={detail && actions()}
-        />
+        <>
+            <DataTable
+                style={{marginLeft: "15px"}}
+                title={"Fiches"}
+                columns={columns}
+                data={fiches}
+                progressPending={loading}
+                selectableRows={true}
+                customStyles={customStyles}
+                //conditionalRowStyles={conditionalRowStyles}
+                dense
+                highlightOnHover
+                pointerOnHover
+                onRowDoubleClicked={(row) => handleClick(row)}
+                actions={actions()}
+            />
+            <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+                <FicheForm update={false}  affaireId={affaireId} />
+            </Dialog>
+        </>
+
     );
 }
 
