@@ -6,17 +6,20 @@ import React, {useEffect, useState} from "react";
 import { useForm } from "react-hook-form";
 import Button from "../../Elements/Button";
 
+import useGroupesMachine from "../../../hooks/groupe_machine/useGroupeMachine";
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={60} ref={ref} variant="filled" {...props} />;
 });
 
-export default function FicheForm({ficheData, affaireId, update = false, onUpdated = (statut, message) => {}, onCreated = (statut, message) => {}}) {
+export default function FicheForm({ficheData, affaireId, update = false}) {
     const {fiche, setFiche, onUpdateFiche, onCreateFiche, } = useFiche()
 
     const [showAlert, setShowAlert] = useState(false)
 
     const [success, setSuccess] = useState(false)
     const [message, setMessage] = useState('')
+
+    const {formOptions} = useGroupesMachine()
 
     function dirtyValues(touchedFields, allValues) {
 
@@ -61,13 +64,16 @@ export default function FicheForm({ficheData, affaireId, update = false, onUpdat
     };
     useEffect(()=>{
         setFiche(ficheData)
+        console.log('ficheData:', ficheData)
         reset()
         //reset({description: ficheData.description})
         // setValue([
         //     {description: ficheData.description}
 
         // ])
-    }, [ficheData, setFiche])
+    }, [ficheData])
+
+    console.log('options:', formOptions)
     const widths = {
         1: "lg:w-1/12",
         2: "lg:w-2/12",
@@ -124,10 +130,12 @@ export default function FicheForm({ficheData, affaireId, update = false, onUpdat
                                         <label className="block uppercase text-blueGray-700 text-xs font-bold mb-2 ml-1" id="groupe_machine">
                                             Groupe Machine
                                         </label>
-                                        <select {...register("groupe_machine")} defaultValue={100} style={{width: "100%", borderRadius: "5px", borderColor: "#cbd5e1"}}>
-                                            <option value={1}>{fiche?.groupe_machine}</option>
-                                            <option value={2}>ggg</option>
-                                            <option value={3}>iii</option>
+                                        <select {...register("groupe_machine")} placeholder={"séléctioner machine"} style={{width: "100%", borderRadius: "5px", borderColor: "#cbd5e1"}}>
+
+                                            {formOptions.map((option, key) => (
+
+                                                <option key={key} value={option.value} selected={fiche?.groupe_machine.id === option.value} >{option.label}</option>
+                                            ))}
                                         </select>
                                         {/*<Select  defaultValue={{label : fiche.groupe_machine, value: 1}} options={[{label : fiche.groupe_machine, value: 1}]}/>*/}
                                     </div>

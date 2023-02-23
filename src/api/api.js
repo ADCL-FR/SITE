@@ -133,6 +133,19 @@ class machine {
         return response;
     }
 }
+// list groupe Machines
+class groupeMachine {
+    static get_groupes_machines = async () => {
+        const response = await axiosInstance.get(`/api/machines/groupes`)
+            .then((response) => {
+                return response.data;
+            })
+            .catch((error) => {
+                throw error;
+            });
+        return response;
+    }
+}
 const recuperer_statuts = async () => {
     await axiosInstance.get(`/api/status`)
         .then((response) => {
@@ -237,6 +250,7 @@ const API = {
     fiche,
     etape,
     machine,
+    groupeMachine,
     recuperer_statuts,
     recuperer_clients,
     recuperer_salaries,
