@@ -4,8 +4,8 @@ import { PATH_DASHBOARD } from "./routes/paths";
 import SvgColor from "./components/SvgColor";
 
 export const APP_NAME = "SGM";
-export const API_URL = "https://adcl-api.herokuapp.com";
-//export const API_URL = "http://127.0.0.1:8000";
+//export const API_URL = "https://adcl-api.herokuapp.com";
+export const API_URL = "http://127.0.0.1:8000";
 export const PATH_AFTER_LOGIN = PATH_DASHBOARD.affaire.root;
 
 const icon = (name) => (
@@ -34,7 +34,7 @@ export const navConfig = {
     { divider: true },
     { title: "Affaire" },
     {
-      icon: "fas fa-tv",
+      icon: "fas fa-list",
       text: "Liste",
       link: { href: PATH_DASHBOARD.affaire.root },
     },
@@ -43,7 +43,7 @@ export const navConfig = {
       text: "Nouvelle Affaire",
       link: { href: PATH_DASHBOARD.affaire.new },
     },
-    { divider: true },
+    /*{ divider: true },
     { title: "Fiche" },
     {
       icon: "fas fa-tv",
@@ -54,16 +54,17 @@ export const navConfig = {
       icon: "fas fa-tools",
       text: "Nouvelle Affaire",
       link: { href: PATH_DASHBOARD.fiche.new },
-    },
+    },*/
     { divider: true },
     { title: "Planning" },
-    {
+    /*{
       icon: "fas fa-tv",
       text: "Machines",
       link: { href: PATH_DASHBOARD.planning.machines },
-    },
+    },*/
+      //planning with icon calendar
     {
-      icon: "fas fa-tv",
+      icon: "fas fa-calendar-alt",
       text: "Zones",
       link: { href: PATH_DASHBOARD.planning.zones },
     },

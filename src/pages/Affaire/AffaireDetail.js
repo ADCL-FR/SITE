@@ -9,11 +9,13 @@ import Page from "../Page";
 import MuiAlert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import {useParams} from "react-router-dom";
-import API from "../../api/api";
+import Dialog from '@mui/material/Dialog';
 
-const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={60} ref={ref} variant="filled" {...props} />;
-});
+
+import API from "../../api/api";
+import FicheForm from "../../components/Form/fiche/FicheForm";
+
+
 export default function AffaireDetail() {
 
     let {id} = useParams()
@@ -30,6 +32,7 @@ export default function AffaireDetail() {
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('');
     const [success, setSuccess] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
             return;
@@ -39,23 +42,15 @@ export default function AffaireDetail() {
 
     useEffect(() => {
         fetch_affaire()
-    }, [id, affaire]);
+    }, []);
 
     return (
         <Page title={`${affaire.num_affaire}`} className="flex flex-col h-full bg-blueGray-100">
-            <PageHeader title={`Affaire: ${affaire.num_affaire}`}/>
+            <PageHeader title={`Affaire ${affaire.num_affaire}`}/>
             <div className="md:px-10 mb-20" style={{"marginTop": "-8rem"}}>
-                <Snackbar
-                    open={open}
-                    autoHideDuration={4000}
-                    message=""
-                    onClose={handleClose}
-                >
-                    <Alert onClose={handleClose} severity={success ? 'success' : 'error'} sx={{width: '100%'}}>
-                        {message}
-                    </Alert>
-                </Snackbar>
-                <FichesTable affaireId={id} title={"Liste des fiches :"}/>
+
+
+                <FichesTable affaireId={id} title={"Liste des fiches :"} detail={true}/>
                 {/*<Table head={tableAffaireHeaders} title={tableAffaireTitle} body={affaires} RowComponent={AffaireRow}/>*/}
             </div>
 

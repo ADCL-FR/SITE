@@ -51,7 +51,7 @@ class affaire {
 
 class fiche {
    static get_fiche_etapes = async (ficheId) => {
-       const response = await axiosInstance.get(`/api/fiches/${ficheId}`)
+       const response = await axiosInstance.get(`/api/fiches/etapes/${ficheId}`)
            .then((response) => {
                return response.data;
            })
@@ -60,6 +60,52 @@ class fiche {
            });
        return response;
    }
+
+    // get fiche
+    static get_fiche = async (id) => {
+        return await axiosInstance.get(`/api/fiches/${id}`)
+            .then((response) => {
+                return response.data;
+            })
+            .catch((error) => {
+                throw error;
+            });
+   };
+    // create fiche
+    static create_fiche = async (fiche) => {
+        return await axiosInstance.post(`/api/fiches`, {...fiche})
+            .then((response) => {
+                return response.data;
+            })
+            .catch((error) => {
+                throw error;
+            });
+
+    };
+    // update fiche (patch)
+    static update_fiche = async (id, fiche) => {
+        return await axiosInstance.patch(`/api/fiches/${id}`, {...fiche})
+            .then((response) => {
+                return response.data;
+            })
+            .catch((error) => {
+                throw error;
+            });
+    };
+
+    // delete fiche
+   static delete_fiche = async (ficheId) => {
+       const response = await axiosInstance.delete(`/api/fiches/${ficheId}`)
+           .then((response) => {
+               return response.data;
+           })
+           .catch((error) => {
+               throw error;
+           });
+       return response;
+   }
+
+
 }
 
 class etape {
