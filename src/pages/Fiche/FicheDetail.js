@@ -10,53 +10,34 @@ import MuiAlert from '@mui/material/Alert';
 import Button from "../../components/Elements/Button";
 import Dialog from '@mui/material/Dialog';
 import FormCard from "../../components/Form/FormCard";
-
+import FicheForm from "../../components/Form/fiche/FicheForm";
 //constants
 import {etapeForm} from '../../constants/forms/forms'
 // sections
 // ----------------------------------------------------------------------
-//user
-import {affaireForm} from "../../constants/forms/forms";
-import {tableAffaireHeaders, tableAffaireTitle} from "../../constants/tables/affaire";
-import Table from "../../components/Table/table";
-import AffaireRow from "../../components/Table/AffaireRow";
+
 import API from "../../api/api";
 import PageHeader from "../../components/Headers/PageHeader";
 import FichesTable from "../../components/Table/FichesTable"
 
 // table
 import DataTable from 'react-data-table-component';
-const ExpandedComponent = ({ data }) => <FichesTable affaireId={data.id} />;
-const columns = [
-    {
-        name: 'Numéro',
-        selector: row => row.num_etape,
-        sortable: true,
-    },
-    {
-        name: 'Machine',
-        selector: row => row.machine?.nom_machine || null,
+
+const columns = [{
+    name: 'Numéro', selector: row => row.num_etape, sortable: true,
+}, {
+    name: 'Machine', selector: row => row.machine?.nom_machine || null,
 
 
-    },
-    {
-        name: 'Quantité',
-        selector: row => row.quantite,
-        right: true,
-    },
-    {
-        name: 'Temps',
-        selector: row => row.temps ,
-        right: true,
-    },
-    {
-        name: 'Terminée',
-        selector: row => row.terminee ? 'Oui' : 'Non',
-        right: true,
-    },
+}, {
+    name: 'Quantité', selector: row => row.quantite, right: true,
+}, {
+    name: 'Temps', selector: row => row.temps, right: true,
+}, {
+    name: 'Terminée', selector: row => row.terminee ? 'Oui' : 'Non', right: true,
+},
 
 ];
-
 
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -72,14 +53,15 @@ export default function FicheDetail() {
 
     //form etape
     const [showModal, setShowModal] = useState(false)
-    const [formData, setFormData]  = useState({});
-    const [ formulaire, setFormulaire ] = useState(etapeForm);
+    const [showModalFiche, setShowModalFiche] = useState(false)
+    const [formData, setFormData] = useState({});
+    const [formulaire, setFormulaire] = useState(etapeForm);
 
     // table
     const [loading, setloading] = useState(false);
 
     //Alerte
-    const [open, setOpen] =useState(false);
+    const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('');
     const [success, setSuccess] = useState(false);
 
@@ -113,11 +95,26 @@ export default function FicheDetail() {
         });
         const newForm = {...formulaire};
         newForm.forms[0].inputs.map((input) => {
-            if(input.select && input.select.id === "machine"){
+            if (input.select && input.select.id === "machine") {
                 input.select.options = options;
             }
         });
         setFormulaire(newForm);
+    }
+
+    // alert fiche
+    const handleFicheSubmitResponse = async (succes, message) => {
+       if(succes){
+           setMessage('Action réalisée avec succès');
+           setSuccess(true);
+           setOpen(true);
+           setShowModalFiche(false)
+           getEtapes(id)
+         }else{
+           setMessage('Erreur lors de l\'action');
+           setSuccess(false);
+           setOpen(true);
+       }
     }
 
     //alert
@@ -128,8 +125,13 @@ export default function FicheDetail() {
         setOpen(false);
     }
 
-    function actions(){
-        return <div><Button onClick={() => setShowModal(true)} >Ajouter une étape</Button></div>
+    function actions() {
+        return <div>
+            <Button color="orange" onClick={() => setShowModalFiche(true)}>éditer fiche</Button>
+            <Button
+                onClick={() => setShowModal(true)}>+ étape
+            </Button>
+        </div>
     }
 
     const getEtapes = async (ficheId) => {
@@ -151,9 +153,8 @@ export default function FicheDetail() {
         setMachineOptions();
     }, [id]);
 
-    return (
-        <Page title="Détail Fiche" className="flex flex-col h-full bg-blueGray-100">
-            <PageHeader title={`Affaire ${infos.num_affaire}`} />
+    return (<Page title="Détail Fiche" className="flex flex-col h-full bg-blueGray-100">
+            <PageHeader title={`Affaire ${infos.num_affaire}`}/>
             <div className="md:px-10 mb-20" style={{"marginTop": "-8rem"}}>
                 <Snackbar
                     open={open}
@@ -161,7 +162,7 @@ export default function FicheDetail() {
                     message=""
                     onClose={handleClose}
                 >
-                    <Alert onClose={handleClose} severity={success ? 'success' : 'error' } sx={{ width: '100%' }}>
+                    <Alert onClose={handleClose} severity={success ? 'success' : 'error'} sx={{width: '100%'}}>
                         {message}
                     </Alert>
                 </Snackbar>
@@ -176,15 +177,18 @@ export default function FicheDetail() {
                     pointerOnHover
                     actions={actions()}
                 />
+
                 <Dialog open={showModal} onClose={() => setShowModal(false)}>
-                    <FormCard {...etapeForm} onSubmit={handleSubmit} onChange={handleChange} onSelect={handleSelectChange}/>
+                    <FormCard {...etapeForm} onSubmit={handleSubmit} onChange={handleChange}
+                              onSelect={handleSelectChange}/>
+                </Dialog>
+                <Dialog open={showModalFiche} onClose={() => setShowModalFiche(false)}>
+                    <FicheForm ficheData={infos} update={true} onUpdated={handleFicheSubmitResponse} onCreated={handleFicheSubmitResponse}/>
                 </Dialog>
             </div>
 
 
-
-        </Page>
-    );
+        </Page>);
 
 }
 

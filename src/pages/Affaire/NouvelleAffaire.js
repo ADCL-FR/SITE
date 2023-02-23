@@ -54,7 +54,7 @@ export default function NouvelleAffaire() {
             setMessage('Affaire ajoutée avec succès');
             setSuccess(true);
             setOpen(true);
-            navigate('/adcl/affaire');
+            navigate('/dashboard/affaire');
         }).catch((error) => {
             setMessage('Erreur lors de la création de l\'affaire');
             setSuccess(false);
