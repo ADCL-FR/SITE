@@ -43,13 +43,6 @@ const columns = [
         right: true,
     },
     {
-        name: 'Montant',
-        selector: row => row.montant,
-        hide: "md",
-        right: true,
-        //sortable: true,
-    },
-    {
         name: 'Chargé d\'affaire',
         selector: row => row.charge_affaire_detail?.nom,
         hide: 'sm',
@@ -63,7 +56,7 @@ const columns = [
         //0sortable: true,
     },
     {
-        name: 'Date de rendu',
+        name: 'Délais',
         selector: row => row.date_rendu,
         hide: "md",
         right: true,
