@@ -127,7 +127,7 @@ export default function FicheForm({ficheData, affaireId, update = false}) {
                                             Groupe Machine
                                         </label>
                                         <select {...register("groupe_machine")} placeholder={"séléctioner machine"} style={{width: "100%", borderRadius: "5px", borderColor: "#cbd5e1"}}>
-                                            <option value={null}>Séléctionner un groupe machine</option>
+                                            <option value={null}>Séléctionner un groupe</option>
                                             {formOptions.map((option, key) => (
 
                                                 <option key={key} value={option.value} selected={fiche?.groupe_machine?.id === option.value} >{option.label}</option>
@@ -141,7 +141,7 @@ export default function FicheForm({ficheData, affaireId, update = false}) {
                                         }
                                     >
                                         <label className="block uppercase text-blueGray-700 text-xs font-bold mb-2 ml-1" id="ref_doc">
-                                            Date de cloture
+                                            Délais
                                         </label>
                                         <Input type="date" {...register("date_cloture")} defaultValue={fiche?.date_cloture} />
                                     </div>
