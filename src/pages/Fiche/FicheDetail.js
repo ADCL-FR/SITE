@@ -18,7 +18,6 @@ import {etapeForm} from '../../constants/forms/forms'
 
 import API from "../../api/api";
 import PageHeader from "../../components/Headers/PageHeader";
-import FichesTable from "../../components/Table/FichesTable"
 
 // table
 import DataTable from 'react-data-table-component';
@@ -26,16 +25,16 @@ import DataTable from 'react-data-table-component';
 const columns = [{
     name: 'Numéro', selector: row => row.num_etape, sortable: true,
 }, {
-    name: 'Machine', selector: row => row.machine?.nom_machine || null,
+    name: 'Machine', selector: row => row.machine?.nom_machine || null, center: true
 
 
 }, {
-    name: 'Quantité', selector: row => row.quantite, right: true,
+    name: 'Quantité', selector: row => row.quantite, center: true,
 }, {
-    name: 'Temps', selector: row => row.temps, right: true,
+    name: 'Temps', selector: row => row.temps, center: true,
 }, {
-    name: 'Terminée', selector: row => row.terminee ? 'Oui' : 'Non', right: true,
-},
+    name: 'Terminée', selector: row => row.terminee ? 'Oui' : 'Non', center: true,
+}
 
 ];
 
