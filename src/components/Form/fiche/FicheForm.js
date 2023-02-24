@@ -175,7 +175,7 @@ export default function FicheForm({ficheData, affaireId, update = false}) {
 
                         </div>
                         <div className="flex justify-end">
-                            <Button type={"submit"} {...{children: update ? "Modifier la fiche" : "Créer la fiche", size: "sm", color: ""}} />
+                            <Button type={"submit"} {...{children: update ? "Modifier la fiche" : "Créer la fiche", size: "sm", color: "emerald"}} />
                         </div>
                     </form>
 
