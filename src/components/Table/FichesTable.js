@@ -91,7 +91,6 @@ export default function FichesTable({affaireId, title="", detail= false}) {
 
     useEffect(() => {
             API.affaire.get_affaire_et_fiches(affaireId).then((response) => {
-                console.log(response)
                     setFiches(response.fiches)
                     setLoading(false)
                 }

@@ -11,7 +11,6 @@ const useFicheForm = (formState) => {
 
     const onSubmitForm = (e) => {
         e.preventDefault()
-        console.log('user', user)
     }
 
     return {

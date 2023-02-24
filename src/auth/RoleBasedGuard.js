@@ -16,8 +16,6 @@ export default function RoleBasedGuard({ hasContent, roles = [], children }) {
   // Logic here to get current user role
     const { user } = useAuthContext();
 
-  // const currentRole = 'user';
-    console.log("user111: ", user);
     const currentGroups = user.groups;
 
     // add admin as a group

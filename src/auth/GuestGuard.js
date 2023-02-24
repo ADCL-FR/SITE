@@ -21,7 +21,6 @@ export default function GuestGuard({ children }) {
 
     if (!isInitialized) {
         //return <LoadingScreen />;
-        console.log('loading screen');
         return null;
     }
 

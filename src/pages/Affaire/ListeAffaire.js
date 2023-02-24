@@ -107,7 +107,6 @@ export default function ListeAffaire() {
         const response = await API.affaire.get_affaires(page, perPage, direction+ordering).then((response) => {
             setTotalRows(response.count)
             setloading(false)
-            console.log(response)
            return response.results;
         })
         setAffaires(response);
@@ -115,7 +114,6 @@ export default function ListeAffaire() {
 
     const handleSort = (column, sortDirection) => {
         // simulate server sort
-        console.log(column, sortDirection);
 
         setOrdering(column.sortField)
         setDirection(sortDirection === 'asc' ? '-' : '')

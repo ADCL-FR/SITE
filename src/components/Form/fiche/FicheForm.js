@@ -34,7 +34,6 @@ export default function FicheForm({ficheData, affaireId, update = false}) {
 
     const onSubmit = (data) => {
 
-        console.log(dirtyFields)
         if (update) {
             onUpdateFiche(ficheData.id, dirtyValues(touchedFields, data))
                 .then((response) => {
@@ -64,7 +63,6 @@ export default function FicheForm({ficheData, affaireId, update = false}) {
     };
     useEffect(()=>{
         setFiche(ficheData)
-        console.log('ficheData:', ficheData)
         reset()
         //reset({description: ficheData.description})
         // setValue([
@@ -72,8 +70,6 @@ export default function FicheForm({ficheData, affaireId, update = false}) {
 
         // ])
     }, [ficheData])
-
-    console.log('options:', formOptions)
     const widths = {
         1: "lg:w-1/12",
         2: "lg:w-2/12",
