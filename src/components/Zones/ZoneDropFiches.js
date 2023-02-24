@@ -4,7 +4,6 @@ import React, { useState } from "react";
 // drap and drop
 
 import DropZone from "../DND/DropZone";
-import FicheDropRow from "./FicheDropRow";
 import AffaireDropDown from "./AffaireDropDown";
 export default function ZoneDropAffaires({
   id,
@@ -41,9 +40,10 @@ export default function ZoneDropAffaires({
       <p style={title_style}>{title}</p>
       {isZone && (
         <div style={children_style}>
-          {affaires?.map((affaire) => {
+          {affaires?.map((affaire, key) => {
             return (
               <AffaireDropDown
+                key={key}
                 extended={false}
                 affaire={affaire}
                 onDeleteFiche={(item) => onDeleteFiche(item)}
@@ -51,23 +51,16 @@ export default function ZoneDropAffaires({
               />
             );
           })}
-          {/* {affaires?.fiches?.map((fiche) => {
-            return (
-              <FicheDropRow
-                fiche={fiche}
-                onDeleteFiche={(item) => onDeleteFiche(item)}
-                isPlanned={true}
-              />
-            );
-          })} */}
+
           {children}
         </div>
       )}
       {!isZone && (
         <div style={children_style}>
-          {affaires?.map((affaire) => {
+          {affaires?.map((affaire, key) => {
             return (
               <AffaireDropDown
+                  key={key}
                 extended={false}
                 affaire={affaire}
                 onDeleteFiche={(item) => onDeleteFiche(item)}
@@ -86,7 +79,7 @@ const title_style = {
   flexDirection: "row",
   justifyContent: "center",
   alignItems: "center",
-  "border-bottom": "1px solid #000000",
+  "borderBottom": "1px solid #000000",
 };
 
 const children_style = {

@@ -15,9 +15,9 @@ export default function AffaireDropDown({
       <div style={header_style} onClick={() => toggleExtended()}>
         <p>{affaire.raison}</p>
         {isExtended ? (
-          <i class="fas fa-duotone fa-chevron-down"></i>
+          <i className="fas fa-duotone fa-chevron-down"></i>
         ) : (
-          <i class="fas fa-duotone fa-chevron-right"></i>
+          <i className="fas fa-duotone fa-chevron-right"></i>
         )}
 
         {/* <p>{affaire.charge_affaire}</p> */}
@@ -25,9 +25,10 @@ export default function AffaireDropDown({
 
       {isExtended && (
         <div style={list_style}>
-          {affaire.fiches.map((fiche) => {
+          {affaire.fiches.map((fiche, key) => {
             return (
               <FicheDropRow
+                key={key}
                 fiche={fiche}
                 onDeleteFiche={(item) => onDeleteFiche(item)}
                 isPlanned={isZone}

@@ -23,18 +23,21 @@ const columns = [{
 },
     {
         name: 'Groupe Machine',
-        selector: row => row.groupe_machine.nom_groupe_machine,
+        selector: row => row.groupe_machine?.nom_groupe_machine,
+        center: true,
 
     },
     {
         name: 'Fournitures',
         selector: row => row.fourniture,
-        format: row => row.fourniture ? 'Livrées' : 'En attente'
+        format: row => row.fourniture ? 'Livrées' : 'En attente',
+        center: true,
 
     }, {
         name: 'Terminée',
         selector: row => row.terminee,
-        format: row => row.terminee ? 'Oui' : 'Non'
+        format: row => row.terminee ? 'Oui' : 'Non',
+        center: true,
 
     },
     // {
@@ -91,7 +94,6 @@ export default function FichesTable({affaireId, title="", detail= false}) {
 
     useEffect(() => {
             API.affaire.get_affaire_et_fiches(affaireId).then((response) => {
-                console.log(response)
                     setFiches(response.fiches)
                     setLoading(false)
                 }
@@ -126,16 +128,37 @@ export default function FichesTable({affaireId, title="", detail= false}) {
 }
 
 const customStyles = {
+    header: {
+        style: {
+
+            // ligt grey but visible
+            //borderTop: "2px solid #e0e0e0",
+            borderLeft: "2px solid #e0e0e0",
+            borderRight: "2px solid #e0e0e0",
+        }
+    },
+    tableWrapper: {
+        style: {
+
+            // ligt grey but visible
+            borderBottom: "2px solid #e0e0e0",
+            borderLeft: "2px solid #e0e0e0",
+            borderRight: "2px solid #e0e0e0",
+        }
+    },
     rows: {
         style: {
-            paddingLeft: '25px',
-        },
+            paddingLeft: "8px", // override the cell padding for data cells
+        }
     },
-    headCells: {
+    headRow: {
         style: {
-            marginLeft: '25px'
-        },
-    },
+            paddingLeft: "8px", // override the cell padding for head cells
+        }
+    }
+
+
+
 
 };
 

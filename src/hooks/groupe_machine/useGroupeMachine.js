@@ -9,7 +9,6 @@ const useGroupesMachine = () => {
      function loadGroupes () {
             API.groupeMachine.get_groupes_machines().then((response) => {
                 setGroupes(response.results)
-                console.log(response.results)
                 setLoading(false)
                 // append options for form
                 let options = []

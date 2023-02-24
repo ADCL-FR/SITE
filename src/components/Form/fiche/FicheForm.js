@@ -34,7 +34,6 @@ export default function FicheForm({ficheData, affaireId, update = false}) {
 
     const onSubmit = (data) => {
 
-        console.log(dirtyFields)
         if (update) {
             onUpdateFiche(ficheData.id, dirtyValues(touchedFields, data))
                 .then((response) => {
@@ -64,7 +63,6 @@ export default function FicheForm({ficheData, affaireId, update = false}) {
     };
     useEffect(()=>{
         setFiche(ficheData)
-        console.log('ficheData:', ficheData)
         reset()
         //reset({description: ficheData.description})
         // setValue([
@@ -72,8 +70,6 @@ export default function FicheForm({ficheData, affaireId, update = false}) {
 
         // ])
     }, [ficheData])
-
-    console.log('options:', formOptions)
     const widths = {
         1: "lg:w-1/12",
         2: "lg:w-2/12",
@@ -131,10 +127,10 @@ export default function FicheForm({ficheData, affaireId, update = false}) {
                                             Groupe Machine
                                         </label>
                                         <select {...register("groupe_machine")} placeholder={"séléctioner machine"} style={{width: "100%", borderRadius: "5px", borderColor: "#cbd5e1"}}>
-
+                                            <option value={null}>Séléctionner un groupe</option>
                                             {formOptions.map((option, key) => (
 
-                                                <option key={key} value={option.value} selected={fiche?.groupe_machine.id === option.value} >{option.label}</option>
+                                                <option key={key} value={option.value} selected={fiche?.groupe_machine?.id === option.value} >{option.label}</option>
                                             ))}
                                         </select>
                                         {/*<Select  defaultValue={{label : fiche.groupe_machine, value: 1}} options={[{label : fiche.groupe_machine, value: 1}]}/>*/}
@@ -145,7 +141,7 @@ export default function FicheForm({ficheData, affaireId, update = false}) {
                                         }
                                     >
                                         <label className="block uppercase text-blueGray-700 text-xs font-bold mb-2 ml-1" id="ref_doc">
-                                            Date de cloture
+                                            Délais
                                         </label>
                                         <Input type="date" {...register("date_cloture")} defaultValue={fiche?.date_cloture} />
                                     </div>
@@ -161,10 +157,13 @@ export default function FicheForm({ficheData, affaireId, update = false}) {
                                     </div>
 
                                     <div className="flex items-center mb-2 ml-1 " style={{gap: "15px"}}>
-                                        <label className="inline-flex items-center cursor-pointer">
-                                            <input {...register("terminee")} type="checkbox" defaultChecked={fiche?.terminee} className="mr-3" />
-                                            Fiche terminée ?
-                                        </label>
+                                        { update &&
+                                            <label className="inline-flex items-center cursor-pointer">
+                                                <input {...register("terminee")} type="checkbox" defaultChecked={fiche?.terminee} className="mr-3" />
+                                                Fiche terminée ?
+                                            </label>
+                                        }
+
                                         <label className="inline-flex items-center cursor-pointer">
                                             <input {...register("fourniture")} type="checkbox" defaultChecked={fiche?.fourniture} className="mr-3" />
                                             Fournitures arrivées ?
@@ -176,7 +175,7 @@ export default function FicheForm({ficheData, affaireId, update = false}) {
 
                         </div>
                         <div className="flex justify-end">
-                            <Button type={"submit"} {...{children: "Modifier la fiche", size: "sm", color: "lightBlue"}} />
+                            <Button type={"submit"} {...{children: update ? "Modifier la fiche" : "Créer la fiche", size: "sm", color: "emerald"}} />
                         </div>
                     </form>
 

@@ -185,7 +185,6 @@ export default function PlanningZone() {
 
       API.update_affectation(affectation).then((response) => {
         fiche.affectation_zone = response;
-        console.log("affectation updated : ", response);
         change_fiche_from_zoneA_to_zoneB(fiche, oldZoneId, zoneId);
       });
 

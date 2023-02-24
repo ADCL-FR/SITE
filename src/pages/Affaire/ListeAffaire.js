@@ -30,7 +30,7 @@ const columns = [
         sortField: 'num_affaire',
     },
     {
-        name: 'Raison',
+        name: 'Description',
         selector: row => row.raison || null,
         hide: "md",
         right: false,
@@ -40,40 +40,33 @@ const columns = [
         name: 'Client',
         selector: row => row.client_detail?.raison,
         hide: "md",
-        right: true,
-    },
-    {
-        name: 'Montant',
-        selector: row => row.montant,
-        hide: "md",
-        right: true,
-        //sortable: true,
+        center: true,
     },
     {
         name: 'Chargé d\'affaire',
         selector: row => row.charge_affaire_detail?.nom,
         hide: 'sm',
-        right: true,
+        center: true,
     },
     {
         name: 'Date de création',
         selector: row => row.date_creation,
         hide: "md",
-        right: true,
+        center: true,
         //0sortable: true,
     },
     {
-        name: 'Date de rendu',
+        name: 'Délais',
         selector: row => row.date_rendu,
         hide: "md",
-        right: true,
+        center: true,
         sortable: true,
         sortField: 'date_rendu',
     },
     {
         name: 'Statut',
         selector: row => row.statut_detail?.description,
-        right: true,
+        center: true,
         //sortable: true,
     },
 
@@ -114,7 +107,6 @@ export default function ListeAffaire() {
         const response = await API.affaire.get_affaires(page, perPage, direction+ordering).then((response) => {
             setTotalRows(response.count)
             setloading(false)
-            console.log(response)
            return response.results;
         })
         setAffaires(response);
@@ -122,7 +114,6 @@ export default function ListeAffaire() {
 
     const handleSort = (column, sortDirection) => {
         // simulate server sort
-        console.log(column, sortDirection);
 
         setOrdering(column.sortField)
         setDirection(sortDirection === 'asc' ? '-' : '')
