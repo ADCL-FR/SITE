@@ -24,17 +24,20 @@ const columns = [{
     {
         name: 'Groupe Machine',
         selector: row => row.groupe_machine?.nom_groupe_machine,
+        center: true,
 
     },
     {
         name: 'Fournitures',
         selector: row => row.fourniture,
-        format: row => row.fourniture ? 'Livrées' : 'En attente'
+        format: row => row.fourniture ? 'Livrées' : 'En attente',
+        center: true,
 
     }, {
         name: 'Terminée',
         selector: row => row.terminee,
-        format: row => row.terminee ? 'Oui' : 'Non'
+        format: row => row.terminee ? 'Oui' : 'Non',
+        center: true,
 
     },
     // {
