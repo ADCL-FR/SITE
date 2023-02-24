@@ -126,16 +126,37 @@ export default function FichesTable({affaireId, title="", detail= false}) {
 }
 
 const customStyles = {
+    header: {
+        style: {
+
+            // ligt grey but visible
+            //borderTop: "2px solid #e0e0e0",
+            borderLeft: "2px solid #e0e0e0",
+            borderRight: "2px solid #e0e0e0",
+        }
+    },
+    tableWrapper: {
+        style: {
+
+            // ligt grey but visible
+            borderBottom: "2px solid #e0e0e0",
+            borderLeft: "2px solid #e0e0e0",
+            borderRight: "2px solid #e0e0e0",
+        }
+    },
     rows: {
         style: {
-            paddingLeft: '25px',
-        },
+            paddingLeft: "8px", // override the cell padding for data cells
+        }
     },
-    headCells: {
+    headRow: {
         style: {
-            marginLeft: '25px'
-        },
-    },
+            paddingLeft: "8px", // override the cell padding for head cells
+        }
+    }
+
+
+
 
 };
 
