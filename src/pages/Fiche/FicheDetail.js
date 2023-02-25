@@ -11,6 +11,7 @@ import Button from "../../components/Elements/Button";
 import Dialog from '@mui/material/Dialog';
 import FormCard from "../../components/Form/FormCard";
 import FicheForm from "../../components/Form/fiche/FicheForm";
+import Input from "../../components/Elements/Input";
 //constants
 import {etapeForm} from '../../constants/forms/forms'
 // sections
@@ -21,6 +22,7 @@ import PageHeader from "../../components/Headers/PageHeader";
 
 // table
 import DataTable from 'react-data-table-component';
+import FichesTable from "../../components/Table/FichesTable";
 
 const columns = [{
     name: 'Numéro', selector: row => row.num_etape, sortable: true,
@@ -43,7 +45,14 @@ const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={60} ref={ref} variant="filled" {...props} />;
 });
 
+const ExpandedEtape = ({ data }) => (
+    <div style={syle_expanded_container}>
+    <Input disabled type={"textarea"} value={data.description}/>
+    </div>);
 
+const syle_expanded_container = {
+    width: '100%',
+}
 export default function FicheDetail() {
 
     let {id} = useParams()
@@ -170,6 +179,9 @@ export default function FicheDetail() {
                     columns={columns}
                     data={etapes}
                     progressPending={loading}
+                    expandableRows
+                    expandableRowsComponent={ExpandedEtape}
+                    expandOnRowClicked
                     selectableRows={true}
                     dense
                     highlightOnHover
