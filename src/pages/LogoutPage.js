@@ -5,6 +5,7 @@ import React, {useEffect} from 'react';
 // components
 import Page from './Page';
 
+import { PATH_AUTH} from "../routes/paths";
 // ----------------------------------------------------------------------
 import {useAuthContext} from "../auth/useAuthContext";
 export default function LoginPage() {
@@ -12,8 +13,8 @@ export default function LoginPage() {
     // déconnexion
     useEffect(() => {
         logout();
-        window.location.href = '/login';
-    }, [logout]);
+        window.location.href = PATH_AUTH.login;
+    }, []);
     return (
         <Page title="Se déconnecter">
             {/*déconnexiion*/}
