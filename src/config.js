@@ -1,5 +1,5 @@
 // routes
-import { PATH_DASHBOARD } from "./routes/paths";
+import { PATH_DASHBOARD, PATH_AUTH } from "./routes/paths";
 
 import SvgColor from "./components/SvgColor";
 
@@ -67,6 +67,16 @@ export const navConfig = {
       icon: "fas fa-calendar-alt",
       text: "Zones",
       link: { href: PATH_DASHBOARD.planning.zones },
+    },
+      // logout with icon logout
+    { divider: true },
+    {
+        icon: "fas fa-sign-out-alt",
+        text: "Déconnexion",
+        link: { href: PATH_AUTH.logout },
+        red: true,
+
+
     },
   ],
 };
