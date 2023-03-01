@@ -43,6 +43,9 @@ const Loadable = (Component) => (props) =>
 export const LoginPage = Loadable(
   lazyWithRetry(() => import("../pages/LoginPage"))
 );
+export const LogoutPage = Loadable(
+    lazyWithRetry(() => import("../pages/LogoutPage"))
+);
 export const NouvelleAffaire = Loadable(
   lazyWithRetry(() => import("../pages/Affaire/NouvelleAffaire"))
 );
