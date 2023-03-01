@@ -15,7 +15,8 @@ import {
   PlanningMachine,
   PlanningZone,
   DetailsFiche,
-    DetailsAffaire
+    DetailsAffaire,
+    LogoutPage
 } from "./elements";
 
 // ----------------------------------------------------------------------
@@ -32,6 +33,14 @@ export default function Router() {
             <GuestGuard>
               <LoginPage />
             </GuestGuard>
+          ),
+        },
+        {
+          path: "logout",
+          element: (
+
+                <LogoutPage />
+
           ),
         },
       ],
