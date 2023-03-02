@@ -19,10 +19,56 @@ for (let i = 1; i <= 52; i++) {
   options.push({ value: i, label: i });
 }
 
+const zoness = [
+  {
+    id: 1,
+    nom: "Zone 1",
+    description: "ceci est la zone 1",
+    affaires: [
+      {
+        id: 1,
+        raison: "Affaire 1",
+        fiches: [
+          {
+            id: 8,
+            affectation_zone: {
+              id: 60,
+              semaine_affectation: "2023-02-19",
+              fiche: 8,
+              zone: 1,
+            },
+            description: "fiche 2 pr affaire 1",
+            observation: null,
+            ref_doc: null,
+            terminee: false,
+            fourniture: false,
+            date_creation: "2023-02-09",
+            date_modification: "2023-02-09T10:19:39.444219+01:00",
+            date_cloture: null,
+            affaire: 1,
+          },
+        ],
+        charge_affaire: "ezfzef",
+      },
+    ],
+  },
+  {
+    id: 2,
+    nom: "Zone 2",
+    description: "ceci est la zone 2",
+    affaires: [],
+  },
+  {
+    id: 4,
+    nom: "Zone 3",
+    description: "description",
+    affaires: [],
+  },
+];
 
 export default function PlanningZone() {
   const [affaires, setAffaires] = useState([]);
-  const [zones, setZones] = useState([]);
+  const [zones, setZones] = useState(zoness);
   const [week, setWeek] = useState(getWeekNumber(new Date()));
 
   // change state of zones, move fiches from one zone to another with affaire infos

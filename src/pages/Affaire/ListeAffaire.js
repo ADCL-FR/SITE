@@ -32,7 +32,7 @@ const columns = [
     		<a href={`/dashboard/affaire/${row.id}`} style={{color: "blue", textDecoration: "underline"}} >
                 {row.num_affaire}
 		    </a>
-	)
+	    )
     },
     {
         name: 'Description',
