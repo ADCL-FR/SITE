@@ -7,7 +7,7 @@ const useFiche = () => {
     const {loading, setLoading} = useState(false)
 
     async function loadFiche (id) {
-        setFiche({titre: "heeh"})
+        // setLoading(true)
     }
 
     const onCreateFiche = (data) => {
