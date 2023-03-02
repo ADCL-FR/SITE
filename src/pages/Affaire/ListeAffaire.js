@@ -28,11 +28,6 @@ const columns = [
         selector: row => row.num_affaire,
         sortable: true,
         sortField: 'num_affaire',
-        cell: row => (
-    		<a href={`/dashboard/affaire/${row.id}`} style={{color: "blue", textDecoration: "underline"}} >
-                {row.num_affaire}
-		    </a>
-	)
     },
     {
         name: 'Description',
