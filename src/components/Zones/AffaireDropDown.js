@@ -1,11 +1,12 @@
 import { useState } from "react";
 import FicheDropRow from "./FicheDropRow";
 export default function AffaireDropDown({
-  extended,
+  extended=true,
   affaire,
   isZone = false,
   onDeleteFiche = () => {},
 }) {
+
   const [isExtended, setIsExtended] = useState(extended);
   const toggleExtended = () => {
     setIsExtended(!isExtended);
