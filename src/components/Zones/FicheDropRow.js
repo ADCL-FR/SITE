@@ -17,7 +17,7 @@ export default function FicheDropRow({
       isDragging={(val) => setIsDragging(val)}
     >
       <div style={style}>
-        {fiche.description}
+        {fiche.titre}
         {isPlanned && (
           <button onClick={() => onDeleteFiche(fiche)}>
             {" "}

@@ -16,8 +16,14 @@ import FicheForm from "../Form/fiche/FicheForm";
 import Dialog from "@mui/material/Dialog";
 
 const columns = [{
+    name: "Titre",
+    selector: row => row.titre,
+    sortable: true,
+},{
     name: 'Description',
     selector: row => row.description,
+    grow: 2,
+    hide: "md",
     //right: true
 
 },
@@ -25,6 +31,7 @@ const columns = [{
         name: 'Groupe Machine',
         selector: row => row.groupe_machine?.nom_groupe_machine,
         center: true,
+        sortable: true,
 
     },
     {

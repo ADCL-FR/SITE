@@ -106,7 +106,16 @@ export default function FicheForm({ficheData, affaireId, update = false}) {
                                         <Input placeholder={fiche.num_affaire} disabled />
                                     </div>}
 
-
+                                    <div
+                                        className={
+                                            "px-4 pb-2 relative w-full " + widths[6]
+                                        }
+                                    >
+                                        <label className="block uppercase text-blueGray-700 text-xs font-bold mb-2 ml-1" id="titre">
+                                            Titre
+                                        </label>
+                                        <Input type="text" {...register("titre")} defaultValue={fiche?.titre} />
+                                    </div>
 
                                     <div
                                         className={
