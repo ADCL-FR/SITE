@@ -41,16 +41,20 @@ export default function ZoneDropAffaires({
       {isZone && (
         <div style={children_style}>
           {affaires?.map((affaire, key) => {
-            return (
-              <AffaireDropDown
-                key={key}
-                extended={false}
-                affaire={affaire}
-                onDeleteFiche={(item) => onDeleteFiche(item)}
-                isZone={true}
-              />
-            );
+            return (affaire.fiches.length > 0 &&
+
+                <AffaireDropDown
+                    key={key}
+                    extended={true}
+                    affaire={affaire}
+                    onDeleteFiche={(item) => onDeleteFiche(item)}
+                    isZone={true}
+                />
+
+            )
+
           })}
+
 
           {children}
         </div>
