@@ -6,6 +6,7 @@ export default function AffaireDropDown({
   isZone = false,
   onDeleteFiche = () => {},
 }) {
+
   const [isExtended, setIsExtended] = useState(extended);
   const toggleExtended = () => {
     setIsExtended(!isExtended);
