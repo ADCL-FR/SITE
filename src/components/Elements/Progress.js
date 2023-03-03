@@ -45,11 +45,6 @@ export default function Progress({ value, text, color }) {
       <div className="relative w-full">
         {text && (
           <div className="flex mb-2 items-center justify-between">
-            <div>
-              <Badge color={color} round>
-                {text}
-              </Badge>
-            </div>
             <div className="text-right">
               <span
                 className={
