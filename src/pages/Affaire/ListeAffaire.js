@@ -6,14 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import Page from "../Page";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import Progress from "../../components/Elements/Progress";
 
 // sections
 // ----------------------------------------------------------------------
-//user
-import {affaireForm} from "../../constants/forms/forms";
-import {tableAffaireHeaders, tableAffaireTitle} from "../../constants/tables/affaire";
-import Table from "../../components/Table/table";
-import AffaireRow from "../../components/Table/AffaireRow";
 import API from "../../api/api";
 import PageHeader from "../../components/Headers/PageHeader";
 import FichesTable from "../../components/Table/FichesTable"
@@ -40,6 +36,19 @@ const columns = [
         hide: "md",
         right: false,
         grow: 2,
+    },
+    {
+        name: 'Avancement',
+        selector: row => row.avancement_affaire,
+        center: true,
+        sortable: false,
+        cell: row => (
+            <div className="flex items-center w-full">
+                <Progress value={row.avancement_affaire}  text={row.avancement_affaire == 0 ? " " : row.avancement_affaire} color="indigo" />
+            </div>
+        ),
+
+
     },
     {
         name: 'Client',
