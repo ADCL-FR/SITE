@@ -32,7 +32,7 @@ const columns = [
     },
     {
         name: 'Description',
-        selector: row => row.raison || null,
+        selector: row => row.description || null,
         hide: "md",
         right: false,
         grow: 2,
