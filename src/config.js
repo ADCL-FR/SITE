@@ -4,8 +4,8 @@ import { PATH_DASHBOARD, PATH_AUTH } from "./routes/paths";
 import SvgColor from "./components/SvgColor";
 
 export const APP_NAME = "SGM";
-export const API_URL = "https://adcl-api.herokuapp.com";
-//export const API_URL = "http://127.0.0.1:8000";
+//export const API_URL = "https://adcl-api.herokuapp.com";
+export const API_URL = "http://127.0.0.1:8000";
 export const PATH_AFTER_LOGIN = PATH_DASHBOARD.affaire.root;
 
 const icon = (name) => (
@@ -38,11 +38,11 @@ export const navConfig = {
       text: "Liste",
       link: { href: PATH_DASHBOARD.affaire.root },
     },
-    {
-      icon: "fas fa-tools",
-      text: "Nouvelle Affaire",
-      link: { href: PATH_DASHBOARD.affaire.new },
-    },
+    // {
+    //   icon: "fas fa-tools",
+    //   text: "Nouvelle Affaire",
+    //   link: { href: PATH_DASHBOARD.affaire.new },
+    // },
     /*{ divider: true },
     { title: "Fiche" },
     {
@@ -62,21 +62,19 @@ export const navConfig = {
       text: "Machines",
       link: { href: PATH_DASHBOARD.planning.machines },
     },*/
-      //planning with icon calendar
+    //planning with icon calendar
     {
       icon: "fas fa-calendar-alt",
       text: "Zones",
       link: { href: PATH_DASHBOARD.planning.zones },
     },
-      // logout with icon logout
+    // logout with icon logout
     { divider: true },
     {
-        icon: "fas fa-sign-out-alt",
-        text: "Déconnexion",
-        link: { href: PATH_AUTH.logout },
-        red: true,
-
-
+      icon: "fas fa-sign-out-alt",
+      text: "Déconnexion",
+      link: { href: PATH_AUTH.logout },
+      red: true,
     },
   ],
 };
