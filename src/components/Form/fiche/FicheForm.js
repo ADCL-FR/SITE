@@ -134,7 +134,7 @@ export default function FicheForm({ ficheData, affaire, update = false }) {
                     <Input
                       type="text"
                       {...register("titre")}
-                      defaultValue={affaire?.num_affaire}
+                      defaultValue={update ? fiche.titre : affaire?.num_affaire}
                     />
                   </div>
 
@@ -148,7 +148,9 @@ export default function FicheForm({ ficheData, affaire, update = false }) {
                     <Input
                       type="text"
                       {...register("ref_doc")}
-                      defaultValue={affaire?.num_affaire}
+                      defaultValue={
+                        update ? fiche.ref_doc : affaire?.num_affaire
+                      }
                     />
                   </div>
                   <div className={"px-4 pb-2 relative w-full " + widths[6]}>
