@@ -48,6 +48,7 @@ export default function AffaireDetail() {
       <PageHeader title={`Affaire ${affaire.num_affaire}`} />
       <div className="md:px-10 mb-20" style={{ marginTop: "-8rem" }}>
         <FichesTable
+          affaireId={id}
           affaire={affaire}
           title={"Liste des fiches :"}
           detail={true}
