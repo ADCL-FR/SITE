@@ -42,7 +42,7 @@ const Input = React.forwardRef(
         <div className={wrapperClasses} ref={ref}>
           {leftAddon}
           {type && type === "textarea" ? (
-            <textarea {...rest} type={type} className={inputClasses} />
+            <textarea {...rest} className={inputClasses} />
           ) : (
             <input {...rest} type={type} className={inputClasses} />
           )}
