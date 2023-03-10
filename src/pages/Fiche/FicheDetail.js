@@ -195,6 +195,7 @@ export default function FicheDetail() {
           progressPending={loading}
           expandableRows
           expandableRowsComponent={ExpandedEtape}
+          expandableRowExpanded={() => true}
           expandOnRowClicked
           selectableRows={true}
           dense
