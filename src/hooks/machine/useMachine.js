@@ -5,7 +5,7 @@ const useMachine = () => {
   const [formOptions, setFormOptions] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  function loadGroupes() {
+  function loadMachines() {
     API.machine.get_machines().then((response) => {
       setMachines(response.results);
       setLoading(false);
@@ -19,11 +19,12 @@ const useMachine = () => {
   }
   // async useEffect
   useEffect(() => {
-    loadGroupes();
+    loadMachines();
   }, []);
 
   return {
-    groupes,
+    machines,
+    loadMachines,
     formOptions,
     loading,
   };
