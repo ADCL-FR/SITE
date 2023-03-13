@@ -34,6 +34,16 @@ const columns = [
     center: true,
   },
   {
+    name: "REP",
+    selector: (row) => row.rep,
+    center: true,
+  },
+  {
+    name: "Plan",
+    selector: (row) => row.plan,
+    center: true,
+  },
+  {
     name: "Quantité",
     selector: (row) => row.quantite,
     center: true,
