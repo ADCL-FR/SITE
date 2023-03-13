@@ -1,22 +1,30 @@
-import useFiche from "../../../hooks/fiche/useFiche";
+import useEtape from "../../../hooks/etape/useEtape";
 import Input from "../../Elements/Input";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "../../Elements/Button";
-
+import { DEFAULT_MACHINE } from "../../../config";
+import useMachine from "../../../hooks/machine/useMachine";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={60} ref={ref} variant="filled" {...props} />;
 });
 
-export default function FicheForm({ ficheData, affaire, update = false }) {
-  const { fiche, setFiche, onUpdateFiche, onCreateFiche } = useFiche();
+export default function EtapeForm({
+  etapeData,
+  nbEtapes = 0,
+  update = false,
+  ficheId,
+}) {
+  const { etape, createEtape, updateEtape, setEtape } = useEtape();
 
   const [showAlert, setShowAlert] = useState(false);
 
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
+
+  const { formOptions } = useMachine();
 
   function dirtyValues(touchedFields, allValues) {
     // If *any* item in an array was modified, the entire array must be submitted, because there's no way to indicate
@@ -40,49 +48,35 @@ export default function FicheForm({ ficheData, affaire, update = false }) {
   const onSubmit = (data, e) => {
     e.preventDefault();
     if (update) {
-      onUpdateFiche(ficheData.id, dirtyValues(touchedFields, data))
+      updateEtape(etapeData.id, dirtyValues(touchedFields, data))
         .then((response) => {
           setSuccess(true);
-          setMessage("Fiche modifiée avec succès");
+          setMessage("Etape modifiée avec succès");
           setShowAlert(true);
         })
         .catch((error) => {
           setSuccess(false);
-          setMessage("Erreur lors de la modification de la fiche");
+          setMessage("Erreur lors de la modification de l'etape : ");
           setShowAlert(true);
         });
     } else {
-      console.log(data);
-      // check if the date isn't in ""
-      if (data.date_cloture === "") {
-        data.date_cloture = null;
-      }
-
-      onCreateFiche({
-        ...data,
-        affaire: affaire.id,
-      })
-        .then(() => {
-          setSuccess(true);
-          setMessage("Fiche créée avec succès");
-          setShowAlert(true);
-        })
-        .catch((error) => {
-          setSuccess(false);
-          setMessage("Erreur lors de la création de la fiche : " + error);
-          setShowAlert(true);
-        });
+      createEtape({ fiche: ficheId, ...data }).then((response) => {
+        setSuccess(true);
+        setMessage("Etape créée avec succès");
+        setShowAlert(true);
+      });
     }
   };
+
   useEffect(() => {
-    setFiche(ficheData);
+    setEtape(etapeData);
     reset();
     //reset({description: ficheData.description})
     // setValue([
     //     {description: ficheData.description}
 
     // ])
-  }, [ficheData]);
+  }, [etapeData]);
   const widths = {
     1: "lg:w-1/12",
     2: "lg:w-2/12",
@@ -106,65 +100,70 @@ export default function FicheForm({ ficheData, affaire, update = false }) {
             <div className="container mx-auto px-4">
               <div>
                 <h4 className="text-2xl font-semibold mt-4 mb-6">
-                  {update ? "Mise à jour fiche" : "Création Fiche"}
+                  {update ? "Mise à étape" : "Création étape"}
                 </h4>
                 <div className="flex flex-wrap -mx-4">
-                  {update && (
-                    <div className={"px-4 pb-2 relative w-full " + widths[6]}>
-                      <label
-                        className="block uppercase text-blueGray-700 text-xs font-bold mb-2 ml-1"
-                        id="num_affaire"
-                      >
-                        Numéro d'affaire
-                      </label>
-                      <Input placeholder={fiche.num_affaire} disabled />
-                    </div>
-                  )}
-
                   <div className={"px-4 pb-2 relative w-full " + widths[6]}>
                     <label
                       className="block uppercase text-blueGray-700 text-xs font-bold mb-2 ml-1"
-                      id="titre"
+                      id="num_etape"
                     >
-                      Titre
+                      Numéro d'étape
                     </label>
                     <Input
-                      type="text"
-                      {...register("titre")}
-                      defaultValue={update ? fiche.titre : affaire?.num_affaire}
+                      type="number"
+                      required
+                      {...register("num_etape")}
+                      defaultValue={update ? etape.num_etape : nbEtapes + 1}
                     />
                   </div>
 
                   <div className={"px-4 pb-2 relative w-full " + widths[6]}>
                     <label
                       className="block uppercase text-blueGray-700 text-xs font-bold mb-2 ml-1"
-                      id="ref_doc"
+                      id="quantite"
                     >
-                      Référence document
+                      Quantité
                     </label>
                     <Input
-                      type="text"
-                      {...register("ref_doc")}
-                      defaultValue={
-                        update ? fiche.ref_doc : affaire?.num_affaire
-                      }
+                      type="number"
+                      {...register("quantite")}
+                      defaultValue={update ? etape.quantite : 1}
                     />
                   </div>
                   <div className={"px-4 pb-2 relative w-full " + widths[6]}>
                     <label
                       className="block uppercase text-blueGray-700 text-xs font-bold mb-2 ml-1"
-                      id="ref_doc"
+                      id="temps"
                     >
-                      Délais
+                      Temps nécessaire
                     </label>
                     <Input
-                      type="date"
-                      {...register("date_cloture")}
-                      defaultValue={
-                        update ? fiche?.date_cloture : affaire?.date_rendu
-                      }
+                      type="number"
+                      {...register("temps")}
+                      defaultValue={update ? etape.temps : 1}
                     />
                   </div>
+                  <div className={"px-4 pb-2 relative w-full " + widths[12]}>
+                    <label
+                      className="block uppercase text-blueGray-700 text-xs font-bold mb-2 ml-1"
+                      id="machine"
+                    >
+                      Machine
+                    </label>
+                    <select
+                      value={null}
+                      required
+                      placeholder="Sélectionner une machine"
+                      {...register("machine")}
+                    >
+                      <option value={""}>Sélectionner une machine</option>
+                      {formOptions.map((option) => (
+                        <option value={option.value}>{option.label}</option>
+                      ))}
+                    </select>
+                  </div>
+
                   <div className={"px-4 pb-2 relative w-full " + widths[12]}>
                     <label
                       className="block uppercase text-blueGray-700 text-xs font-bold mb-2 ml-1"
@@ -175,7 +174,7 @@ export default function FicheForm({ ficheData, affaire, update = false }) {
                     <Input
                       type="textarea"
                       {...register("description")}
-                      defaultValue={fiche?.description}
+                      defaultValue={etape?.description}
                       placeholder={"Description fiche"}
                     />
                   </div>
@@ -189,22 +188,12 @@ export default function FicheForm({ ficheData, affaire, update = false }) {
                         <input
                           {...register("terminee")}
                           type="checkbox"
-                          defaultChecked={fiche?.terminee}
+                          defaultChecked={etape?.terminee}
                           className="mr-3"
                         />
-                        Fiche terminée ?
+                        Étape terminée ?
                       </label>
                     )}
-
-                    <label className="inline-flex items-center cursor-pointer">
-                      <input
-                        {...register("fourniture")}
-                        type="checkbox"
-                        defaultChecked={fiche?.fourniture}
-                        className="mr-3"
-                      />
-                      Fournitures arrivées ?
-                    </label>
                   </div>
                 </div>
               </div>
@@ -213,7 +202,7 @@ export default function FicheForm({ ficheData, affaire, update = false }) {
               <Button
                 type={"submit"}
                 {...{
-                  children: update ? "Modifier la fiche" : "Créer la fiche",
+                  children: update ? "Modifier l'étape" : "Créer l'étape",
                   size: "sm",
                   color: "emerald",
                 }}
