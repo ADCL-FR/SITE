@@ -1,7 +1,7 @@
 // React
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import Progress from "../Elements/Progress";
 // drap and drop
 
 // ----------------------------------------------------------------------
@@ -26,6 +26,21 @@ const columns = [
     grow: 2,
     hide: "md",
     //right: true
+  },
+  {
+    name: "Avancement",
+    selector: (row) => row.avancement_fiche,
+    center: true,
+    sortable: false,
+    cell: (row) => (
+      <div className="flex items-center w-full">
+        <Progress
+          value={row.avancement_fiche}
+          //text={row.avancement_fiche == 0 ? " " : row.avancement_fiche}
+          color="indigo"
+        />
+      </div>
+    ),
   },
   {
     name: "Fournitures",
