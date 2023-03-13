@@ -7,7 +7,6 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import Button from "../../components/Elements/Button";
 import Dialog from "@mui/material/Dialog";
-import FormCard from "../../components/Form/FormCard";
 import FicheForm from "../../components/Form/fiche/FicheForm";
 import EtapeForm from "../../components/Form/etape/EtapeForm";
 import Input from "../../components/Elements/Input";
@@ -31,6 +30,16 @@ const columns = [
   {
     name: "Machine",
     selector: (row) => row.machine?.nom_machine || null,
+    center: true,
+  },
+  {
+    name: "REP",
+    selector: (row) => row.rep,
+    center: true,
+  },
+  {
+    name: "Plan",
+    selector: (row) => row.plan,
     center: true,
   },
   {
@@ -71,8 +80,6 @@ export default function FicheDetail() {
   //form etape
   const [showModal, setShowModal] = useState(false);
   const [showModalFiche, setShowModalFiche] = useState(false);
-  const [formData, setFormData] = useState({});
-  const [formulaire, setFormulaire] = useState(etapeForm);
 
   // table
   const [loading, setloading] = useState(false);
@@ -81,46 +88,6 @@ export default function FicheDetail() {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
-
-  // form
-  const handleChange = (event) => {
-    setFormData({ ...formData, [event.target.id]: event.target.value });
-  };
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const form = { ...formData, fiche: infos.id };
-    API.etape
-      .nouvelle_etape(form)
-      .then((response) => {
-        setMessage("Étape ajoutée avec succès");
-        setSuccess(true);
-        setOpen(true);
-        setShowModal(false);
-        getEtapes(id);
-      })
-      .catch((error) => {
-        setMessage("Erreur lors de la création de l'étape");
-        setSuccess(false);
-        setOpen(true);
-      });
-  };
-  const handleSelectChange = (value, id) => {
-    setFormData({ ...formData, [id]: value });
-  };
-  const setMachineOptions = async () => {
-    const machines = await API.machine.get_machines();
-    let options = [];
-    machines.results.map((machine) => {
-      options.push({ value: machine.id, label: machine.nom_machine });
-    });
-    const newForm = { ...formulaire };
-    newForm.forms[0].inputs.map((input) => {
-      if (input.select && input.select.id === "machine") {
-        input.select.options = options;
-      }
-    });
-    setFormulaire(newForm);
-  };
 
   // alert fiche
   const handleFicheSubmitResponse = async (succes, message) => {
@@ -168,7 +135,6 @@ export default function FicheDetail() {
 
   useEffect(() => {
     getEtapes(id);
-    setMachineOptions();
   }, [id]);
 
   return (
