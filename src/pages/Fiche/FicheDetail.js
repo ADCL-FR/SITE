@@ -7,7 +7,6 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import Button from "../../components/Elements/Button";
 import Dialog from "@mui/material/Dialog";
-import FormCard from "../../components/Form/FormCard";
 import FicheForm from "../../components/Form/fiche/FicheForm";
 import EtapeForm from "../../components/Form/etape/EtapeForm";
 import Input from "../../components/Elements/Input";
@@ -81,8 +80,6 @@ export default function FicheDetail() {
   //form etape
   const [showModal, setShowModal] = useState(false);
   const [showModalFiche, setShowModalFiche] = useState(false);
-  const [formData, setFormData] = useState({});
-  const [formulaire, setFormulaire] = useState(etapeForm);
 
   // table
   const [loading, setloading] = useState(false);
