@@ -9,6 +9,7 @@ import Button from "../../components/Elements/Button";
 import Dialog from "@mui/material/Dialog";
 import FormCard from "../../components/Form/FormCard";
 import FicheForm from "../../components/Form/fiche/FicheForm";
+import EtapeForm from "../../components/Form/etape/EtapeForm";
 import Input from "../../components/Elements/Input";
 //constants
 import { etapeForm } from "../../constants/forms/forms";
@@ -205,12 +206,13 @@ export default function FicheDetail() {
         />
 
         <Dialog open={showModal} onClose={() => setShowModal(false)}>
-          <FormCard
+          {/* <FormCard
             {...etapeForm}
             onSubmit={handleSubmit}
             onChange={handleChange}
             onSelect={handleSelectChange}
-          />
+          /> */}
+          <EtapeForm update={false} nbEtapes={etapes.length} ficheId={id} />
         </Dialog>
         <Dialog open={showModalFiche} onClose={() => setShowModalFiche(false)}>
           <FicheForm
