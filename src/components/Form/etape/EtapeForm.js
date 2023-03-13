@@ -144,7 +144,33 @@ export default function EtapeForm({
                       defaultValue={update ? etape.temps : 1}
                     />
                   </div>
-                  <div className={"px-4 pb-2 relative w-full " + widths[12]}>
+                  <div className={"px-4 pb-2 relative w-full " + widths[6]}>
+                    <label
+                      className="block uppercase text-blueGray-700 text-xs font-bold mb-2 ml-1"
+                      id="rep"
+                    >
+                      REP
+                    </label>
+                    <Input
+                      type="text"
+                      {...register("rep")}
+                      defaultValue={update ? etape.rep : ""}
+                    />
+                  </div>
+                  <div className={"px-4 pb-2 relative w-full " + widths[6]}>
+                    <label
+                      className="block uppercase text-blueGray-700 text-xs font-bold mb-2 ml-1"
+                      id="plan"
+                    >
+                      Plan
+                    </label>
+                    <Input
+                      type="text"
+                      {...register("plan")}
+                      defaultValue={update ? etape.plan : ""}
+                    />
+                  </div>
+                  <div className={"px-4 pb-2 relative w-full " + widths[6]}>
                     <label
                       className="block uppercase text-blueGray-700 text-xs font-bold mb-2 ml-1"
                       id="machine"
