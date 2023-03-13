@@ -19,8 +19,6 @@ export default function FicheForm({ ficheData, affaire, update = false }) {
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
 
-  const { formOptions } = useGroupesMachine();
-
   function dirtyValues(touchedFields, allValues) {
     // If *any* item in an array was modified, the entire array must be submitted, because there's no way to indicate
     // "placeholders" for unchanged elements. `dirtyFields` is `true` for leaves.
