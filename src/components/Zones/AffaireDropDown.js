@@ -1,21 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FicheDropRow from "./FicheDropRow";
+import Droppable from "../DND/Droppable";
+
 export default function AffaireDropDown({
-  extended=true,
+  extended = true,
   affaire,
   isZone = false,
   onDeleteFiche = () => {},
 }) {
-
-  const [isExtended, setIsExtended] = useState(extended);
-  const toggleExtended = () => {
-    setIsExtended(!isExtended);
+  const [isExtendedAffaire, setIsExtendedAffaire] = useState(extended);
+  const [isExtendedFiche, setIsExtendedFiche] = useState(extended);
+  const toggleExtendedAffaire = () => {
+    setIsExtendedAffaire(!isExtendedAffaire);
   };
+
+  const toggleExtendedFiche = () => {
+    setIsExtendedFiche(!isExtendedFiche);
+  };
+
+  useEffect(() => {
+    console.log("AffaireDropDown");
+  }, [affaire]);
   return (
     <div style={row_style}>
-      <div style={header_style} onClick={() => toggleExtended()}>
-        <p>{affaire.raison}</p>
-        {isExtended ? (
+      <div style={header_style} onClick={() => toggleExtendedAffaire()}>
+        <p>Affaire : {affaire.num_affaire}</p>
+        {isExtendedAffaire ? (
           <i className="fas fa-duotone fa-chevron-down"></i>
         ) : (
           <i className="fas fa-duotone fa-chevron-right"></i>
@@ -24,23 +34,58 @@ export default function AffaireDropDown({
         {/* <p>{affaire.charge_affaire}</p> */}
       </div>
 
-      {isExtended && (
+      {isExtendedAffaire && (
         <div style={list_style}>
           {affaire.fiches.map((fiche, key) => {
             return (
-              <FicheDropRow
+              <Droppable
+                item={{ type: "fiche", item: fiche, parent: affaire }}
+                draggable
+                type="fiche"
                 key={key}
-                fiche={fiche}
-                onDeleteFiche={(item) => onDeleteFiche(item)}
-                isPlanned={isZone}
-                style={{
-                  with: "100%",
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              />
+              >
+                <div style={header_style} onClick={() => toggleExtendedFiche()}>
+                  <p>Fiche : {fiche.titre}</p>
+                  {isExtendedFiche ? (
+                    <i className="fas fa-duotone fa-chevron-down"></i>
+                  ) : (
+                    <i className="fas fa-duotone fa-chevron-right"></i>
+                  )}
+
+                  {/* <p>{affaire.charge_affaire}</p> */}
+                </div>
+                <div style={list_style}>
+                  {isExtendedFiche &&
+                    fiche.etapes.map((etape, key) => {
+                      return (
+                        <Droppable
+                          //style={{ backgroundColor: isDragging ? "#A7A7A7" : "" }}
+                          item={{ type: "etape", item: etape, parent: affaire }}
+                          draggable
+                          type="etape"
+                          key={key}
+                        >
+                          {etape.num_etape}
+                        </Droppable>
+                      );
+                    })}
+                </div>
+              </Droppable>
             );
+            // return (
+            //   <FicheDropRow
+            //     key={key}
+            //     fiche={fiche}
+            //     onDeleteFiche={(item) => onDeleteFiche(item)}
+            //     isPlanned={isZone}
+            //     style={{
+            //       with: "100%",
+            //       display: "flex",
+            //       flexDirection: "row",
+            //       justifyContent: "space-between",
+            //     }}
+            //   />
+            // );
           })}
         </div>
       )}

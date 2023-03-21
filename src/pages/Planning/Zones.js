@@ -6,8 +6,7 @@ import Page from "../Page";
 import ZoneDropAffaires from "../../components/Zones/ZoneDropFiches";
 import Select from "react-select";
 
-// drap and drop
-
+import { useEtape } from "../../hooks/etape/useEtape";
 // ----------------------------------------------------------------------
 //user
 import PageHeader from "../../components/Headers/PageHeader";
@@ -19,11 +18,12 @@ for (let i = 1; i <= 52; i++) {
   options.push({ value: i, label: i });
 }
 
-
 export default function PlanningZone() {
   const [affaires, setAffaires] = useState([]);
   const [zones, setZones] = useState([]);
   const [week, setWeek] = useState(getWeekNumber(new Date()));
+  const { create_affectation_zone_etape, update_affectation_zone_etape } =
+    useEtape();
 
   // change state of zones, move fiches from one zone to another with affaire infos
   function change_fiche_from_zoneA_to_zoneB(fiche, zoneAId, zoneBId) {
@@ -172,6 +172,38 @@ export default function PlanningZone() {
     });
   }
 
+  const get_planning_zone = () => {
+    API.planning_zone(week).then((response) => {
+      setZones(response.results);
+    });
+  };
+
+  const handle_etape_drop = (etapeId, zoneId, affectationId = null) => {
+    if (affectationId === null) {
+      let newAffectation = {
+        semaine_affectation: getWeekDate(week),
+        etape: etapeId,
+        zone: zoneId,
+      };
+      API.create_affectation(newAffectation).then((response) => {
+        get_planning_zone();
+      });
+    } else {
+      let affectation = {
+        semaine_affectation: getWeekDate(week),
+        etape: etapeId,
+        zone: zoneId,
+      };
+      API.update_affectation(affectationId, affectation).then((response) => {
+        get_planning_zone();
+      });
+    }
+    API.fiches_ajustage_a_planifier().then((response) => {
+      setAffaires(response.results);
+      // wait 200ms
+    });
+  };
+
   useEffect(() => {
     API.planning_zone(week).then((response) => {
       setZones(response.results);
@@ -204,7 +236,7 @@ export default function PlanningZone() {
               title={"Fiche à plannifier"}
               onDrop={() => {}}
               accept={[]}
-              affaires={affaires}
+              affaires_data={affaires}
               isZone={false}
             />
 
@@ -222,15 +254,17 @@ export default function PlanningZone() {
                   return (
                     <ZoneDropAffaires
                       key={zone.id}
+                      id={zone.id}
                       isZone={true}
-                      affaires={zone.affaires}
-                      accept={["any", "fiche"]}
+                      affaires_data={zone.affaires}
+                      accept={["any", "fiche", "etape"]}
                       style={ZoneStyle}
                       title={zone.nom}
-                      onDrop={(fiche) =>
-                        changeZoneFichesAndUpdateAffectation(fiche, zone.id)
+                      onDrop={(etapeId, affectationId) =>
+                        handle_etape_drop(etapeId, zone.id, affectationId)
                       }
                       onDeleteFiche={(fiche) => deleteAffectation(fiche)}
+                      week={getWeekDate(week)}
                     />
                   );
                 })}
