@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 
 // drap and drop
-import { useEtape } from "../../hooks/etape/useEtape";
 import DropZone from "../DND/DropZone";
 import AffaireDropDown from "./AffaireDropDown";
 export default function ZoneDropAffaires({
@@ -13,7 +12,7 @@ export default function ZoneDropAffaires({
   title,
   style,
   onDrop,
-  onDeleteFiche,
+  onDeleteAffectation,
   isZone = false,
   week,
 }) {
@@ -88,7 +87,6 @@ export default function ZoneDropAffaires({
   };
 
   const handle_etape_drop = ({ affaire, etape }) => {
-    console.log("handle_etape_drop", affaire, etape);
     // check if affaire exist in this zone
     onDrop(etape.id, etape?.affectation_id);
 
@@ -163,7 +161,7 @@ export default function ZoneDropAffaires({
     if (isOver) {
       return "#ECECEC";
     } else {
-      return "";
+      return "rgb(246, 248, 250)";
     }
   };
 
@@ -187,7 +185,9 @@ export default function ZoneDropAffaires({
       isOver={(e) => setIsOver(e)}
       onDrop={(e) => handle_drop(e)}
     >
-      <p style={title_style}>{title}</p>
+      <div style={header_style}>
+        <p style={title_style}>{title}</p>
+      </div>
 
       {isZone && (
         <div style={children_style}>
@@ -199,7 +199,7 @@ export default function ZoneDropAffaires({
                   key={key}
                   extended={true}
                   affaire={affaire}
-                  //onDeleteFiche={(item) => onDeleteFiche(item)}
+                  onDeleteAffectation={(id) => onDeleteAffectation(id)}
                   isZone={true}
                 />
               )
@@ -218,7 +218,7 @@ export default function ZoneDropAffaires({
                   key={key}
                   extended={true}
                   affaire={affaire}
-                  //onDeleteFiche={(item) => onDeleteFiche(item)}
+                  onDeleteAffectation={(id) => onDeleteAffectation(id)}
                   isZone={false}
                 />
               )
@@ -230,15 +230,17 @@ export default function ZoneDropAffaires({
     </DropZone>
   );
 }
-
-const title_style = {
+const header_style = {
   display: "flex",
-  flexDirection: "row",
-  justifyContent: "center",
-  alignItems: "center",
-  borderBottom: "1px solid #000000",
+  padding: "8px 16px 4px",
+};
+const title_style = {
+  fontSize: "16px",
+  fontWeight: "600",
+  overflow: "hidden",
 };
 
 const children_style = {
-  padding: "0px",
+  "overflow-y": "auto",
+  padding: "8px",
 };

@@ -146,35 +146,18 @@ export default function PlanningZone() {
     }
   }
 
-  // delete affectation when delete button is clicked
-  async function deleteAffectation(fiche) {
-    let affectationId = fiche.affectation_zone.id;
-
-    await API.delete_affectation(affectationId).then((response) => {
-      console.log(response);
-    });
-
-    // remove the fiche from the zones -> affaires state
-    let newZones = zones.map((zone) => {
-      zone.affaires = zone.affaires.map((affaire) => {
-        affaire.fiches = affaire.fiches.filter(
-          (ficheInZone) => ficheInZone.id !== fiche.id
-        );
-        return affaire;
-      });
-      return zone;
-    });
-    setZones(newZones);
-
-    // TODO: change state and do not call API again
-    API.fiches_ajustage_a_planifier().then((response) => {
-      setAffaires(response.results);
-    });
-  }
-
   const get_planning_zone = () => {
     API.planning_zone(week).then((response) => {
       setZones(response.results);
+    });
+  };
+
+  const handle_affectation_delete = (affectationId) => {
+    API.delete_affectation(affectationId).then((response) => {
+      get_planning_zone();
+      API.fiches_ajustage_a_planifier().then((response) => {
+        setAffaires(response.results);
+      });
     });
   };
 
@@ -263,7 +246,9 @@ export default function PlanningZone() {
                       onDrop={(etapeId, affectationId) =>
                         handle_etape_drop(etapeId, zone.id, affectationId)
                       }
-                      onDeleteFiche={(fiche) => deleteAffectation(fiche)}
+                      onDeleteAffectation={(id) =>
+                        handle_affectation_delete(id)
+                      }
                       week={getWeekDate(week)}
                     />
                   );
@@ -293,7 +278,7 @@ const DropZoneStyle = {
 const ZoneContainer = {
   display: "flex",
   flexDirection: "row",
-  gap: 0,
+  gap: "10px",
   width: "100%",
   height: "100%",
   borderRadius: "15px",
@@ -301,11 +286,13 @@ const ZoneContainer = {
 const ZoneStyle = {
   flexDirection: "column",
   alignItems: "flex-start",
-  padding: "0px",
+
+  backgroundColor: "rgb(246, 248, 250)",
   gap: "10px",
   width: "100%",
   height: "100%",
-  border: "1px dashed #000000",
+  "border-radius": "6px",
+  border: "1px solid rgb(216, 222, 228)",
 };
 
 const ZonePlannifierStyle = {
@@ -314,7 +301,8 @@ const ZonePlannifierStyle = {
   padding: "0px",
   gap: "10px",
   width: "30%",
-  border: "1px dashed #000000",
+  "border-radius": "6px",
+  border: "1px solid rgb(216, 222, 228)",
 };
 
 const SelectWek = {

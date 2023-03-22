@@ -6,7 +6,7 @@ export default function AffaireDropDown({
   extended = true,
   affaire,
   isZone = false,
-  onDeleteFiche = () => {},
+  onDeleteAffectation = () => {},
 }) {
   const [isExtendedAffaire, setIsExtendedAffaire] = useState(extended);
   const [isExtendedFiche, setIsExtendedFiche] = useState(extended);
@@ -23,8 +23,14 @@ export default function AffaireDropDown({
   }, [affaire]);
   return (
     <div style={row_style}>
-      <div style={header_style} onClick={() => toggleExtendedAffaire()}>
-        <p>Affaire : {affaire.num_affaire}</p>
+      <div style={affaire_style} onClick={() => toggleExtendedAffaire()}>
+        <a
+          style={affaire_title_style}
+          href={`/dashboard/affaire/${affaire.id}`}
+          target="_blank"
+        >
+          <p> Affaire : {affaire.num_affaire}</p>
+        </a>
         {isExtendedAffaire ? (
           <i className="fas fa-duotone fa-chevron-down"></i>
         ) : (
@@ -44,7 +50,7 @@ export default function AffaireDropDown({
                 type="fiche"
                 key={key}
               >
-                <div style={header_style} onClick={() => toggleExtendedFiche()}>
+                <div style={fiche_style} onClick={() => toggleExtendedFiche()}>
                   <p>Fiche : {fiche.titre}</p>
                   {isExtendedFiche ? (
                     <i className="fas fa-duotone fa-chevron-down"></i>
@@ -54,7 +60,7 @@ export default function AffaireDropDown({
 
                   {/* <p>{affaire.charge_affaire}</p> */}
                 </div>
-                <div style={list_style}>
+                <div style={list_etape_style}>
                   {isExtendedFiche &&
                     fiche.etapes.map((etape, key) => {
                       return (
@@ -65,27 +71,33 @@ export default function AffaireDropDown({
                           type="etape"
                           key={key}
                         >
-                          {etape.num_etape}
+                          <div style={etape_style}>
+                            <div>
+                              Étape n°{etape.num_etape} - Temps: {etape.temps}
+                              (h)
+                            </div>
+
+                            {/* delete button */}
+                            {isZone && (
+                              <button
+                                onClick={() =>
+                                  onDeleteAffectation(etape.affectation_id)
+                                }
+                              >
+                                {" "}
+                                <i
+                                  className="fas fa-solid fa-trash"
+                                  style={{ color: "#ff9999" }}
+                                ></i>
+                              </button>
+                            )}
+                          </div>
                         </Droppable>
                       );
                     })}
                 </div>
               </Droppable>
             );
-            // return (
-            //   <FicheDropRow
-            //     key={key}
-            //     fiche={fiche}
-            //     onDeleteFiche={(item) => onDeleteFiche(item)}
-            //     isPlanned={isZone}
-            //     style={{
-            //       with: "100%",
-            //       display: "flex",
-            //       flexDirection: "row",
-            //       justifyContent: "space-between",
-            //     }}
-            //   />
-            // );
           })}
         </div>
       )}
@@ -101,7 +113,22 @@ export default function AffaireDropDown({
     </div>
   );
 }
-const header_style = {
+const affaire_style = {
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "space-between",
+  width: "100%",
+};
+
+const affaire_title_style = {
+  // link style blue on hover
+  color: "#0056b3",
+  textDecoration: "underline",
+  backgroundColor: "transparent",
+  cursor: "pointer",
+};
+const fiche_style = {
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
@@ -113,18 +140,26 @@ const list_style = {
   display: "flex",
   paddingLeft: "10px",
   flexDirection: "column",
-
   justifyContent: "space-between",
+};
+const list_etape_style = {
+  with: "100%",
+  // left border for etapes
+  borderLeft: "1px solid #0056b3",
+};
+const etape_style = {
+  width: "100%",
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  paddingLeft: "10px",
 };
 const row_style = {
   width: "100%",
-  display: "flex",
-  flexDirection: "column",
-
-  flexWrap: "wrap",
-  justifyContent: "space-between",
-  padding: "3px",
-  paddingLeft: "10px",
-  paddingRight: "10px",
-  borderBottom: "0.1px dashed #000000",
+  "border-radius": "6px",
+  border: "1px solid rgb(216, 222, 228)",
+  "box-shadow": "rgba(140, 149, 159, 0.15) 0px 3px 6px",
+  "background-color": "rgb(255, 255, 255)",
+  padding: "10px",
+  "margin-bottom": "8px",
 };
