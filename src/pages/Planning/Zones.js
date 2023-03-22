@@ -6,8 +6,7 @@ import Page from "../Page";
 import ZoneDropAffaires from "../../components/Zones/ZoneDropFiches";
 import Select from "react-select";
 
-// drap and drop
-
+import { useEtape } from "../../hooks/etape/useEtape";
 // ----------------------------------------------------------------------
 //user
 import PageHeader from "../../components/Headers/PageHeader";
@@ -19,11 +18,12 @@ for (let i = 1; i <= 52; i++) {
   options.push({ value: i, label: i });
 }
 
-
 export default function PlanningZone() {
   const [affaires, setAffaires] = useState([]);
   const [zones, setZones] = useState([]);
   const [week, setWeek] = useState(getWeekNumber(new Date()));
+  const { create_affectation_zone_etape, update_affectation_zone_etape } =
+    useEtape();
 
   // change state of zones, move fiches from one zone to another with affaire infos
   function change_fiche_from_zoneA_to_zoneB(fiche, zoneAId, zoneBId) {
@@ -146,31 +146,46 @@ export default function PlanningZone() {
     }
   }
 
-  // delete affectation when delete button is clicked
-  async function deleteAffectation(fiche) {
-    let affectationId = fiche.affectation_zone.id;
-
-    await API.delete_affectation(affectationId).then((response) => {
-      console.log(response);
+  const get_planning_zone = () => {
+    API.planning_zone(week).then((response) => {
+      setZones(response.results);
     });
+  };
 
-    // remove the fiche from the zones -> affaires state
-    let newZones = zones.map((zone) => {
-      zone.affaires = zone.affaires.map((affaire) => {
-        affaire.fiches = affaire.fiches.filter(
-          (ficheInZone) => ficheInZone.id !== fiche.id
-        );
-        return affaire;
+  const handle_affectation_delete = (affectationId) => {
+    API.delete_affectation(affectationId).then((response) => {
+      get_planning_zone();
+      API.fiches_ajustage_a_planifier().then((response) => {
+        setAffaires(response.results);
       });
-      return zone;
     });
-    setZones(newZones);
+  };
 
-    // TODO: change state and do not call API again
+  const handle_etape_drop = (etapeId, zoneId, affectationId = null) => {
+    if (affectationId === null) {
+      let newAffectation = {
+        semaine_affectation: getWeekDate(week),
+        etape: etapeId,
+        zone: zoneId,
+      };
+      API.create_affectation(newAffectation).then((response) => {
+        get_planning_zone();
+      });
+    } else {
+      let affectation = {
+        semaine_affectation: getWeekDate(week),
+        etape: etapeId,
+        zone: zoneId,
+      };
+      API.update_affectation(affectationId, affectation).then((response) => {
+        get_planning_zone();
+      });
+    }
     API.fiches_ajustage_a_planifier().then((response) => {
       setAffaires(response.results);
+      // wait 200ms
     });
-  }
+  };
 
   useEffect(() => {
     API.planning_zone(week).then((response) => {
@@ -204,7 +219,7 @@ export default function PlanningZone() {
               title={"Fiche à plannifier"}
               onDrop={() => {}}
               accept={[]}
-              affaires={affaires}
+              affaires_data={affaires}
               isZone={false}
             />
 
@@ -222,15 +237,19 @@ export default function PlanningZone() {
                   return (
                     <ZoneDropAffaires
                       key={zone.id}
+                      id={zone.id}
                       isZone={true}
-                      affaires={zone.affaires}
-                      accept={["any", "fiche"]}
+                      affaires_data={zone.affaires}
+                      accept={["any", "fiche", "etape"]}
                       style={ZoneStyle}
                       title={zone.nom}
-                      onDrop={(fiche) =>
-                        changeZoneFichesAndUpdateAffectation(fiche, zone.id)
+                      onDrop={(etapeId, affectationId) =>
+                        handle_etape_drop(etapeId, zone.id, affectationId)
                       }
-                      onDeleteFiche={(fiche) => deleteAffectation(fiche)}
+                      onDeleteAffectation={(id) =>
+                        handle_affectation_delete(id)
+                      }
+                      week={getWeekDate(week)}
                     />
                   );
                 })}
@@ -259,7 +278,7 @@ const DropZoneStyle = {
 const ZoneContainer = {
   display: "flex",
   flexDirection: "row",
-  gap: 0,
+  gap: "10px",
   width: "100%",
   height: "100%",
   borderRadius: "15px",
@@ -267,11 +286,13 @@ const ZoneContainer = {
 const ZoneStyle = {
   flexDirection: "column",
   alignItems: "flex-start",
-  padding: "0px",
+
+  backgroundColor: "rgb(246, 248, 250)",
   gap: "10px",
   width: "100%",
   height: "100%",
-  border: "1px dashed #000000",
+  "border-radius": "6px",
+  border: "1px solid rgb(216, 222, 228)",
 };
 
 const ZonePlannifierStyle = {
@@ -280,7 +301,8 @@ const ZonePlannifierStyle = {
   padding: "0px",
   gap: "10px",
   width: "30%",
-  border: "1px dashed #000000",
+  "border-radius": "6px",
+  border: "1px solid rgb(216, 222, 228)",
 };
 
 const SelectWek = {
