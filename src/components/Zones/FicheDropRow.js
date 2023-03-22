@@ -5,9 +5,14 @@ export default function FicheDropRow({
   fiche,
   onDeleteFiche = () => {},
   isPlanned = false,
+  extended = true,
   style = {},
 }) {
   const [isDragging, setIsDragging] = useState(false);
+  const [isExtended, setIsExtended] = useState(extended);
+  const toggleExtended = () => {
+    setIsExtended(!isExtended);
+  };
   return (
     <Droppable
       style={{ backgroundColor: isDragging ? "#A7A7A7" : "" }}
@@ -16,8 +21,36 @@ export default function FicheDropRow({
       type="fiche"
       isDragging={(val) => setIsDragging(val)}
     >
-      <div style={style}>
-        {fiche.titre}
+      <div style={row_style}>
+        <div style={header_style} onClick={() => toggleExtended()}>
+          <p>Fiche : {fiche.titre}</p>
+          {isExtended ? (
+            <i className="fas fa-duotone fa-chevron-down"></i>
+          ) : (
+            <i className="fas fa-duotone fa-chevron-right"></i>
+          )}
+
+          {/* <p>{affaire.charge_affaire}</p> */}
+        </div>
+
+        {isExtended && (
+          <div style={list_style}>
+            {fiche.etapes.map((etape, key) => {
+              return (
+                <Droppable
+                  style={{ backgroundColor: isDragging ? "#A7A7A7" : "" }}
+                  item={etape}
+                  draggable
+                  type="etape"
+                  isDragging={(val) => setIsDragging(val)}
+                >
+                  {etape.num_etape}
+                </Droppable>
+              );
+            })}
+          </div>
+        )}
+
         {isPlanned && (
           <button onClick={() => onDeleteFiche(fiche)}>
             {" "}
@@ -31,6 +64,22 @@ export default function FicheDropRow({
     </Droppable>
   );
 }
+const header_style = {
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "space-between",
+  width: "100%",
+};
+
+const list_style = {
+  with: "100%",
+  display: "flex",
+  paddingLeft: "10px",
+  flexDirection: "column",
+
+  justifyContent: "space-between",
+};
 
 const row_style = {
   width: "100%",
