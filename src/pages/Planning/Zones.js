@@ -174,15 +174,16 @@ const ZoneContainer = {
   width: "100%",
   height: "100%",
   borderRadius: "15px",
+  overflow: "auto",
 };
 const ZoneStyle = {
   flexDirection: "column",
   alignItems: "flex-start",
-
-  backgroundColor: "rgb(246, 248, 250)",
+  padding: "0px",
   gap: "10px",
   width: "100%",
   height: "100%",
+  overflow: "auto",
   "border-radius": "6px",
   border: "1px solid rgb(216, 222, 228)",
 };
@@ -195,6 +196,7 @@ const ZonePlannifierStyle = {
   width: "30%",
   "border-radius": "6px",
   border: "1px solid rgb(216, 222, 228)",
+  overflow: "auto",
 };
 
 const SelectWek = {
