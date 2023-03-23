@@ -76,7 +76,6 @@ export default function PlanningZone() {
     }
     API.fiches_ajustage_a_planifier().then((response) => {
       setAffaires(response.results);
-      // wait 200ms
     });
   };
 
