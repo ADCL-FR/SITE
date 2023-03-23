@@ -36,6 +36,10 @@ export default function ZoneDropAffaires({
       const new_affaires = affaires.map((affaire_state) => {
         if (affaire_state.id === affaire.id) {
           if (!fiche_exist(affaire.id, fiche.id)) {
+            // call onDrop function to update etape
+            fiche.etapes.forEach((etape) => {
+              onDrop(etape.id, etape?.affectation_id);
+            });
             return {
               ...affaire_state,
               fiches: [...affaire_state.fiches, fiche],
@@ -194,7 +198,7 @@ export default function ZoneDropAffaires({
           {console.log("affaires", affaires)}
           {affaires?.map((affaire, key) => {
             return (
-              affaire.fiches.length > 0 && (
+              affaire?.fiches.length > 0 && (
                 <AffaireDropDown
                   key={key}
                   extended={true}
