@@ -109,11 +109,15 @@ export default function FichesTable({
     navigate(PATH_DASHBOARD.fiche.view(row.id));
   }
 
-  useEffect(() => {
+  const get_affaire_et_fiches = () => {
     API.affaire.get_affaire_et_fiches(affaireId).then((response) => {
       setFiches(response.fiches);
       setLoading(false);
     });
+  };
+
+  useEffect(() => {
+    get_affaire_et_fiches();
   }, [affaireId]);
   // change state of zones, move fiches from one zone to another with affaire infos
 
@@ -134,7 +138,13 @@ export default function FichesTable({
         onRowDoubleClicked={(row) => handleClick(row)}
         actions={actions()}
       />
-      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+      <Dialog
+        open={openDialog}
+        onClose={() => {
+          setOpenDialog(false);
+          get_affaire_et_fiches();
+        }}
+      >
         <FicheForm update={false} affaire={affaire} />
       </Dialog>
     </>
