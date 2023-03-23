@@ -21,7 +21,7 @@ export const useEtape = () => {
   };
 
   const updateEtape = async (id, data) => {
-    // API.etape.update_etape(id, data) non implémenté
+    return API.etape.update_etape(id, data);
   };
 
   const deleteEtape = async (id) => {

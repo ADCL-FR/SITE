@@ -128,6 +128,18 @@ class etape {
       });
     return response;
   };
+
+  static update_etape = async (etapeId, etape) => {
+    const response = await axiosInstance
+      .patch(`/api/etapes/${etapeId}`, { ...etape })
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+    return response;
+  };
 }
 
 class machine {

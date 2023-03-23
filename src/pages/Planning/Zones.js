@@ -6,7 +6,6 @@ import Page from "../Page";
 import ZoneDropAffaires from "../../components/Zones/ZoneDropFiches";
 import Select from "react-select";
 
-import { useEtape } from "../../hooks/etape/useEtape";
 // ----------------------------------------------------------------------
 //user
 import PageHeader from "../../components/Headers/PageHeader";
@@ -22,47 +21,6 @@ export default function PlanningZone() {
   const [affaires, setAffaires] = useState([]);
   const [zones, setZones] = useState([]);
   const [week, setWeek] = useState(getWeekNumber(new Date()));
-  const { create_affectation_zone_etape, update_affectation_zone_etape } =
-    useEtape();
-
-  // change state of zones, move fiches from one zone to another with affaire infos
-  function change_fiche_from_zoneA_to_zoneB(fiche, zoneAId, zoneBId) {
-    // remove fiche from zone A
-    let newZones = zones.map((zone) => {
-      if (zone.id === zoneAId) {
-        zone.affaires = zone.affaires.map((affaire) => {
-          affaire.fiches = affaire.fiches.filter(
-            (ficheInZone) => ficheInZone.id !== fiche.id
-          );
-          return affaire;
-        });
-      }
-      return zone;
-    });
-    // add fiche to zone B and create affaire if not exist
-    newZones = newZones.map((zone) => {
-      if (zone.id === zoneBId) {
-        zone.affaires = zone.affaires.map((affaire) => {
-          if (affaire.id === fiche.affaire) {
-            affaire.fiches.push(fiche);
-          }
-          return affaire;
-        });
-        // if affaire is not in zone B
-        if (!zone.affaires.some((affaire) => affaire.id === fiche.affaire)) {
-          let newAffaire = {
-            id: fiche.affaire,
-            raison: fiche.affaire_raison,
-            fiches: [fiche],
-            charge_affaire: fiche.charge_affaire,
-          };
-          zone.affaires.push(newAffaire);
-        }
-      }
-      return zone;
-    });
-    setZones(newZones);
-  }
 
   // calculate the week number
   function getWeekNumber(d) {
@@ -79,71 +37,6 @@ export default function PlanningZone() {
     let numDays = (weekNumber - getWeekNumber(d)) * 7;
     d.setDate(d.getDate() + numDays);
     return d.toISOString().split("T")[0];
-  }
-
-  // chaange zone fiches list given an fiche entry and remove it from other zones
-  // TODO : check if the fiche was dropped from list zone
-  function changeZoneFichesAndUpdateAffectation(fiche, zoneId) {
-    // check if the fiche is already in the zone
-    if (fiche.affectation_zone?.zone === zoneId) {
-      return;
-    }
-    // check if the fiche comes from list zone
-    if (fiche.affectation_zone === null) {
-      let newAffectation = {
-        semaine_affectation: getWeekDate(week),
-        fiche: fiche.id,
-        zone: zoneId,
-      };
-      API.create_affectation(newAffectation).then((response) => {
-        let newZones = zones.map((z) => {
-          fiche.affectation_zone = response;
-          if (z.id === zoneId) {
-            z.affaires = z.affaires.map((a) => {
-              if (a.id === fiche.affaire) {
-                a.fiches.push(fiche);
-              }
-              return a;
-            });
-            // if affaire is not in zone B
-            if (!z.affaires.some((affaire) => affaire.id === fiche.affaire)) {
-              let newAffaire = {
-                id: fiche.affaire,
-                raison: fiche.affaire_raison,
-                fiches: [fiche],
-                charge_affaire: fiche.charge_affaire,
-              };
-              z.affaires.push(newAffaire);
-            }
-          }
-          return z;
-        });
-        setZones(newZones);
-        // filter out fiche from fiches/affaires list
-      });
-
-      // filter out fiche from affaires list
-      let newAffaires = affaires.map((a) => {
-        a.fiches = a.fiches.filter((f) => f.id !== fiche.id);
-        return a;
-      });
-      setAffaires(newAffaires);
-      return;
-    }
-
-    // check if the fiche comes from another zone
-    if (fiche.affectation_zone.zone !== zoneId) {
-      let affectation = fiche.affectation_zone;
-      let oldZoneId = affectation.zone;
-      affectation.zone = zoneId;
-
-      API.update_affectation(affectation).then((response) => {
-        fiche.affectation_zone = response;
-        change_fiche_from_zoneA_to_zoneB(fiche, oldZoneId, zoneId);
-      });
-
-      return;
-    }
   }
 
   const get_planning_zone = () => {
