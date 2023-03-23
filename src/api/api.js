@@ -129,9 +129,9 @@ class etape {
     return response;
   };
 
-  static updtate_etape = async (etapeId, etape) => {
+  static update_etape = async (etapeId, etape) => {
     const response = await axiosInstance
-      .put(`/api/etapes/${etapeId}`, { ...etape })
+      .patch(`/api/etapes/${etapeId}`, { ...etape })
       .then((response) => {
         return response.data;
       })
