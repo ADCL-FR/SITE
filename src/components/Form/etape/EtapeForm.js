@@ -56,7 +56,7 @@ export default function EtapeForm({
         })
         .catch((error) => {
           setSuccess(false);
-          setMessage("Erreur lors de la modification de l'etape : ");
+          setMessage("Erreur lors de la modification de l'etape.");
           setShowAlert(true);
         });
     } else {
@@ -100,7 +100,7 @@ export default function EtapeForm({
             <div className="container mx-auto px-4">
               <div>
                 <h4 className="text-2xl font-semibold mt-4 mb-6">
-                  {update ? "Mise à étape" : "Création étape"}
+                  {update ? "Mise à jour étape" : "Création étape"}
                 </h4>
                 <div className="flex flex-wrap -mx-4">
                   <div className={"px-4 pb-2 relative w-full " + widths[6]}>
@@ -178,7 +178,7 @@ export default function EtapeForm({
                       Machine
                     </label>
                     <select
-                      value={null}
+                      value={update ? etape.machine?.id : null}
                       required
                       placeholder="Sélectionner une machine"
                       {...register("machine")}
