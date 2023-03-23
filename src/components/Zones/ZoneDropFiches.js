@@ -184,7 +184,6 @@ export default function ZoneDropAffaires({
       style={{
         ...style,
         backgroundColor: getBackgroundColor(),
-        overflow: "auto",
       }}
       isOver={(e) => setIsOver(e)}
       onDrop={(e) => handle_drop(e)}
