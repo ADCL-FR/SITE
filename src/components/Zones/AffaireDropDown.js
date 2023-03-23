@@ -28,6 +28,7 @@ export default function AffaireDropDown({
           style={affaire_title_style}
           href={`/dashboard/affaire/${affaire.id}`}
           target="_blank"
+          rel="noreferrer"
         >
           <p> Affaire : {affaire.num_affaire}</p>
         </a>

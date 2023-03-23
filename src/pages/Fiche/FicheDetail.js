@@ -10,8 +10,7 @@ import Dialog from "@mui/material/Dialog";
 import FicheForm from "../../components/Form/fiche/FicheForm";
 import EtapeForm from "../../components/Form/etape/EtapeForm";
 import Input from "../../components/Elements/Input";
-//constants
-import { etapeForm } from "../../constants/forms/forms";
+
 // sections
 // ----------------------------------------------------------------------
 
@@ -20,44 +19,6 @@ import PageHeader from "../../components/Headers/PageHeader";
 
 // table
 import DataTable from "react-data-table-component";
-
-const columns = [
-  {
-    name: "Numéro",
-    selector: (row) => row.num_etape,
-    sortable: true,
-  },
-  {
-    name: "Machine",
-    selector: (row) => row.machine?.nom_machine || null,
-    center: true,
-  },
-  {
-    name: "REP",
-    selector: (row) => row.rep,
-    center: true,
-  },
-  {
-    name: "Plan",
-    selector: (row) => row.plan,
-    center: true,
-  },
-  {
-    name: "Quantité",
-    selector: (row) => row.quantite,
-    center: true,
-  },
-  {
-    name: "Temps",
-    selector: (row) => row.temps,
-    center: true,
-  },
-  {
-    name: "Terminée",
-    selector: (row) => (row.terminee ? "Oui" : "Non"),
-    center: true,
-  },
-];
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={60} ref={ref} variant="filled" {...props} />;
@@ -80,6 +41,10 @@ export default function FicheDetail() {
   //form etape
   const [showModal, setShowModal] = useState(false);
   const [showModalFiche, setShowModalFiche] = useState(false);
+  const [showModalEtapeUpdate, setShowModalEtapeUpdate] = useState({
+    show: false,
+    data: {},
+  });
 
   // table
   const [loading, setloading] = useState(false);
@@ -88,6 +53,59 @@ export default function FicheDetail() {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
+
+  const columns = [
+    {
+      name: "Numéro",
+      selector: (row) => row.num_etape,
+      sortable: true,
+    },
+    {
+      name: "Machine",
+      selector: (row) => row.machine?.nom_machine || null,
+      center: true,
+    },
+    {
+      name: "REP",
+      selector: (row) => row.rep,
+      center: true,
+    },
+    {
+      name: "Plan",
+      selector: (row) => row.plan,
+      center: true,
+    },
+    {
+      name: "Quantité",
+      selector: (row) => row.quantite,
+      center: true,
+    },
+    {
+      name: "Temps",
+      selector: (row) => row.temps,
+      center: true,
+    },
+    {
+      name: "Terminée",
+      selector: (row) => (row.terminee ? "Oui" : "Non"),
+      center: true,
+    },
+    // edit button
+    {
+      name: "Editer",
+      center: true,
+      cell: (row) => (
+        <div>
+          <button
+            onClick={() => setShowModalEtapeUpdate({ show: true, data: row })}
+            style={{ all: "unset" }}
+          >
+            <i className="fas fa-edit" style={{ color: "orange" }}></i>
+          </button>
+        </div>
+      ),
+    },
+  ];
 
   // alert fiche
   const handleFicheSubmitResponse = async (succes, message) => {
@@ -123,18 +141,18 @@ export default function FicheDetail() {
     );
   }
 
-  const getEtapes = async (ficheId) => {
-    setloading(true);
-    API.fiche.get_fiche_etapes(ficheId).then((response) => {
+  const getEtapes = async () => {
+    API.fiche.get_fiche_etapes(id).then((response) => {
       setEtapes(response.etapes);
       response.etapes = [];
       setInfos(response);
-      setloading(false);
     });
   };
 
   useEffect(() => {
-    getEtapes(id);
+    setloading(true);
+    getEtapes();
+    setloading(false);
   }, [id]);
 
   return (
@@ -171,16 +189,35 @@ export default function FicheDetail() {
           actions={actions()}
         />
 
-        <Dialog open={showModal} onClose={() => setShowModal(false)}>
-          {/* <FormCard
-            {...etapeForm}
-            onSubmit={handleSubmit}
-            onChange={handleChange}
-            onSelect={handleSelectChange}
-          /> */}
+        <Dialog
+          open={showModal}
+          onClose={() => {
+            setShowModal(false);
+            getEtapes();
+          }}
+        >
           <EtapeForm update={false} nbEtapes={etapes.length} ficheId={id} />
         </Dialog>
-        <Dialog open={showModalFiche} onClose={() => setShowModalFiche(false)}>
+        <Dialog
+          open={showModalEtapeUpdate.show}
+          onClose={() => {
+            setShowModalEtapeUpdate({ show: false, data: {} });
+            getEtapes();
+          }}
+        >
+          <EtapeForm
+            update={true}
+            ficheId={showModalEtapeUpdate.data?.id}
+            etapeData={showModalEtapeUpdate.data}
+          />
+        </Dialog>
+        <Dialog
+          open={showModalFiche}
+          onClose={() => {
+            setShowModalFiche(false);
+            getEtapes();
+          }}
+        >
           <FicheForm
             ficheData={infos}
             update={true}
@@ -192,15 +229,3 @@ export default function FicheDetail() {
     </Page>
   );
 }
-
-const modal_style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
