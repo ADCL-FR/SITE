@@ -2,7 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const Input = React.forwardRef(
-  ({ border, size, leftIcon, rightIcon, type, ...rest }, ref) => {
+  (
+    { border, size, leftIcon, rightIcon, type, onChange = () => {}, ...rest },
+    ref
+  ) => {
     const sizes = {
       sm: "px-2 py-2 text-sm ",
       lg: "px-3 py-3 text-sm ",
@@ -44,7 +47,12 @@ const Input = React.forwardRef(
           {type && type === "textarea" ? (
             <textarea {...rest} className={inputClasses} />
           ) : (
-            <input {...rest} type={type} className={inputClasses} />
+            <input
+              {...rest}
+              type={type}
+              className={inputClasses}
+              onChange={(e, v) => onChange(e, v)}
+            />
           )}
           {rightAddon}
         </div>
