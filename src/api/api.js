@@ -16,11 +16,12 @@ class affaire {
   static get_affaires = async (
     page = 1,
     perPage = 10,
-    ordering = "-date_rendu"
+    ordering = "-date_rendu",
+    search = ""
   ) => {
     const response = await axiosInstance
       .get(
-        `/api/affaires?page=${page}&per_page=${perPage}&ordering=${ordering}`
+        `/api/affaires?page=${page}&per_page=${perPage}&ordering=${ordering}&search=${search}`
       )
       .then((response) => {
         return response.data;
