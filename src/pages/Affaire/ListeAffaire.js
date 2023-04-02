@@ -7,7 +7,7 @@ import Page from "../Page";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import Progress from "../../components/Elements/Progress";
-
+import Input from "../../components/Elements/Input";
 // sections
 // ----------------------------------------------------------------------
 import API from "../../api/api";
@@ -107,11 +107,38 @@ export default function ListeAffaire() {
   const [perPage, setPerPage] = useState(10);
   const [ordering, setOrdering] = useState("date_rendu");
   const [direction, setDirection] = useState("-");
+  const [searchAffaire, setSearchAffaire] = useState("");
 
   //Alerte
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
+
+  function actions() {
+    // input to search for an affaire
+    return (
+      <div
+        style={{
+          display: "flex",
+          textAlign: "center",
+        }}
+      >
+        <label
+          className="uppercase text-blueGray-700 text-xl font-bold "
+          id="num_affaire"
+        >
+          N°
+        </label>
+        <Input
+          type="text"
+          defaultValue=""
+          placeholder="Rechercher une affaire"
+          onChange={(e) => setSearchAffaire(e.target.value)}
+        />
+      </div>
+    );
+  }
+
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -119,10 +146,16 @@ export default function ListeAffaire() {
     setOpen(false);
   };
 
-  const getAffaires = async (page, perPage, ordering, direction) => {
+  const getAffaires = async (
+    page,
+    perPage,
+    ordering,
+    direction,
+    searchAffaire
+  ) => {
     setloading(true);
     const response = await API.affaire
-      .get_affaires(page, perPage, direction + ordering)
+      .get_affaires(page, perPage, direction + ordering, searchAffaire)
       .then((response) => {
         setTotalRows(response.count);
         setloading(false);
@@ -144,8 +177,8 @@ export default function ListeAffaire() {
   };
 
   useEffect(() => {
-    getAffaires(1, perPage, ordering, direction);
-  }, [perPage, ordering, direction]);
+    getAffaires(1, perPage, ordering, direction, searchAffaire);
+  }, [perPage, ordering, direction, searchAffaire]);
 
   return (
     <Page
@@ -173,6 +206,7 @@ export default function ListeAffaire() {
           title={"Liste des affaires"}
           columns={columns}
           data={affaires}
+          actions={actions()}
           expandableRows
           expandableRowsComponent={ExpandedComponent}
           pagination={true}
