@@ -243,7 +243,7 @@ const update_affectation = async (affectationId, affectation) => {
 
 const create_affectation = async (affectation) => {
   const response = await axiosInstance
-    .post(`/api/affectations`, { ...affectation })
+    .post(`/api/affectations/`, { ...affectation })
     .then((response) => {
       return response.data;
     })
