@@ -83,7 +83,7 @@ class fiche {
   // create fiche
   static create_fiche = async (fiche) => {
     return await axiosInstance
-      .post(`/api/fiches`, { ...fiche })
+      .post(`/api/fiches/`, { ...fiche })
       .then((response) => {
         return response.data;
       })
@@ -120,7 +120,7 @@ class fiche {
 class etape {
   static nouvelle_etape = async (etape) => {
     const response = await axiosInstance
-      .post(`/api/etapes`, { ...etape })
+      .post(`/api/etapes/`, { ...etape })
       .then((response) => {
         return response.data;
       })
