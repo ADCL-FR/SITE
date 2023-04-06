@@ -69,7 +69,7 @@ export default function MachineTable() {
         <>
         <DataTable
             style={{ marginLeft: "15px" }}
-            title={"Fiches"}
+            title={"Gestion des machines"}
             columns={columns}
             data={machines}
             progressPending={loading}
