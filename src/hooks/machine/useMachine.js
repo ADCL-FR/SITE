@@ -17,6 +17,14 @@ const useMachine = () => {
       setFormOptions(options);
     });
   }
+
+  function create_machine () {
+    // create machine
+  }
+
+  function delete_machine() {
+    // delete machine
+  }
   // async useEffect
   useEffect(() => {
     loadMachines();
@@ -25,6 +33,8 @@ const useMachine = () => {
   return {
     machines,
     loadMachines,
+    create_machine,
+    delete_machine,
     formOptions,
     loading,
   };

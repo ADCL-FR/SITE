@@ -38,6 +38,9 @@ export const PATH_DASHBOARD = {
     //view: (num) => paths(ROOTS_DASHBOARD, `/affaire/${num}`),
     //edit: (num) => paths(ROOTS_DASHBOARD, `/affaire/${num}/edit`),
   },
+  machines: {
+    root: paths(ROOTS_DASHBOARD, "/machines")
+  }
   // user: {
   //   root: paths(ROOTS_DASHBOARD, '/user'),
   //   four: paths(ROOTS_DASHBOARD, '/user/four'),
