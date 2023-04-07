@@ -56,6 +56,13 @@ export const navConfig = {
       link: { href: PATH_DASHBOARD.fiche.new },
     },*/
     { divider: true },
+    { title: "Machines" },
+    {
+      icon: "fas fa-cogs",
+      text: "Gestion",
+      link: { href: PATH_DASHBOARD.machines.root },
+    },
+    { divider: true },
     { title: "Planning" },
     /*{
       icon: "fas fa-tv",

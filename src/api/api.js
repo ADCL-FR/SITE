@@ -145,7 +145,7 @@ class etape {
 
 class machine {
   static get_machines = async () => {
-    const response = await axiosInstance
+    return await axiosInstance
       .get(`/api/machines`)
       .then((response) => {
         return response.data;
@@ -153,23 +153,58 @@ class machine {
       .catch((error) => {
         throw error;
       });
-    return response;
   };
-}
-// list groupe Machines
-class groupeMachine {
-  static get_groupes_machines = async () => {
-    const response = await axiosInstance
-      .get(`/api/machines/groupes`)
+
+  static create_machine = async (data) => {
+    return await axiosInstance
+      .post(`/api/machines/`, { ...data })
       .then((response) => {
         return response.data;
       })
       .catch((error) => {
         throw error;
       });
-    return response;
-  };
+  }
+
+  static update_machine = async (machineId, data) => {
+    return await axiosInstance
+      .patch(`/api/machines/${machineId}`, { ...data })
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  }
+
+  static get_machine = async (machineId) => {
+    return await axiosInstance
+      .get(`/api/machines/${machineId}`)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  }
+
+  static delete_machine = async (machineIds = []) => {
+
+    const config = {
+      params: { ids: machineIds.join(',') },
+    };
+    return await axiosInstance
+      .delete(`/api/machines/delete`, config)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  }
 }
+// list groupe Machines
+
 const recuperer_statuts = async () => {
   await axiosInstance
     .get(`/api/status`)
@@ -282,7 +317,6 @@ const API = {
   fiche,
   etape,
   machine,
-  groupeMachine,
   recuperer_statuts,
   recuperer_clients,
   recuperer_salaries,

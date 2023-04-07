@@ -16,7 +16,8 @@ import {
   PlanningZone,
   DetailsFiche,
     DetailsAffaire,
-    LogoutPage
+    LogoutPage,
+  ListeMachine
 } from "./elements";
 
 // ----------------------------------------------------------------------
@@ -79,6 +80,13 @@ export default function Router() {
             { path: "machines", element: <PlanningMachine /> },
 
           ],
+        },
+
+        {
+          path: "machines",
+          children: [
+            { path: "", element: <ListeMachine /> },
+            ],
         },
       ],
     },
