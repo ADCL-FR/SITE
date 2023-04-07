@@ -58,7 +58,7 @@ export const navConfig = {
     { divider: true },
     { title: "Machines" },
     {
-      icon: "fas fa-calendar-alt",
+      icon: "fas fa-cogs",
       text: "Gestion",
       link: { href: PATH_DASHBOARD.machines.root },
     },
