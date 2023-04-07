@@ -10,30 +10,9 @@ import useMachine from "../../hooks/machine/useMachine.js"
 import DataTable from "react-data-table-component";
 import { PATH_DASHBOARD } from "../../routes/paths";
 import Button from "../../components/Elements/Button";
-import FicheForm from "../Form/fiche/FicheForm";
+import MachineForm from "../Form/machines/MachineForm";
 import Dialog from "@mui/material/Dialog";
 
-const columns = [
-    {
-        name: "Machine",
-        selector: (row) => row.nom_machine,
-        sortable: true,
-    },
-    {
-        name: "Description",
-        selector: (row) => row.description,
-        grow: 2,
-        hide: "md",
-        //right: true
-    },
-    {
-        name: "Fonctionnelle",
-        selector: (row) => row.fonctionnelle,
-        center: true,
-        sortable: false,
-        format: (row) => (row.fonctionnelle ? "Oui" : "Non"),
-    },
-];
 
 const conditionalRowStyles = [
     {
@@ -46,11 +25,77 @@ const conditionalRowStyles = [
 ]
 
 export default function MachineTable() {
+
+
     const navigate = useNavigate();
 
-    const { machines } = useMachine();
+    const { machines, loadMachines, delete_machines } = useMachine();
     const [loading, setLoading] = useState(false);
+    const [selectedRows, setSelectedRows] = React.useState([]);
+    const [toggleCleared, setToggleCleared] = React.useState(false);
     const [openDialog, setOpenDialog] = useState(false);
+    const [openDialogUpdate, setOpenDialogUpdate] = useState({
+        show: false,
+        machineId: "",
+    })
+
+    const handleRowSelected = React.useCallback(state => {
+        const ids = state.selectedRows.map(machine => machine.id)
+        setSelectedRows(ids);
+        }, []);
+
+    const contextActions = React.useMemo(() => {
+        const handleDelete = () => {
+
+            if (window.confirm(`Etes vous sur de vouloir supprimer ces machines?`)) {
+                setToggleCleared(!toggleCleared);
+                delete_machines(selectedRows);
+            }
+        };
+
+        return (
+            <Button key="delete" onClick={handleDelete} style={{ backgroundColor: 'red' }} icon>
+                Supprimer
+            </Button>
+            );
+        }, [selectedRows, toggleCleared]);
+
+    const columns = [
+        {
+            name: "Machine",
+            selector: (row) => row.nom_machine,
+            sortable: true,
+        },
+        {
+            name: "Description",
+            selector: (row) => row.description,
+            grow: 2,
+            hide: "md",
+            //right: true
+        },
+        {
+            name: "Fonctionnelle",
+            selector: (row) => row.fonctionnelle,
+            center: true,
+            sortable: false,
+            format: (row) => (row.fonctionnelle ? "Oui" : "Non"),
+        },
+
+        {
+            name: "Editer",
+            center: true,
+            cell: (row) => (
+                <div>
+                    <button
+                        onClick={() => setOpenDialogUpdate({ show: true, machineId: row.id })}
+                        style={{ all: "unset" }}
+                        >
+                        <i className="fas fa-edit" style={{ color: "orange" }}></i>
+                    </button>
+                </div>
+                ),
+        },
+        ];
 
     function actions() {
         return (
@@ -62,7 +107,8 @@ export default function MachineTable() {
     
 
     useEffect(() => {
-        }, []);
+            loadMachines();
+            }, [openDialog, openDialogUpdate.show, toggleCleared]);
     // change state of zones, move fiches from one zone to another with affaire infos
 
     return (
@@ -80,7 +126,31 @@ export default function MachineTable() {
             pointerOnHover
             onRowDoubleClicked={(row) =>{}}
             actions={actions()}
+            contextActions={contextActions}
+            onSelectedRowsChange={handleRowSelected}
+            clearSelectedRows={toggleCleared}
         />
+        <Dialog
+            open={openDialog}
+            onClose={() => {
+            setOpenDialog(false);
+
+        }}
+            >
+            <MachineForm update={false} />
+        </Dialog>
+
+        <Dialog
+            open={openDialogUpdate?.show}
+            onClose={() => {
+            setOpenDialogUpdate(false);
+
+        }}
+            >
+            <MachineForm update={true} machineId={openDialogUpdate.machineId} />
+        </Dialog>
+
+
         </>
         );
 }
