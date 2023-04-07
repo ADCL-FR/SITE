@@ -65,3 +65,7 @@ export const PlanningZone = Loadable(
 export const PlanningMachine = Loadable(
   lazyWithRetry(() => import("../pages/Planning/Machines"))
 );
+
+export const ListeMachine = Loadable(
+  lazyWithRetry(() => import("../pages/Machine/ListeMachines"))
+)
