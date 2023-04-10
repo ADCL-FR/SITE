@@ -42,7 +42,7 @@ export const PATH_DASHBOARD = {
     root: paths(ROOTS_DASHBOARD, "/machines"),
   },
   modele: {
-    root: paths(ROOTS_DASHBOARD, "/modele"),
+    root: paths(ROOTS_DASHBOARD, "/modeles"),
   },
   // user: {
   //   root: paths(ROOTS_DASHBOARD, '/user'),
