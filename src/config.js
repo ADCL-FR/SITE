@@ -75,7 +75,13 @@ export const navConfig = {
       text: "Zones",
       link: { href: PATH_DASHBOARD.planning.zones },
     },
-    // logout with icon logout
+    { divider: true },
+    { title: "Modèles" },
+    {
+      icon: "fas fa-cogs",
+      text: "Fiches",
+      link: { href: PATH_DASHBOARD.modele.root },
+    },
     { divider: true },
     {
       icon: "fas fa-sign-out-alt",
