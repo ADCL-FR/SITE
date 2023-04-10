@@ -38,23 +38,6 @@ export const navConfig = {
       text: "Liste",
       link: { href: PATH_DASHBOARD.affaire.root },
     },
-    // {
-    //   icon: "fas fa-tools",
-    //   text: "Nouvelle Affaire",
-    //   link: { href: PATH_DASHBOARD.affaire.new },
-    // },
-    /*{ divider: true },
-    { title: "Fiche" },
-    {
-      icon: "fas fa-tv",
-      text: "Liste",
-      link: { href: PATH_DASHBOARD.fiche.root },
-    },
-    {
-      icon: "fas fa-tools",
-      text: "Nouvelle Affaire",
-      link: { href: PATH_DASHBOARD.fiche.new },
-    },*/
     { divider: true },
     { title: "Machines" },
     {
@@ -78,8 +61,8 @@ export const navConfig = {
     { divider: true },
     { title: "Modèles" },
     {
-      icon: "fas fa-cogs",
-      text: "Fiches",
+      icon: "fas fa-th-list",
+      text: "Fiches Modèles",
       link: { href: PATH_DASHBOARD.modele.root },
     },
     { divider: true },
