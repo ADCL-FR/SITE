@@ -15,9 +15,10 @@ import {
   PlanningMachine,
   PlanningZone,
   DetailsFiche,
-    DetailsAffaire,
-    LogoutPage,
-  ListeMachine
+  DetailsAffaire,
+  LogoutPage,
+  ListeMachine,
+  ListeModele,
 } from "./elements";
 
 // ----------------------------------------------------------------------
@@ -38,11 +39,7 @@ export default function Router() {
         },
         {
           path: "logout",
-          element: (
-
-                <LogoutPage />
-
-          ),
+          element: <LogoutPage />,
         },
       ],
     },
@@ -70,7 +67,7 @@ export default function Router() {
             { element: <ListeAffaire /> },
             { path: "", element: <ListeAffaire /> },
             { path: "nouvelle", element: <NouvelleAffaire /> },
-            { path: ':id', element: <DetailsFiche /> },
+            { path: ":id", element: <DetailsFiche /> },
           ],
         },
         {
@@ -78,15 +75,16 @@ export default function Router() {
           children: [
             { path: "zones", element: <PlanningZone /> },
             { path: "machines", element: <PlanningMachine /> },
-
           ],
         },
 
         {
           path: "machines",
-          children: [
-            { path: "", element: <ListeMachine /> },
-            ],
+          children: [{ path: "", element: <ListeMachine /> }],
+        },
+        {
+          path: "modeles",
+          children: [{ path: "", element: <ListeModele /> }],
         },
       ],
     },

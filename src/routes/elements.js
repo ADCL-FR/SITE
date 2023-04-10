@@ -44,7 +44,7 @@ export const LoginPage = Loadable(
   lazyWithRetry(() => import("../pages/LoginPage"))
 );
 export const LogoutPage = Loadable(
-    lazyWithRetry(() => import("../pages/LogoutPage"))
+  lazyWithRetry(() => import("../pages/LogoutPage"))
 );
 export const NouvelleAffaire = Loadable(
   lazyWithRetry(() => import("../pages/Affaire/NouvelleAffaire"))
@@ -53,10 +53,10 @@ export const ListeAffaire = Loadable(
   lazyWithRetry(() => import("../pages/Affaire/ListeAffaire"))
 );
 export const DetailsAffaire = Loadable(
-    lazyWithRetry(() => import("../pages/Affaire/AffaireDetail"))
+  lazyWithRetry(() => import("../pages/Affaire/AffaireDetail"))
 );
 export const DetailsFiche = Loadable(
-    lazyWithRetry(() => import("../pages/Fiche/FicheDetail"))
+  lazyWithRetry(() => import("../pages/Fiche/FicheDetail"))
 );
 
 export const PlanningZone = Loadable(
@@ -68,4 +68,8 @@ export const PlanningMachine = Loadable(
 
 export const ListeMachine = Loadable(
   lazyWithRetry(() => import("../pages/Machine/ListeMachines"))
-)
+);
+
+export const ListeModele = Loadable(
+  lazyWithRetry(() => import("../pages/Modele/ListeModele"))
+);
