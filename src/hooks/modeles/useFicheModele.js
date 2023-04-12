@@ -7,10 +7,7 @@ export const useFicheModele = () => {
   const { loading, setLoading } = useState(false);
 
   async function loadFicheModele(id) {
-    return API.ficheModele.get_fiche_modele(id).then((response) => {
-      setFiche(response);
-      return response;
-    });
+    return API.ficheModele.get_fiche_modele(id);
   }
 
   const loadFichesModele = async (id) => {
@@ -52,6 +49,10 @@ export const useFicheModele = () => {
     return API.ficheModele.delete_fiche_modele(id);
   };
 
+  const copyToAffaire = (modeleId, affaireId) => {
+    return API.ficheModele.copy_fiche_modele(modeleId, affaireId);
+  }
+
   return {
     fiche,
     fiches,
@@ -62,5 +63,6 @@ export const useFicheModele = () => {
     updateFicheModele,
     deleteFicheModele,
     loadFicheModele,
+    copyToAffaire
   };
 };

@@ -16,61 +16,9 @@ import Dialog from "@mui/material/Dialog";
 
 import API from "../../api/api";
 import FicheModeleForm from "../../components/Form/modele/FicheModeleForm";
-
+import CopieToForm from "../../components/Form/modele/CopieToForm";
+import EtapeModeleTable from "../../components/Table/EtapeModeleTable";
 export default function ListeModele() {
-  const columns_etapes = [
-    {
-      name: "Numéro",
-      selector: (row) => row.num_etape,
-      sortable: true,
-    },
-    {
-      name: "Machine",
-      selector: (row) => row.machine?.nom_machine || null,
-      center: true,
-    },
-    {
-      name: "REP",
-      selector: (row) => row.rep,
-      center: true,
-    },
-    {
-      name: "Plan",
-      selector: (row) => row.plan,
-      center: true,
-    },
-    {
-      name: "Quantité",
-      selector: (row) => row.quantite,
-      center: true,
-    },
-    {
-      name: "Temps",
-      selector: (row) => row.temps,
-      center: true,
-    },
-    {
-      name: "Terminée",
-      selector: (row) => (row.terminee ? "Oui" : "Non"),
-      center: true,
-    },
-    // edit button
-    {
-      name: "Editer",
-      center: true,
-      cell: (row) => (
-        <div>
-          <button
-            onClick={() => console.log({ show: true, data: row })}
-            style={{ all: "unset" }}
-          >
-            <i className="fas fa-edit" style={{ color: "orange" }}></i>
-          </button>
-        </div>
-      ),
-    },
-  ];
-
   const columns_fiches = [
     {
       name: "Titre",
@@ -98,9 +46,23 @@ export default function ListeModele() {
             onClick={() => setOpenDialogUpdate({ show: true, data: row.id })}
             style={{ all: "unset" }}
           >
-            <i className="fas fa-edit" style={{ color: "orange" }}></i>
+            <i className="fas fa-edit" style={{ color: "orange", scale: "1.2" }}></i>
           </button>
         </div>
+      ),
+    },
+    {
+      name: "Copier",
+      center: true,
+      cell: (row) => (
+          <div>
+            <button
+                onClick={() => setOpenDialogCopy({ show: true, data: row.id })}
+                style={{ all: "unset" }}
+            >
+              <i className="far fa-copy" style={{ color: "green", scale: "1.2" }}></i>
+            </button>
+          </div>
       ),
     },
   ];
@@ -116,6 +78,9 @@ export default function ListeModele() {
   const [openDialogUpdate, setOpenDialogUpdate] = useState({
     show: false,
     data: null,
+  });
+  const [openDialogCopy, setOpenDialogCopy] = useState({
+    show: false, data: null
   });
 
   const handleClose = (event, reason) => {
@@ -141,7 +106,11 @@ export default function ListeModele() {
 
   const contextActions = React.useMemo(() => {
     const handleDelete = () => {
-      if (window.confirm(`Etes vous sur de vouloir supprimer ces machines?`)) {
+      if (
+        window.confirm(
+          `Etes vous sur de vouloir supprimer cette fiche et les étapes associées ?`
+        )
+      ) {
         setToggleCleared(!toggleCleared);
         deleteFicheModele(selectedRow);
       }
@@ -163,6 +132,13 @@ export default function ListeModele() {
     loadFichesModele();
   }, [toggleCleared, openDialog, openDialogUpdate.show]);
 
+  const ExpandedComponent = ({ data }) => {
+    return (
+      <div>
+        <EtapeModeleTable ficheId={data.id} />
+      </div>
+    );
+  };
   return (
     <Page title={"Modele"} className="flex flex-col h-full bg-blueGray-100">
       <PageHeader title={"Gestion des modèles"} />
@@ -173,6 +149,9 @@ export default function ListeModele() {
           data={fiches}
           actions={actions()}
           striped
+          expandableRows
+          expandOnRowClicked
+          expandableRowsComponent={ExpandedComponent}
           selectableRows
           selectableRowsSingle
           onSelectedRowsChange={handleRowSelected}
@@ -194,6 +173,14 @@ export default function ListeModele() {
         }}
       >
         <FicheModeleForm update={true} ficheId={openDialogUpdate.data} />
+      </Dialog>
+      <Dialog
+          open={openDialogCopy.show}
+          onClose={() => {
+            setOpenDialogCopy(false);
+          }}
+      >
+        <CopieToForm ficheId={openDialogCopy.data} />
       </Dialog>
     </Page>
   );

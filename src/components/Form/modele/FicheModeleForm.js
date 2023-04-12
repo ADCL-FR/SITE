@@ -12,9 +12,9 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 export default function FicheModeleForm({ ficheId, update = false }) {
-  const { fiche, loadFicheModele, createFicheModele, updateFicheModele } =
+  const { loadFicheModele, createFicheModele, updateFicheModele } =
     useFicheModele();
-
+  const [fiche, setFiche] = useState({});
   const [showAlert, setShowAlert] = useState(false);
 
   const [success, setSuccess] = useState(false);
@@ -58,7 +58,7 @@ export default function FicheModeleForm({ ficheId, update = false }) {
     }
   };
   useEffect(() => {
-    if (update) loadFicheModele(ficheId);
+    if (update) loadFicheModele(ficheId).then((response) => setFiche(response));
     reset();
   }, [ficheId]);
   const widths = {

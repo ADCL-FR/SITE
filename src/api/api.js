@@ -13,6 +13,17 @@ class affaire {
     return response;
   };
 
+  static search_numero_affaire = async (numero) => {
+    const response = await axiosInstance
+      .get(`/api/affaires/nums?search=${numero}`)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+    return response;
+  };
   static get_affaires = async (
     page = 1,
     perPage = 10,
@@ -198,6 +209,17 @@ class ficheModele {
         throw error;
       });
   };
+
+  static copy_fiche_modele = async (ficheModeleId, affaireId) => {
+    return await axiosInstance
+      .post(`/api/modeles/fiches/copy?affaire=${affaireId}&modele=${ficheModeleId}` )
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  }
 }
 
 class etapeModele {
