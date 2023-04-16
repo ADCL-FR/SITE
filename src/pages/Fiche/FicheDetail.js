@@ -19,6 +19,7 @@ import PageHeader from "../../components/Headers/PageHeader";
 
 // table
 import DataTable from "react-data-table-component";
+import {useEtape} from "../../hooks/etape/useEtape";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={60} ref={ref} variant="filled" {...props} />;
@@ -45,6 +46,36 @@ export default function FicheDetail() {
     show: false,
     data: {},
   });
+  const [selectedRows, setSelectedRows] = React.useState([]);
+  const [toggleCleared, setToggleCleared] = React.useState(false);
+
+  const {deleteEtapes} = useEtape()
+
+  // selected rows
+  const handleRowSelected = React.useCallback((state) => {
+    const ids = state.selectedRows.map((machine) => machine.id);
+    setSelectedRows(ids);
+  }, []);
+
+  const contextActions = React.useMemo(() => {
+    const handleDelete = () => {
+      if (window.confirm(`Etes vous sur de vouloir supprimer ces étapes ?`)) {
+        deleteEtapes(selectedRows);
+        setToggleCleared(!toggleCleared);
+      }
+    };
+
+    return (
+        <Button
+            key="delete"
+            onClick={handleDelete}
+            style={{ backgroundColor: "red" }}
+            icon
+        >
+          Supprimer
+        </Button>
+    );
+  }, [selectedRows, toggleCleared]);
 
   // table
   const [loading, setloading] = useState(false);
@@ -153,7 +184,7 @@ export default function FicheDetail() {
     setloading(true);
     getEtapes();
     setloading(false);
-  }, [id]);
+  }, [id, toggleCleared]);
 
   return (
     <Page title="Détail Fiche" className="flex flex-col h-full bg-blueGray-100">
@@ -187,6 +218,9 @@ export default function FicheDetail() {
           highlightOnHover
           pointerOnHover
           actions={actions()}
+          contextActions={contextActions}
+          onSelectedRowsChange={handleRowSelected}
+          clearSelectedRows={toggleCleared}
         />
 
         <Dialog

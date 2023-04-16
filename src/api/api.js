@@ -13,6 +13,17 @@ class affaire {
     return response;
   };
 
+  static search_numero_affaire = async (numero) => {
+    const response = await axiosInstance
+      .get(`/api/affaires/nums?search=${numero}`)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+    return response;
+  };
   static get_affaires = async (
     page = 1,
     perPage = 10,
@@ -115,6 +126,21 @@ class fiche {
       });
     return response;
   };
+
+  // delete fiches
+    static delete_fiches = async (fichesIds) => {
+      const config = {
+        params: { ids: fichesIds.join(",") },
+      };
+      const response = await axiosInstance
+        .delete(`/api/fiches/delete`, config )
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          throw error;
+        });
+      }
 }
 
 class etape {
@@ -132,14 +158,143 @@ class etape {
 
   static update_etape = async (etapeId, etape) => {
     const response = await axiosInstance
-      .patch(`/api/etapes/${etapeId}`, { ...etape })
+        .patch(`/api/etapes/${etapeId}`, {...etape})
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    return response;
+  };
+
+  static delete_etapes = async (etapeIds) => {
+    const config = {
+      params: {ids: etapeIds.join(",")},
+    };
+    const response = await axiosInstance
+        .delete(`/api/etapes/delete`, config)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          throw error;
+        });
+  }
+
+}
+
+class ficheModele {
+  static create_fiche_modele = async (ficheModele) => {
+    return await axiosInstance
+      .post(`/api/modeles/fiches/`, { ...ficheModele })
       .then((response) => {
         return response.data;
       })
       .catch((error) => {
         throw error;
       });
-    return response;
+  };
+
+  static get_fiche_modele = async (ficheModeleId) => {
+    return await axiosInstance
+      .get(`/api/modeles/fiches/${ficheModeleId}`)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
+
+  static get_fiches_modeles = async () => {
+    return await axiosInstance
+      .get(`/api/modeles/fiches/`)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
+
+  static update_fiche_modele = async (ficheModeleId, ficheModele) => {
+    return await axiosInstance
+      .patch(`/api/modeles/fiches/${ficheModeleId}`, { ...ficheModele })
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
+
+  static delete_fiche_modele = async (ficheModeleId) => {
+    return await axiosInstance
+      .delete(`/api/modeles/fiches/${ficheModeleId}`)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
+
+  static copy_fiche_modele = async (ficheModeleId, affaireId) => {
+    return await axiosInstance
+      .post(`/api/modeles/fiches/copy?affaire=${affaireId}&modele=${ficheModeleId}` )
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  }
+
+  static get_options = async (search="") => {
+    return await axiosInstance
+      .get(`/api/modeles/fiches/options?search=${search}`)
+      .then((response) => {
+        return response.data.results;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  }
+}
+
+class etapeModele {
+  static create_etape_modele = async (etapeModele) => {
+    return await axiosInstance
+      .post(`/api/modeles/etapes/`, { ...etapeModele })
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
+
+  static update_etape_modele = async (etapeModeleId, etapeModele) => {
+    return await axiosInstance
+      .patch(`/api/modeles/etapes/${etapeModeleId}`, { ...etapeModele })
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
+
+  static delete_etape_modele = async (etapeModeleId) => {
+    return await axiosInstance
+      .delete(`/api/modeles/etapes/${etapeModeleId}`)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        throw error;
+      });
   };
 }
 
@@ -164,7 +319,7 @@ class machine {
       .catch((error) => {
         throw error;
       });
-  }
+  };
 
   static update_machine = async (machineId, data) => {
     return await axiosInstance
@@ -175,7 +330,7 @@ class machine {
       .catch((error) => {
         throw error;
       });
-  }
+  };
 
   static get_machine = async (machineId) => {
     return await axiosInstance
@@ -186,12 +341,11 @@ class machine {
       .catch((error) => {
         throw error;
       });
-  }
+  };
 
   static delete_machine = async (machineIds = []) => {
-
     const config = {
-      params: { ids: machineIds.join(',') },
+      params: { ids: machineIds.join(",") },
     };
     return await axiosInstance
       .delete(`/api/machines/delete`, config)
@@ -201,7 +355,7 @@ class machine {
       .catch((error) => {
         throw error;
       });
-  }
+  };
 }
 // list groupe Machines
 
@@ -317,6 +471,8 @@ const API = {
   fiche,
   etape,
   machine,
+  etapeModele,
+  ficheModele,
   recuperer_statuts,
   recuperer_clients,
   recuperer_salaries,

@@ -35,6 +35,10 @@ const useFiche = () => {
         return API.fiche.delete_fiche(id)
     }
 
+    async function deleteFiches (ids) {
+        return API.fiche.delete_fiches(ids)
+    }
+
     return {
         fiche,
         setFiche,
@@ -43,6 +47,7 @@ const useFiche = () => {
         onCreateFiche,
         onUpdateFiche,
         onDeleteFiche,
+        deleteFiches
     }
 }
 

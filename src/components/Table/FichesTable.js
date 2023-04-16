@@ -12,7 +12,9 @@ import DataTable from "react-data-table-component";
 import { PATH_DASHBOARD } from "../../routes/paths";
 import Button from "../../components/Elements/Button";
 import FicheForm from "../Form/fiche/FicheForm";
+import CopyFromForm from "../Form/modele/CopyFromForm";
 import Dialog from "@mui/material/Dialog";
+import useFiche from "../../hooks/fiche/useFiche";
 
 const columns = [
   {
@@ -96,11 +98,46 @@ export default function FichesTable({
   const [fiches, setFiches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [openDialog, setOpenDialog] = useState(false);
+  const [openDialogCopy, setOpenDialogCopy] = useState(false);
+
+  // selection
+  const [selectedRows, setSelectedRows] = React.useState([]);
+  const [toggleCleared, setToggleCleared] = React.useState(false);
+
+  const {deleteFiches} = useFiche();
+
+
+  const handleRowSelected = React.useCallback((state) => {
+    const ids = state.selectedRows.map((fiche) => fiche.id);
+    setSelectedRows(ids);
+  }, []);
+  const contextActions = React.useMemo(() => {
+    const handleDelete = async () => {
+      if (window.confirm(`Etes vous sur de vouloir supprimer ces fiches ?`)) {
+
+        await deleteFiches(selectedRows);
+        setToggleCleared(!toggleCleared);
+        setSelectedRows([]);
+      }
+    };
+
+    return (
+        <Button
+            key="delete"
+            onClick={handleDelete}
+            style={{ backgroundColor: "red" }}
+            icon
+        >
+          Supprimer
+        </Button>
+    );
+  }, [selectedRows, toggleCleared]);
 
   function actions() {
     return (
       <div>
-        <Button onClick={() => setOpenDialog(true)}>Ajouter une Fiche</Button>
+        <Button onClick={() => setOpenDialog(true)}>Ajouter Fiche</Button>
+        <Button onClick={() => setOpenDialogCopy(true)}>Ajouter Fiche Modèle</Button>
       </div>
     );
   }
@@ -118,7 +155,7 @@ export default function FichesTable({
 
   useEffect(() => {
     get_affaire_et_fiches();
-  }, [affaireId]);
+  }, [affaireId, toggleCleared]);
   // change state of zones, move fiches from one zone to another with affaire infos
 
   return (
@@ -130,6 +167,9 @@ export default function FichesTable({
         data={fiches}
         progressPending={loading}
         selectableRows={true}
+        contextActions={contextActions}
+        onSelectedRowsChange={handleRowSelected}
+        clearSelectedRows={toggleCleared}
         customStyles={customStyles}
         //conditionalRowStyles={conditionalRowStyles}
         dense
@@ -146,6 +186,19 @@ export default function FichesTable({
         }}
       >
         <FicheForm update={false} affaire={affaire} />
+      </Dialog>
+
+      <Dialog
+          //classes={{root: "overflow-visible"}}
+          open={openDialogCopy}
+          onClose={() => {
+            setOpenDialogCopy(false);
+            get_affaire_et_fiches();
+          }}
+          sx={{ '& .MuiPaper-root': {overflow: "visible" } }}
+
+      >
+        <CopyFromForm affaireId={affaire.id} />
       </Dialog>
     </>
   );

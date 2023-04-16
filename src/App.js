@@ -1,4 +1,5 @@
 import './App.css';
+import 'react-select-search/style.css';
 import Router from './routes';
 import {HelmetProvider} from "react-helmet-async";
 import {BrowserRouter} from "react-router-dom";
