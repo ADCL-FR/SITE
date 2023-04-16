@@ -19,19 +19,11 @@ export default function CopieToForm({ ficheId }) {
     const { copyToAffaire } =
         useFicheModele();
 
-    const [searchedNum, setSearchedNum] = useState("");
+    const [searchedNum, setSearchedNum] = useState(null);
 
     const [showAlert, setShowAlert] = useState(false);
     const [success, setSuccess] = useState(false);
     const [message, setMessage] = useState("");
-
-    const options = [
-        { name: 'Option 1', value: 1 },
-        { name: 'Option 2', value: 2 },
-        { name: 'Option 3', value: 3 },
-        { name: 'Option 4', value: 4 },
-        { name: 'Option 5', value: 5 },
-    ];
 
     const loadOptions = async (inputValue) => {
         return new Promise(async (resolve) =>  {
@@ -45,18 +37,7 @@ export default function CopieToForm({ ficheId }) {
         });
     };
 
-    function dirtyValues(touchedFields, allValues) {
-        // If *any* item in an array was modified, the entire array must be submitted, because there's no way to indicate
-        // "placeholders" for unchanged elements. `dirtyFields` is `true` for leaves.
-        if (touchedFields === true || Array.isArray(dirtyFields)) return allValues;
-        // Here, we have an object
-        return Object.fromEntries(
-            Object.keys(touchedFields).map((key) => [
-                key,
-                dirtyValues(touchedFields[key], allValues[key]),
-            ])
-        );
-    }
+
     const {
         register,
         handleSubmit,
@@ -93,31 +74,37 @@ export default function CopieToForm({ ficheId }) {
     };
     return (
         <>
-            <div className="flex h-full flex-col min-w-0 break-words bg-white w-full shadow-lg rounded-lg">
-                <div className="px-4 py-5 flex-auto">
+            <div className="flex h-full min-h-330-px flex-col bg-white w-full shadow-lg rounded-lg z-1" style={{ zIndex: 1, overflow: "visible"}}>
+                <div className="px-4 py-5 flex-auto" style={{overflow: "visible"}}>
                     {/*<form onSubmit={handleSubmit((data) => {update ? onCreateFiche({...data, affaire: fiche.affaire}) : onUpdateFiche({...data, id: fiche.id})})}>*/}
                     <form onSubmit={handleSubmit((data, e) => onSubmit(data, e))}>
-                        <div className="container mx-auto px-4">
-                            <div>
+                        <div className="container mx-auto px-4" style={{overflow: "visible"}}>
+                            <div style={{overflow: "visible"}}>
                                 <h4 className="text-2xl font-semibold mt-4 mb-6">
-                                    Copier le modèle dans une affaire
+                                    Copier le modèle.
                                 </h4>
-                                <div className="flex flex-wrap -mx-4 block ">
-                                    <div className={"px-4 pb-2  h-full w-full " + widths[6]}>
+                                <div className="flex flex-wrap -mx-4 " style={{overflow: "visible"}}>
+                                    <div className={"px-4 pb-2  h-full w-full " + widths[6]} style={{overflow: "visible"}}>
                                         <label
                                             className="block uppercase text-blueGray-700 text-xs font-bold mb-2 ml-1 z-9999"
                                             id="titre"
                                         >
                                             N° Affaire
                                         </label>
-                                        <SelectSearch
-                                            search
-                                            getOptions={loadOptions}
-                                            placeholder="Choisir affaire"
-                                            onChange={setSearchedNum}
-                                            value={searchedNum}
-                                        />
+                                        <div className="z-10" style={{overflow: "visible"}}>
+                                            <SelectSearch
+                                                search={true}
+                                                name="affaire"
+                                                autoFocus={true}
+                                                getOptions={loadOptions}
+                                                debounce={200}
+                                                placeholder="Choisir affaire"
+                                                onChange={(value) => setSearchedNum(value)}
+                                                value={searchedNum}
+                                                onFocus={() => setSearchedNum(null)}
 
+                                            />
+                                        </div>
                                     </div>
 
                                 </div>
@@ -127,7 +114,7 @@ export default function CopieToForm({ ficheId }) {
                             <Button
                                 type={"submit"}
                                 {...{
-                                    children: true ? "Modifier la fiche" : "Créer la fiche",
+                                    children: "Copier la fiche",
                                     size: "sm",
                                     color: "emerald",
                                 }}
