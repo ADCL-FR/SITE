@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import Button from "../../Elements/Button";
 import { useFicheModele } from "../../../hooks/modeles/useFicheModele";
 import SelectSearch from 'react-select-search';
-import 'react-select-search/style.css'
 
 
 import API from "../../../api/api";

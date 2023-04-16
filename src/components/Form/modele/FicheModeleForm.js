@@ -16,7 +16,6 @@ export default function FicheModeleForm({ ficheId, update = false }) {
     useFicheModele();
   const [fiche, setFiche] = useState({});
   const [showAlert, setShowAlert] = useState(false);
-
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
 

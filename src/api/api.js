@@ -126,6 +126,21 @@ class fiche {
       });
     return response;
   };
+
+  // delete fiches
+    static delete_fiches = async (fichesIds) => {
+      const config = {
+        params: { ids: fichesIds.join(",") },
+      };
+      const response = await axiosInstance
+        .delete(`/api/fiches/delete`, config )
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          throw error;
+        });
+      }
 }
 
 class etape {
@@ -215,6 +230,17 @@ class ficheModele {
       .post(`/api/modeles/fiches/copy?affaire=${affaireId}&modele=${ficheModeleId}` )
       .then((response) => {
         return response.data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  }
+
+  static get_options = async (search="") => {
+    return await axiosInstance
+      .get(`/api/modeles/fiches/options?search=${search}`)
+      .then((response) => {
+        return response.data.results;
       })
       .catch((error) => {
         throw error;
