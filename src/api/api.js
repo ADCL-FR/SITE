@@ -158,15 +158,30 @@ class etape {
 
   static update_etape = async (etapeId, etape) => {
     const response = await axiosInstance
-      .patch(`/api/etapes/${etapeId}`, { ...etape })
-      .then((response) => {
-        return response.data;
-      })
-      .catch((error) => {
-        throw error;
-      });
+        .patch(`/api/etapes/${etapeId}`, {...etape})
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          throw error;
+        });
     return response;
   };
+
+  static delete_etapes = async (etapeIds) => {
+    const config = {
+      params: {ids: etapeIds.join(",")},
+    };
+    const response = await axiosInstance
+        .delete(`/api/etapes/delete`, config)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          throw error;
+        });
+  }
+
 }
 
 class ficheModele {

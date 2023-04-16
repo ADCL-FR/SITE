@@ -49,6 +49,10 @@ export const useEtape = () => {
     return API.update_affectation(affectation_id, nouvelle_affecation);
   };
 
+  async function deleteEtapes(ids) {
+    return API.etape.delete_etapes(ids);
+  }
+
   return {
     etape,
     setEtape,
@@ -57,6 +61,7 @@ export const useEtape = () => {
     createEtape,
     updateEtape,
     deleteEtape,
+    deleteEtapes,
     create_affectation_zone_etape,
     update_affectation_zone_etape,
   };

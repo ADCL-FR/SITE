@@ -44,8 +44,8 @@ export default function MachineTable() {
   const contextActions = React.useMemo(() => {
     const handleDelete = () => {
       if (window.confirm(`Etes vous sur de vouloir supprimer ces machines?`)) {
-        setToggleCleared(!toggleCleared);
         delete_machines(selectedRows);
+        setToggleCleared(!toggleCleared);
       }
     };
 

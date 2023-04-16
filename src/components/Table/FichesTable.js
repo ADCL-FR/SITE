@@ -113,7 +113,7 @@ export default function FichesTable({
   }, []);
   const contextActions = React.useMemo(() => {
     const handleDelete = async () => {
-      if (window.confirm(`Etes vous sur de vouloir supprimer ces machines?`)) {
+      if (window.confirm(`Etes vous sur de vouloir supprimer ces fiches ?`)) {
 
         await deleteFiches(selectedRows);
         setToggleCleared(!toggleCleared);
