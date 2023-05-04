@@ -48,7 +48,7 @@ export default function EtapeModeleTable({ ficheId }) {
       cell: (row) => (
         <div>
           <button
-            onClick={() => console.log({ show: true, data: row })}
+            onClick={() => setOpenDialogUpdate({ show: true, data: row })}
             style={{ all: "unset" }}
           >
             <i className="fas fa-edit" style={{ color: "orange" }}></i>
@@ -61,6 +61,7 @@ export default function EtapeModeleTable({ ficheId }) {
   const [etapes, setEtapes] = useState([]);
   const { fiche, loadFicheModele } = useFicheModele();
   const [openDialog, setOpenDialog] = useState(false);
+  const [openDialogUpdate, setOpenDialogUpdate] = useState({ show: false, data: null });
   function actions() {
     return (
         <div>
@@ -97,6 +98,16 @@ export default function EtapeModeleTable({ ficheId }) {
             }}
         >
           <EtapeModeleForm update={false} ficheId={ficheId} nbEtapes={etapes.length}/>
+        </Dialog>
+
+        <Dialog
+            open={openDialogUpdate.show}
+            onClose={() => {
+              setOpenDialogUpdate({ show: false, data: null });
+              loadEtapes();
+            }}
+        >
+          <EtapeModeleForm update={true} etapeData={openDialogUpdate.data}/>
         </Dialog>
       </div>
 

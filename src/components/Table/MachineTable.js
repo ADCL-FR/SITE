@@ -54,7 +54,6 @@ export default function MachineTable() {
         key="delete"
         onClick={handleDelete}
         style={{ backgroundColor: "red" }}
-        icon
       >
         Supprimer
       </Button>

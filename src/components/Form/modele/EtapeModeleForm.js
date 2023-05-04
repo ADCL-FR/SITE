@@ -120,7 +120,7 @@ export default function EtapeForm({
                       type="number"
                       required
                       {...register("num_etape")}
-                      defaultValue={update ? etapeModele.num_etape : nbEtapes + 1}
+                      defaultValue={update ? etapeModele?.num_etape : nbEtapes + 1}
                     />
                   </div>
 
@@ -134,7 +134,7 @@ export default function EtapeForm({
                     <Input
                       type="number"
                       {...register("quantite")}
-                      defaultValue={update ? etapeModele.quantite : 1}
+                      defaultValue={update ? etapeModele?.quantite : 1}
                     />
                   </div>
                   <div className={"px-4 pb-2 relative w-full " + widths[6]}>
@@ -147,7 +147,7 @@ export default function EtapeForm({
                     <Input
                       type="number"
                       {...register("temps")}
-                      defaultValue={update ? etapeModele.temps : 1}
+                      defaultValue={update ? etapeModele?.temps : 1}
                     />
                   </div>
                   <div className={"px-4 pb-2 relative w-full " + widths[6]}>
@@ -160,7 +160,7 @@ export default function EtapeForm({
                     <Input
                       type="text"
                       {...register("rep")}
-                      defaultValue={update ? etapeModele.rep : ""}
+                      defaultValue={update ? etapeModele?.rep : ""}
                     />
                   </div>
                   <div className={"px-4 pb-2 relative w-full " + widths[6]}>
@@ -173,7 +173,7 @@ export default function EtapeForm({
                     <Input
                       type="text"
                       {...register("plan")}
-                      defaultValue={update ? etapeModele.plan : ""}
+                      defaultValue={update ? etapeModele?.plan : ""}
                     />
                   </div>
                   <div className={"px-4 pb-2 relative w-full " + widths[6]}>
@@ -184,7 +184,7 @@ export default function EtapeForm({
                       Machine
                     </label>
                     <select
-                      value={update ? etapeModele.machine?.id : null}
+                      value={update ? etapeModele?.machine?.id : null}
                       required
                       placeholder="Sélectionner une machine"
                       {...register("machine")}

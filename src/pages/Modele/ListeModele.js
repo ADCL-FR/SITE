@@ -169,11 +169,11 @@ export default function ListeModele() {
       <Dialog
         open={openDialogUpdate.show}
         onClose={() => {
-          setOpenDialogUpdate(false);
+          setOpenDialogUpdate({ show: false, data: null });
             loadFichesModele();
         }}
       >
-        <FicheModeleForm update={true} ficheId={openDialogUpdate.data} />
+        <FicheModeleForm update={true} ficheId={openDialogUpdate?.data} />
       </Dialog>
       <Dialog
           open={openDialogCopy.show}
