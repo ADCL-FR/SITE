@@ -1,6 +1,9 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFicheModele } from "../../hooks/modeles/useFicheModele";
 import DataTable from "react-data-table-component";
+import Button from "../Elements/Button";
+import EtapeModeleForm from "../Form/modele/EtapeModeleForm";
+import Dialog from "@mui/material/Dialog";
 export default function EtapeModeleTable({ ficheId }) {
   const columns_etapes = [
     {
@@ -57,22 +60,46 @@ export default function EtapeModeleTable({ ficheId }) {
 
   const [etapes, setEtapes] = useState([]);
   const { fiche, loadFicheModele } = useFicheModele();
+  const [openDialog, setOpenDialog] = useState(false);
+  function actions() {
+    return (
+        <div>
+          <Button onClick={() => setOpenDialog(true)}>+ Étape</Button>
+        </div>
+    );
+  }
 
-  useEffect(() => {
+  function loadEtapes() {
     loadFicheModele(ficheId).then((res) => {
-      console.log("res:", res);
       setEtapes(res.etapes_modele);
     });
+  }
+
+  useEffect(() => {
+    loadEtapes();
   }, [ficheId]);
 
   return (
-    <DataTable
-      title="Etapes"
-      columns={columns_etapes}
-      data={etapes}
-      dense
-      customStyles={customStyles}
-    />
+      <div>
+        <DataTable
+            title="Etapes"
+            columns={columns_etapes}
+            data={etapes}
+            dense
+            customStyles={customStyles}
+            actions={actions()}
+        />
+        <Dialog
+            open={openDialog}
+            onClose={() => {
+              setOpenDialog(false);
+                loadEtapes();
+            }}
+        >
+          <EtapeModeleForm update={false} ficheId={ficheId} nbEtapes={etapes.length}/>
+        </Dialog>
+      </div>
+
   );
 }
 
