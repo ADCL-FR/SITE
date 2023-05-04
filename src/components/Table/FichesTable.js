@@ -126,7 +126,6 @@ export default function FichesTable({
             key="delete"
             onClick={handleDelete}
             style={{ backgroundColor: "red" }}
-            icon
         >
           Supprimer
         </Button>

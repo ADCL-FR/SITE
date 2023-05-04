@@ -1,8 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
+import PropTypes, {array} from "prop-types";
 
 // components
 import Button from "../Elements/Button"
+import {PATH_DASHBOARD} from "../../routes/paths";
+import HeaderNav from "../HeaderNav/HeaderNav";
 
 export default function PageHeader({
                                        title,
@@ -10,6 +12,7 @@ export default function PageHeader({
                                        button,
                                        color,
                                        gradient,
+                                        links
                                    }) {
     const bgColors = {
         blueGray: "bg-blueGray-800",
@@ -47,6 +50,7 @@ export default function PageHeader({
                             <h1 className="font-semibold  text-5xl mb-4 mt-0">
                                 {title}
                             </h1>
+                            {links.length > 0 && <HeaderNav links={links}/>}
                             <p className="mt-0 mb-12">{description}</p>
 
                         </div>
@@ -61,6 +65,7 @@ PageHeader.defaultProps = {
     button: {},
     color: "blueGray",
     gradient: false,
+    links: []
 };
 
 PageHeader.propTypes = {
@@ -83,4 +88,5 @@ PageHeader.propTypes = {
         "purple",
         "pink",
     ]),
+    links: array,
 };
