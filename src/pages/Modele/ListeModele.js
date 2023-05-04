@@ -121,7 +121,6 @@ export default function ListeModele() {
         key="delete"
         onClick={handleDelete}
         style={{ backgroundColor: "red" }}
-        icon
       >
         Supprimer
       </Button>
@@ -162,6 +161,7 @@ export default function ListeModele() {
         open={openDialog}
         onClose={() => {
           setOpenDialog(false);
+            loadFichesModele();
         }}
       >
         <FicheModeleForm />
@@ -169,10 +169,11 @@ export default function ListeModele() {
       <Dialog
         open={openDialogUpdate.show}
         onClose={() => {
-          setOpenDialogUpdate(false);
+          setOpenDialogUpdate({ show: false, data: null });
+            loadFichesModele();
         }}
       >
-        <FicheModeleForm update={true} ficheId={openDialogUpdate.data} />
+        <FicheModeleForm update={true} ficheId={openDialogUpdate?.data} />
       </Dialog>
       <Dialog
           open={openDialogCopy.show}
@@ -180,7 +181,7 @@ export default function ListeModele() {
             setOpenDialogCopy(false);
           }}
       >
-        <CopieToForm ficheId={openDialogCopy.data} />
+        <CopieToForm ficheId={openDialogCopy.data}  />
       </Dialog>
     </Page>
   );
