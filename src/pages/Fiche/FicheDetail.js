@@ -20,6 +20,8 @@ import PageHeader from "../../components/Headers/PageHeader";
 // table
 import DataTable from "react-data-table-component";
 import {useEtape} from "../../hooks/etape/useEtape";
+import HeaderNav from "../../components/HeaderNav/HeaderNav";
+import {PATH_DASHBOARD} from "../../routes/paths";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={60} ref={ref} variant="filled" {...props} />;
@@ -188,7 +190,23 @@ export default function FicheDetail() {
 
   return (
     <Page title="Détail Fiche" className="flex flex-col h-full bg-blueGray-100">
-      <PageHeader title={`Affaire ${infos.num_affaire}`} />
+      <PageHeader title={`Affaire ${infos.num_affaire}`} links={
+        [
+          {
+            title: `Affaires`,
+            href: PATH_DASHBOARD.affaire.root,
+          },
+            {
+              title: `Affaire ${infos.num_affaire}`,
+              href: `${PATH_DASHBOARD.affaire.root}/${infos.affaire_id}`,
+            },
+            {
+              title: `Fiche ${infos.id}`,
+              href: `${PATH_DASHBOARD.fiche.root}/${id}`,
+            }
+      ]
+      } />
+
       <div className="md:px-10 mb-20" style={{ marginTop: "-8rem" }}>
         <Snackbar
           open={open}
