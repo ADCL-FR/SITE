@@ -1,5 +1,7 @@
 // React
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import {PrintableFiche} from "../../components/Printable/PrintableFiche";
+import ReactToPrint from "react-to-print";
 import { useParams } from "react-router-dom";
 // components
 import Page from "../Page";
@@ -40,7 +42,7 @@ export default function FicheDetail() {
   let { id } = useParams();
   const [etapes, setEtapes] = useState([]);
   const [infos, setInfos] = useState({});
-
+  const componentRef = useRef();
   //form etape
   const [showModal, setShowModal] = useState(false);
   const [showModalFiche, setShowModalFiche] = useState(false);
@@ -51,6 +53,7 @@ export default function FicheDetail() {
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [toggleCleared, setToggleCleared] = React.useState(false);
 
+  const [print, setPrint] = useState(false);
   const {deleteEtapes} = useEtape()
 
   // selected rows
@@ -170,6 +173,10 @@ export default function FicheDetail() {
           éditer fiche
         </Button>
         <Button onClick={() => setShowModal(true)}>+ étape</Button>
+        <ReactToPrint
+            trigger={() => <Button>Imprimer</Button>}
+            content={() => componentRef.current}
+        />
       </div>
     );
   }
@@ -177,7 +184,7 @@ export default function FicheDetail() {
   const getEtapes = async () => {
     API.fiche.get_fiche_etapes(id).then((response) => {
       setEtapes(response.etapes);
-      response.etapes = [];
+      //response.etapes = [];
       setInfos(response);
     });
   };
@@ -278,6 +285,13 @@ export default function FicheDetail() {
           />
         </Dialog>
       </div>
+
+
+      <div className="hidden" >
+        <PrintableFiche ficheData={infos} ref={componentRef} />
+      </div>
+
+
     </Page>
   );
 }
