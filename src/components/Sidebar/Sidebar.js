@@ -4,7 +4,7 @@ import classnames from "classnames";
 import {Link} from "react-router-dom";
 
 import {navConfig} from "../../config";
-
+import LogoSGM from "../../assets/logoSGM.jpg";
 export default function Sidebar() {
     const [sidebarShow, setSidebarShow] = React.useState("-translate-x-full");
 
@@ -52,10 +52,10 @@ export default function Sidebar() {
                                 {...brand}
                                 className="md:flex items-center flex-col text-center md:pb-2 text-blueGray-700 mr-0 inline-flex whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
                             >
-                                {brand && brand.image && (
+                                {brand && (
                                     <img
-                                        src={brand.image}
-                                        alt="..."
+                                        src={LogoSGM}
+                                        alt="jjjj"
                                         className="max-w-full rounded"
                                     />
                                 )}
@@ -64,17 +64,17 @@ export default function Sidebar() {
                         )}
                         {brand && brand.link && brand.link.to === undefined && (
                             <a
-                                {...brand}
+
                                 className="md:flex items-center flex-col text-center md:pb-2 text-blueGray-700 mr-0 inline-flex whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
                             >
                                 {brand && brand.image && (
                                     <img
-                                        src={brand.image}
-                                        alt="..."
+                                        src={LogoSGM}
+                                        alt="Logo SGM"
                                         className="max-w-full rounded"
                                     />
                                 )}
-                                {brand && brand.text && <span>{brand.text}</span>}
+                                {/*{brand && brand.text && <span>{brand.text}</span>}*/}
                             </a>
                         )}
                         <div className="md:flex-col md:min-w-full flex flex-col list-none">
