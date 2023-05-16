@@ -420,7 +420,7 @@ const get_zones = async () => {
 
 const update_affectation = async (affectationId, affectation) => {
   const response = await axiosInstance
-    .put(`/api/affectations/${affectationId}`, { ...affectation })
+    .put(`/api/affectations/ajustages/${affectationId}`, { ...affectation })
     .then((response) => {
       return response.data;
     })
@@ -432,7 +432,7 @@ const update_affectation = async (affectationId, affectation) => {
 
 const create_affectation = async (affectation) => {
   const response = await axiosInstance
-    .post(`/api/affectations/`, { ...affectation })
+    .post(`/api/affectations/ajustages/`, { ...affectation })
     .then((response) => {
       return response.data;
     })
@@ -444,7 +444,7 @@ const create_affectation = async (affectation) => {
 
 const delete_affectation = async (affectationId) => {
   const response = await axiosInstance
-    .delete(`/api/affectations/${affectationId}`)
+    .delete(`/api/affectations/ajustages/${affectationId}`)
     .then((response) => {
       return response.data;
     })
