@@ -7,7 +7,7 @@ const useMachine = () => {
   const [loading, setLoading] = useState(false);
 
   function loadMachines() {
-    API.machine.get_machines().then((response) => {
+    return API.machine.get_machines().then((response) => {
       setMachines(response.results);
       setLoading(false);
       // append options for form
@@ -16,6 +16,7 @@ const useMachine = () => {
         options.push({ value: machine.id, label: machine.nom_machine });
       });
       setFormOptions(options);
+      return response.results;
     });
   }
 
