@@ -173,7 +173,6 @@ const ZoneContainer = {
   gap: "10px",
   width: "100%",
   height: "100%",
-  borderRadius: "15px",
   overflow: "auto",
 };
 const ZoneStyle = {
