@@ -60,43 +60,44 @@ export default function AffaireDropDown({
                   )}
 
                   {/* <p>{affaire.charge_affaire}</p> */}
-                </div>
-                <div style={list_etape_style}>
-                  {isExtendedFiche &&
-                    fiche.etapes.map((etape, key) => {
-                      return (
-                        <Droppable
-                          //style={{ backgroundColor: isDragging ? "#A7A7A7" : "" }}
-                          item={{ type: "etape", item: etape, parent: affaire }}
-                          draggable
-                          type="etape"
-                          key={key}
-                        >
-                          <div style={etape_style}>
-                            <div>
-                              Étape n°{etape.num_etape} - Temps: {etape.temps}
-                              (h)
-                            </div>
-
-                            {/* delete button */}
-                            {isZone && (
-                              <button
-                                onClick={() =>
-                                  onDeleteAffectation(etape.affectation_id)
-                                }
+                  <div style={list_etape_style}>
+                    {isExtendedFiche &&
+                        fiche.etapes.map((etape, key) => {
+                          return (
+                              <Droppable
+                                  //style={{ backgroundColor: isDragging ? "#A7A7A7" : "" }}
+                                  item={{ type: "etape", item: etape, parent: affaire }}
+                                  draggable
+                                  type="etape"
+                                  key={key}
                               >
-                                {" "}
-                                <i
-                                  className="fas fa-solid fa-trash"
-                                  style={{ color: "#ff9999" }}
-                                ></i>
-                              </button>
-                            )}
-                          </div>
-                        </Droppable>
-                      );
-                    })}
+                                <div style={etape_style}>
+                                  <div>
+                                    Étape n°{etape.num_etape} - Temps: {etape.temps}
+                                    (h)
+                                  </div>
+
+                                  {/* delete button */}
+                                  {isZone && (
+                                      <button
+                                          onClick={() =>
+                                              onDeleteAffectation(etape.affectation_id)
+                                          }
+                                      >
+                                        {" "}
+                                        <i
+                                            className="fas fa-solid fa-trash"
+                                            style={{ color: "#ff9999" }}
+                                        ></i>
+                                      </button>
+                                  )}
+                                </div>
+                              </Droppable>
+                          );
+                        })}
+                  </div>
                 </div>
+
               </Droppable>
             );
           })}
@@ -131,10 +132,13 @@ const affaire_title_style = {
 };
 const fiche_style = {
   display: "flex",
-  flexDirection: "row",
+  padding: "4px",
+  flexDirection: "column",
   alignItems: "center",
   justifyContent: "space-between",
   width: "100%",
+  border: "1px solid #0056b3x@",
+  borderRadius: "6px",
 };
 const list_style = {
   with: "100%",
