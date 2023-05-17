@@ -68,5 +68,6 @@ const title_style = {
 
 const children_style = {
     "overflow-y": "auto",
+    minWidth: "100px",
     padding: "8px",
 };
