@@ -3,16 +3,19 @@ import React, {useEffect, useState} from "react";
 
 // drap and drop
 import DropZone from "../../DND/DropZone";
+import AffaireDropDown from "../AffaireDropDown";
 
 export default function ZoneDropMachines({
-    id,
-    isZone = false,
-    accept,
-    children,
-    style,
-    title,
-    week,
-                                         }) {
+     id,
+     isZone = false,
+     accept,
+     children,
+     style,
+     title,
+     affaires_data,
+     week,
+ }){
+    const [affaires, setAffaires] = useState([]);
     const [isOver, setIsOver] = useState(false);
 
     const getBackgroundColor = () => {
@@ -31,6 +34,12 @@ export default function ZoneDropMachines({
             console.log("handle_etape_drop");
         }
     };
+
+    useEffect(() => {
+        setAffaires(affaires_data);
+    }, [affaires_data]);
+
+
     return (
         <DropZone
             id={id}
@@ -49,6 +58,14 @@ export default function ZoneDropMachines({
             {isZone && (
                 <div style={children_style}>
                     {children}
+                </div>
+            )}
+
+            {!isZone && (
+                <div style={children_style}>
+                    {affaires.map((affaire, key) => {
+                        return <AffaireDropDown key={key} isZone={false} isZoneMachine={true} affaire={affaire}/>;
+                    })}
                 </div>
             )}
         </DropZone>

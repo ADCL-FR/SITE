@@ -159,7 +159,6 @@ const ContainerStyle = {
   width: "100%",
   justifyContent: "space-around",
   height: "60vh",
-
   gap: "10px",
 };
 const DropZoneStyle = {

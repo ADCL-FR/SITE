@@ -194,7 +194,6 @@ export default function ZoneDropAffaires({
 
       {isZone && (
         <div style={children_style}>
-          {console.log("affaires", affaires)}
           {affaires?.map((affaire, key) => {
             return (
               affaire?.fiches.length > 0 && (
