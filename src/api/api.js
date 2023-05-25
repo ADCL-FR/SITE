@@ -141,6 +141,19 @@ class fiche {
           throw error;
         });
       }
+
+      // get fiches à planifier machine
+        static get_fiches_a_planifier_machine = async () => {
+            const response = await axiosInstance
+                .get(`/api/fiches/machine/a_planifier`)
+                .then((response) => {
+                return response.data;
+                })
+                .catch((error) => {
+                throw error;
+                });
+            return response;
+        }
 }
 
 class etape {
@@ -406,6 +419,54 @@ const planning_zone = async (semaine) => {
   return response;
 };
 
+class planning {
+  static get_planning_machine = async (semaine) => {
+    return await axiosInstance
+      .get(`/api/planning/machine`, { params: { semaine: semaine } })
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
+}
+
+class affectation_machine {
+  static create_affectation_machine = async (affectation) => {
+    return await axiosInstance
+      .post(`/api/affectations/machines/`, { ...affectation })
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
+
+    static update_affectation_machine = async (affectationId, affectation) => {
+      return await axiosInstance
+        .put(`/api/affectations/machines/${affectationId}`, { ...affectation })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    };
+
+    static delete_affectation_machine = async (affectationId) => {
+        return await axiosInstance
+            .delete(`/api/affectations/machines/${affectationId}`)
+              .then((response) => {
+                return response.data;
+              })
+              .catch((error) => {
+                throw error;
+              });
+    };
+}
+
 const get_zones = async () => {
   const response = await axiosInstance
     .get(`/api/zones`)
@@ -420,7 +481,7 @@ const get_zones = async () => {
 
 const update_affectation = async (affectationId, affectation) => {
   const response = await axiosInstance
-    .put(`/api/affectations/${affectationId}`, { ...affectation })
+    .put(`/api/affectations/ajustages/${affectationId}`, { ...affectation })
     .then((response) => {
       return response.data;
     })
@@ -432,7 +493,7 @@ const update_affectation = async (affectationId, affectation) => {
 
 const create_affectation = async (affectation) => {
   const response = await axiosInstance
-    .post(`/api/affectations/`, { ...affectation })
+    .post(`/api/affectations/ajustages/`, { ...affectation })
     .then((response) => {
       return response.data;
     })
@@ -444,7 +505,7 @@ const create_affectation = async (affectation) => {
 
 const delete_affectation = async (affectationId) => {
   const response = await axiosInstance
-    .delete(`/api/affectations/${affectationId}`)
+    .delete(`/api/affectations/ajustages/${affectationId}`)
     .then((response) => {
       return response.data;
     })
@@ -466,11 +527,15 @@ const fiches_ajustage_a_planifier = async () => {
   return response;
 };
 
+
+
 const API = {
   affaire,
   fiche,
   etape,
   machine,
+  planning,
+  affectation_machine,
   etapeModele,
   ficheModele,
   recuperer_statuts,

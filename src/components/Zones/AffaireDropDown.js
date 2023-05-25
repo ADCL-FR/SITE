@@ -6,6 +6,7 @@ export default function AffaireDropDown({
   extended = true,
   affaire,
   isZone = false,
+  isZoneMachine = false,
   onDeleteAffectation = () => {},
 }) {
   const [isExtendedAffaire, setIsExtendedAffaire] = useState(extended);
@@ -44,61 +45,7 @@ export default function AffaireDropDown({
       {isExtendedAffaire && (
         <div style={list_style}>
           {affaire.fiches.map((fiche, key) => {
-            return (
-              <Droppable
-                item={{ type: "fiche", item: fiche, parent: affaire }}
-                draggable
-                type="fiche"
-                key={key}
-              >
-                <div style={fiche_style} onClick={() => toggleExtendedFiche()}>
-                  <p>Fiche : {fiche.titre}</p>
-                  {isExtendedFiche ? (
-                    <i className="fas fa-duotone fa-chevron-down"></i>
-                  ) : (
-                    <i className="fas fa-duotone fa-chevron-right"></i>
-                  )}
-
-                  {/* <p>{affaire.charge_affaire}</p> */}
-                </div>
-                <div style={list_etape_style}>
-                  {isExtendedFiche &&
-                    fiche.etapes.map((etape, key) => {
-                      return (
-                        <Droppable
-                          //style={{ backgroundColor: isDragging ? "#A7A7A7" : "" }}
-                          item={{ type: "etape", item: etape, parent: affaire }}
-                          draggable
-                          type="etape"
-                          key={key}
-                        >
-                          <div style={etape_style}>
-                            <div>
-                              Étape n°{etape.num_etape} - Temps: {etape.temps}
-                              (h)
-                            </div>
-
-                            {/* delete button */}
-                            {isZone && (
-                              <button
-                                onClick={() =>
-                                  onDeleteAffectation(etape.affectation_id)
-                                }
-                              >
-                                {" "}
-                                <i
-                                  className="fas fa-solid fa-trash"
-                                  style={{ color: "#ff9999" }}
-                                ></i>
-                              </button>
-                            )}
-                          </div>
-                        </Droppable>
-                      );
-                    })}
-                </div>
-              </Droppable>
-            );
+             return <FicheDropRow affaire={affaire} fiche={fiche} isZone={isZone} isZoneMachine={isZoneMachine} onDeleteAffectation={onDeleteAffectation}/>
           })}
         </div>
       )}
@@ -131,30 +78,24 @@ const affaire_title_style = {
 };
 const fiche_style = {
   display: "flex",
-  flexDirection: "row",
+  padding: "4px",
+  flexDirection: "column",
   alignItems: "center",
   justifyContent: "space-between",
   width: "100%",
+  border: "1px solid #0056b3x@",
+  borderRadius: "6px",
 };
 const list_style = {
+  transform: "translate(0, 0)",
   with: "100%",
   display: "flex",
   paddingLeft: "10px",
   flexDirection: "column",
   justifyContent: "space-between",
+  gap: "5px",
 };
-const list_etape_style = {
-  with: "100%",
-  // left border for etapes
-  borderLeft: "1px solid #0056b3",
-};
-const etape_style = {
-  width: "100%",
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "space-between",
-  paddingLeft: "10px",
-};
+
 const row_style = {
   width: "100%",
   "border-radius": "6px",

@@ -93,68 +93,6 @@ export default function ZoneDropAffaires({
   const handle_etape_drop = ({ affaire, etape }) => {
     // check if affaire exist in this zone
     onDrop(etape.id, etape?.affectation_id);
-
-    if (affaire_exist(affaire.id)) {
-      // if affaire exist, check if fiche exist in this affaire if not add it to affaire
-      const current_fiche = affaire.fiches.find(
-        (fiche) => fiche.id === etape.fiche
-      );
-      const new_affaires = affaires.map((affaire_state) => {
-        if (affaire_state.id === affaire.id) {
-          if (!fiche_exist(affaire.id, etape.fiche)) {
-            const new_etape = {
-              ...etape,
-              fiche: current_fiche.id,
-            };
-            const new_fiche = {
-              ...current_fiche,
-              etapes: [new_etape],
-            };
-            return {
-              ...affaire_state,
-              fiches: [...affaire_state.fiches, new_fiche],
-            };
-          } else {
-            // if fiche exist, add the etapes to the fiche wich are not already in the fiche
-            const new_fiches = affaire_state.fiches.map((fiche_state) => {
-              if (fiche_state.id === etape.fiche) {
-                const new_etapes = fiche_state.etapes.filter((etape_state) => {
-                  return etape_state.id !== etape.id;
-                });
-                return {
-                  ...fiche_state,
-                  etapes: [...new_etapes, etape],
-                };
-              } else {
-                return fiche_state;
-              }
-            });
-            return {
-              ...affaire_state,
-              fiches: new_fiches,
-            };
-          }
-        } else {
-          return affaire_state;
-        }
-      });
-      setAffaires(new_affaires);
-    } else {
-      // if affaire not exist, create it and add fiche and etapes with only this etape
-      const current_fiche = affaire.fiches.find(
-        (fiche) => fiche.id === etape.fiche
-      );
-      const new_fiche = {
-        ...current_fiche,
-        etapes: [etape],
-      };
-      const new_affaire = {
-        id: affaire.id,
-        num_affaire: affaire.num_affaire,
-        fiches: [new_fiche],
-      };
-      setAffaires([...affaires, new_affaire]);
-    }
   };
 
   useEffect(() => {
@@ -170,7 +108,6 @@ export default function ZoneDropAffaires({
   };
 
   const handle_drop = ({ type, parent, item }) => {
-    console.log("handle_drop", type, parent, item);
     if (type === "fiche") {
       handle_fiche_drop({ affaire: parent, fiche: item });
     } else if (type === "etape") {
@@ -194,7 +131,6 @@ export default function ZoneDropAffaires({
 
       {isZone && (
         <div style={children_style}>
-          {console.log("affaires", affaires)}
           {affaires?.map((affaire, key) => {
             return (
               affaire?.fiches.length > 0 && (

@@ -17,6 +17,32 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 
 import reportWebVitals from './reportWebVitals';
 
+// sentry
+import * as Sentry from "@sentry/react";
+
+Sentry.init({
+    dsn: "https://e8c7fa432d6f4a88a42628aa46d95fee@o4505243547140096.ingest.sentry.io/4505244248702976",
+    integrations: [new Sentry.BrowserTracing(), new Sentry.Replay()],
+    beforeSend(event, hint) {
+        // Check if it is an exception, and if so, show the report dialog
+        if (event.exception) {
+            Sentry.showReportDialog({ eventId: event.event_id });
+        }
+        return event;
+    },
+
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0,
+
+    // Capture Replay for 10% of all sessions,
+    // plus for 100% of sessions with an error
+    replaysSessionSampleRate: 0.1,
+    replaysOnErrorSampleRate: 1.0,
+});
+
+
 // ----------------------------------------------------------------------
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
