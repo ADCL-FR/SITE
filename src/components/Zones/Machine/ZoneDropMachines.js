@@ -4,16 +4,18 @@ import React, {useEffect, useState} from "react";
 // drap and drop
 import DropZone from "../../DND/DropZone";
 import AffaireDropDown from "../AffaireDropDown";
+import API from "../../../api/api";
 
 export default function ZoneDropMachines({
      id,
      isZone = false,
      accept,
+     onDrop,
      children,
      style,
      title,
      affaires_data,
-     week,
+     onDeleteAffectation = () => {},
  }){
     const [affaires, setAffaires] = useState([]);
     const [isOver, setIsOver] = useState(false);
@@ -29,16 +31,18 @@ export default function ZoneDropMachines({
     const handle_drop = ({type, parent, item}) => {
         console.log("handle_drop", type, parent, item);
         if (type === "fiche") {
-            console.log("handle_fiche_drop");
+            console.log("fiche", item);
+            item.etapes.forEach((etape) => {
+                onDrop(etape.id, etape.affectation_id);
+            });
         } else if (type === "etape") {
-            console.log("handle_etape_drop");
+            onDrop(item.id, item?.affectation_id)
         }
     };
 
     useEffect(() => {
         setAffaires(affaires_data);
     }, [affaires_data]);
-
 
     return (
         <DropZone
@@ -57,7 +61,9 @@ export default function ZoneDropMachines({
 
             {isZone && (
                 <div style={children_style}>
-                    {children}
+                    {affaires_data.map((affaire, key) => {
+                        return <AffaireDropDown key={key} isZone={true} isZoneMachine={false} affaire={affaire} onDeleteAffectation={onDeleteAffectation}/>;
+                    })}
                 </div>
             )}
 

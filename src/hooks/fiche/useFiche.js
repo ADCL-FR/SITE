@@ -39,6 +39,10 @@ const useFiche = () => {
         return API.fiche.delete_fiches(ids)
     }
 
+    async function loadFichesAPlanifierMachine(){
+        return API.fiche.get_fiches_a_planifier_machine()
+    }
+
     return {
         fiche,
         setFiche,
@@ -47,7 +51,8 @@ const useFiche = () => {
         onCreateFiche,
         onUpdateFiche,
         onDeleteFiche,
-        deleteFiches
+        deleteFiches,
+        loadFichesAPlanifierMachine
     }
 }
 
