@@ -13,6 +13,7 @@
     "@mui/material": "^5.11.0",
     "@notus-pro/react": "1.0.1",
     "@popperjs/core": "2.9.2",
+    "@sentry/react": "^7.53.1",
     "@tailwindcss/forms": "0.3.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -37,7 +38,6 @@
     "react-select-search": "^4.1.6",
     "react-to-print": "^2.14.12",
     "styled-components": "^5.3.6",
-    "tailwindcss": "2.1.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -68,6 +68,7 @@
   },
   "devDependencies": {
     "dotenv": "^16.0.3",
-    "gh-pages": "^4.0.0"
+    "gh-pages": "^4.0.0",
+    "tailwindcss": "^3.3.2"
   }
 }

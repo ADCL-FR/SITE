@@ -159,7 +159,6 @@ const ContainerStyle = {
   width: "100%",
   justifyContent: "space-around",
   height: "60vh",
-
   gap: "10px",
 };
 const DropZoneStyle = {
@@ -173,7 +172,6 @@ const ZoneContainer = {
   gap: "10px",
   width: "100%",
   height: "100%",
-  borderRadius: "15px",
   overflow: "auto",
 };
 const ZoneStyle = {
