@@ -16,6 +16,7 @@ export default function ZoneDropMachines({
      title,
      affaires_data,
      onDeleteAffectation = () => {},
+     salarieOptions = [],
  }){
     const [affaires, setAffaires] = useState([]);
     const [isOver, setIsOver] = useState(false);
@@ -62,7 +63,7 @@ export default function ZoneDropMachines({
             {isZone && (
                 <div style={children_style}>
                     {affaires_data.map((affaire, key) => {
-                        return <AffaireDropDown key={key} isZone={true} isZoneMachine={false} affaire={affaire} onDeleteAffectation={onDeleteAffectation}/>;
+                        return <AffaireDropDown key={key} isZone={true} isZoneMachine={true} salarieOptions={salarieOptions} affaire={affaire} onDeleteAffectation={onDeleteAffectation}/>;
                     })}
                 </div>
             )}
@@ -70,7 +71,7 @@ export default function ZoneDropMachines({
             {!isZone && (
                 <div style={children_style}>
                     {affaires.map((affaire, key) => {
-                        return <AffaireDropDown key={key} isZone={false} isZoneMachine={true} affaire={affaire}/>;
+                        return <AffaireDropDown key={key} isZone={false} isZoneMachine={false} affaire={affaire}/>;
                     })}
                 </div>
             )}
