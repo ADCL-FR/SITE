@@ -197,6 +197,20 @@ class etape {
 
 }
 
+class salarie {
+  static get_salaries_form_options = async () => {
+    const response = await axiosInstance
+      .get(`/api/salaries/form-options`)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+    return response;
+  };
+}
+
 class ficheModele {
   static create_fiche_modele = async (ficheModele) => {
     return await axiosInstance
@@ -446,7 +460,7 @@ class affectation_machine {
 
     static update_affectation_machine = async (affectationId, affectation) => {
       return await axiosInstance
-        .put(`/api/affectations/machines/${affectationId}`, { ...affectation })
+        .patch(`/api/affectations/machines/${affectationId}`, { ...affectation })
         .then((response) => {
           return response.data;
         })
@@ -535,6 +549,7 @@ const API = {
   etape,
   machine,
   planning,
+  salarie,
   affectation_machine,
   etapeModele,
   ficheModele,
