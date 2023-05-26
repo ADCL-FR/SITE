@@ -31,7 +31,7 @@ export default function PlanningMachines() {
     const [machines, setMachines] = useState([]);
     const [week, setWeek] = useState(getWeekNumber(new Date()));
     const [affaires, setAffaires] = useState([]);
-
+    const [salarieOptions, setSalarieOptions] = useState([]);
     const {loadFichesAPlanifierMachine} = useFiche()
 
     function reload() {
@@ -67,6 +67,12 @@ export default function PlanningMachines() {
         }
     }
 
+    useEffect(() => {
+        API.salarie.get_salaries_form_options().then((response) => {
+            setSalarieOptions(response.results);
+            console.log("salaries", response.results);
+        });
+    }, []);
 
     useEffect(() => {
         reload()
@@ -141,16 +147,20 @@ export default function PlanningMachines() {
                             />
                         </div>
                         <div style={ZoneContainer} id={"zone-container"}
-                            /*ref={containerRef}
-                            onMouseDown={handleMouseDown}
-                            onMouseMove={handleMouseMove}
-                            onMouseUp={handleMouseUp}
-                            onMouseLeave={handleMouseUp}*/
                             onWheel={handleWheel}
                         >
                         {machines.map((machine, id) => {
-                            return (<ZoneDropMachines id={id} accept={["fiche", "etape"]} isZone={true} isZoneMachine={true} onDeleteAffectation={handle_delete_affectation}
-                                                      onDrop={(etapeId, affectation) => handle_etape_drop(etapeId, machine.id, affectation)} affaires_data={machine.affaires} title={machine.nom_machine}  style={ZonePlannifierStyle} />)
+                            return (
+                                <ZoneDropMachines id={id}
+                                      accept={["fiche", "etape"]}
+                                      isZone={true}
+                                      onDeleteAffectation={handle_delete_affectation}
+                                      onDrop={(etapeId, affectation) => handle_etape_drop(etapeId, machine.id, affectation)}
+                                      affaires_data={machine.affaires}
+                                      title={machine.nom_machine}
+                                      style={ZonePlannifierStyle}
+                                      salarieOptions={salarieOptions}
+                                />)
                         }
                         )}
                         </div>

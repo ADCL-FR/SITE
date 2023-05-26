@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import FicheDropRow from "./FicheDropRow";
-import Droppable from "../DND/Droppable";
 
 export default function AffaireDropDown({
   extended = true,
@@ -8,20 +7,14 @@ export default function AffaireDropDown({
   isZone = false,
   isZoneMachine = false,
   onDeleteAffectation = () => {},
+  salarieOptions = [],
 }) {
   const [isExtendedAffaire, setIsExtendedAffaire] = useState(extended);
-  const [isExtendedFiche, setIsExtendedFiche] = useState(extended);
   const toggleExtendedAffaire = () => {
     setIsExtendedAffaire(!isExtendedAffaire);
   };
 
-  const toggleExtendedFiche = () => {
-    setIsExtendedFiche(!isExtendedFiche);
-  };
 
-  useEffect(() => {
-    console.log("AffaireDropDown");
-  }, [affaire]);
   return (
     <div style={row_style}>
       <div style={affaire_style} onClick={() => toggleExtendedAffaire()}>
@@ -45,19 +38,17 @@ export default function AffaireDropDown({
       {isExtendedAffaire && (
         <div style={list_style}>
           {affaire.fiches.map((fiche, key) => {
-             return <FicheDropRow affaire={affaire} fiche={fiche} isZone={isZone} isZoneMachine={isZoneMachine} onDeleteAffectation={onDeleteAffectation}/>
+             return <FicheDropRow
+                 affaire={affaire}
+                 fiche={fiche}
+                 isZone={isZone}
+                 isZoneMachine={isZoneMachine}
+                 onDeleteAffectation={onDeleteAffectation}
+                 salarieOptions={salarieOptions}
+             />
           })}
         </div>
       )}
-      {/* affaire.fiches.map((fiche) => {
-          return (
-            <FicheDropRow
-              fiche={fiche}
-              onDeleteFiche={(item) => console.log(item)}
-              isPlanned={false}
-            />
-          );
-        }) */}
     </div>
   );
 }
@@ -98,10 +89,10 @@ const list_style = {
 
 const row_style = {
   width: "100%",
-  "border-radius": "6px",
+  "borderRadius": "6px",
   border: "1px solid rgb(216, 222, 228)",
-  "box-shadow": "rgba(140, 149, 159, 0.15) 0px 3px 6px",
-  "background-color": "rgb(255, 255, 255)",
+  "boxShadow": "rgba(140, 149, 159, 0.15) 0px 3px 6px",
+  "backgroundColor": "rgb(255, 255, 255)",
   padding: "10px",
-  "margin-bottom": "8px",
+  "marginBottom": "8px",
 };
