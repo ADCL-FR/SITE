@@ -11,31 +11,25 @@ import ZoneDropMachines from "../../components/Zones/Machine/ZoneDropMachines";
 // ----------------------------------------------------------------------
 //user
 import PageHeader from "../../components/Headers/PageHeader";
-import useMachine from "../../hooks/machine/useMachine";
 import Select from "react-select";
 import useFiche from "../../hooks/fiche/useFiche";
 import API from "../../api/api";
 
-const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={60} ref={ref} variant="filled" {...props} />;
-});
-
-let options = [];
-for (let i = 1; i <= 52; i++) {
-    options.push({ value: i, label: i });
-}
-
+import {getWeeksInYear, getYearsRange, getDateFromWeek, getWeekNumber} from "../../utils/dates";
 export default function PlanningMachines() {
 
-    const {loadMachines } = useMachine()
     const [machines, setMachines] = useState([]);
-    const [week, setWeek] = useState(getWeekNumber(new Date()));
     const [affaires, setAffaires] = useState([]);
     const [salarieOptions, setSalarieOptions] = useState([]);
+    const [isDragging, setIsDragging] = useState(false);
+
+    const [year, setYear] = useState(new Date().getFullYear());
+    const [week, setWeek] = useState(getWeekNumber(new Date(), year));
+
     const {loadFichesAPlanifierMachine} = useFiche()
 
     function reload() {
-        API.planning.get_planning_machine(week).then((response) => {
+        API.planning.get_planning_machine(week, year).then((response) => {
             setMachines(response.results);
         });
         loadFichesAPlanifierMachine().then((response) => {
@@ -46,7 +40,7 @@ export default function PlanningMachines() {
     function handle_etape_drop(etapeId, machineId, affectationId = null) {
         if (affectationId === null) {
             let newAffectation = {
-                semaine_affectation: getWeekDate(week),
+                semaine_affectation: getDateFromWeek(year, week),
                 etape: etapeId,
                 machine: machineId,
             };
@@ -57,7 +51,7 @@ export default function PlanningMachines() {
         }
         else {
             let newAffectation = {
-                semaine_affectation: getWeekDate(week),
+                semaine_affectation: getDateFromWeek(year, week),
                 etape: etapeId,
                 machine: machineId,
             }
@@ -70,32 +64,12 @@ export default function PlanningMachines() {
     useEffect(() => {
         API.salarie.get_salaries_form_options().then((response) => {
             setSalarieOptions(response.results);
-            console.log("salaries", response.results);
         });
     }, []);
 
     useEffect(() => {
         reload()
-    }, [week]);
-
-    function getWeekNumber(d) {
-        d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-        d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
-        var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-        var weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
-        return weekNo;
-    }
-
-    // week number to date in format YYYY-MM-DD
-    function getWeekDate(weekNumber) {
-        let d = new Date();
-        let numDays = (weekNumber - getWeekNumber(d)) * 7;
-        d.setDate(d.getDate() + numDays);
-        return d.toISOString().split("T")[0];
-    }
-
-    const [isDragging, setIsDragging] = useState(false);
-
+    }, [year, week]);
 
     const ZoneContainer = {
         display: "flex",
@@ -138,14 +112,25 @@ export default function PlanningMachines() {
                 >
                     <ZoneDropMachines isZone={false} title={"À planifier"}  style={ZonePlannifierStyle} affaires_data={affaires} />
                     <div id={"dddd"} style={DropZoneStyle} className="cursor">
-                        <div style={SelectWeek}>
-                            <p>Semaine :</p>
-                            <Select
-                                options={options}
-                                defaultValue={{ label: week, value: week }}
-                                onChange={(e) => setWeek(e.value)}
-                            />
+                        <div className="flex flex-row">
+                            <div style={SelectWeek}>
+                                <p>Année :</p>
+                                <Select
+                                    options={getYearsRange(5)}
+                                    defaultValue={{ label: year, value: year }}
+                                    onChange={(e) => setYear(e.value)}
+                                />
+                            </div>
+                            <div style={SelectWeek}>
+                                <p>Semaine :</p>
+                                <Select
+                                    options={getWeeksInYear(year)}
+                                    defaultValue={{ label: week, value: week }}
+                                    onChange={(e) => setWeek(e.value)}
+                                />
+                            </div>
                         </div>
+
                         <div style={ZoneContainer} id={"zone-container"}
                             onWheel={handleWheel}
                         >
@@ -194,6 +179,7 @@ const SelectWeek = {
     gap: "10px",
     alignItems: "center",
     marginBottom: "10px",
+    marginLeft: "10px",
 };
 
 const DropZoneStyle = {
