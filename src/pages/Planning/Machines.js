@@ -15,14 +15,17 @@ import Select from "react-select";
 import useFiche from "../../hooks/fiche/useFiche";
 import API from "../../api/api";
 
-import {getWeeksInYear, getYearsRange} from "../../utils/dates"
+import {getWeeksInYear, getYearsRange, getDateFromWeek, getWeekNumber} from "../../utils/dates";
 export default function PlanningMachines() {
 
     const [machines, setMachines] = useState([]);
-    const [year, setYear] = useState(new Date().getFullYear());
-    const [week, setWeek] = useState(getWeekNumber(new Date()));
     const [affaires, setAffaires] = useState([]);
     const [salarieOptions, setSalarieOptions] = useState([]);
+    const [isDragging, setIsDragging] = useState(false);
+
+    const [year, setYear] = useState(new Date().getFullYear());
+    const [week, setWeek] = useState(getWeekNumber(new Date(), year));
+
     const {loadFichesAPlanifierMachine} = useFiche()
 
     function reload() {
@@ -37,7 +40,7 @@ export default function PlanningMachines() {
     function handle_etape_drop(etapeId, machineId, affectationId = null) {
         if (affectationId === null) {
             let newAffectation = {
-                semaine_affectation: getWeekDate(week),
+                semaine_affectation: getDateFromWeek(year, week),
                 etape: etapeId,
                 machine: machineId,
             };
@@ -48,7 +51,7 @@ export default function PlanningMachines() {
         }
         else {
             let newAffectation = {
-                semaine_affectation: getWeekDate(week),
+                semaine_affectation: getDateFromWeek(year, week),
                 etape: etapeId,
                 machine: machineId,
             }
@@ -67,25 +70,6 @@ export default function PlanningMachines() {
     useEffect(() => {
         reload()
     }, [year, week]);
-
-    function getWeekNumber(d) {
-        d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-        d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
-        var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-        var weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
-        return weekNo;
-    }
-
-    // week number to date in format YYYY-MM-DD
-    function getWeekDate(weekNumber) {
-        let d = new Date();
-        let numDays = (weekNumber - getWeekNumber(d)) * 7;
-        d.setDate(d.getDate() + numDays);
-        return d.toISOString().split("T")[0];
-    }
-
-    const [isDragging, setIsDragging] = useState(false);
-
 
     const ZoneContainer = {
         display: "flex",

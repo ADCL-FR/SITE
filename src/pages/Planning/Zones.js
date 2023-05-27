@@ -11,36 +11,19 @@ import Select from "react-select";
 import PageHeader from "../../components/Headers/PageHeader";
 
 import API from "../../api/api";
-
-let options = [];
-for (let i = 1; i <= 52; i++) {
-  options.push({ value: i, label: i });
-}
+import {getWeeksInYear, getYearsRange, getDateFromWeek, getWeekNumber} from "../../utils/dates";
 
 export default function PlanningZone() {
   const [affaires, setAffaires] = useState([]);
   const [zones, setZones] = useState([]);
-  const [week, setWeek] = useState(getWeekNumber(new Date()));
 
-  // calculate the week number
-  function getWeekNumber(d) {
-    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
-    var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-    var weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
-    return weekNo;
-  }
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [week, setWeek] = useState(getWeekNumber(new Date(), year));
 
-  // week number to date in format YYYY-MM-DD
-  function getWeekDate(weekNumber) {
-    let d = new Date();
-    let numDays = (weekNumber - getWeekNumber(d)) * 7;
-    d.setDate(d.getDate() + numDays);
-    return d.toISOString().split("T")[0];
-  }
+
 
   const get_planning_zone = () => {
-    API.planning_zone(week).then((response) => {
+    API.planning_zone(year, week).then((response) => {
       setZones(response.results);
     });
   };
@@ -57,7 +40,7 @@ export default function PlanningZone() {
   const handle_etape_drop = (etapeId, zoneId, affectationId = null) => {
     if (affectationId === null) {
       let newAffectation = {
-        semaine_affectation: getWeekDate(week),
+        semaine_affectation: getDateFromWeek(year, week),
         etape: etapeId,
         zone: zoneId,
       };
@@ -66,7 +49,7 @@ export default function PlanningZone() {
       });
     } else {
       let affectation = {
-        semaine_affectation: getWeekDate(week),
+        semaine_affectation: getDateFromWeek(year, week),
         etape: etapeId,
         zone: zoneId,
       };
@@ -80,14 +63,14 @@ export default function PlanningZone() {
   };
 
   useEffect(() => {
-    API.planning_zone(week).then((response) => {
+    API.planning_zone(year, week).then((response) => {
       setZones(response.results);
     });
 
     API.fiches_ajustage_a_planifier().then((response) => {
       setAffaires(response.results);
     });
-  }, [week]);
+  }, [year, week]);
 
   return (
     <Page
@@ -116,13 +99,23 @@ export default function PlanningZone() {
             />
 
             <div style={DropZoneStyle}>
-              <div style={SelectWek}>
-                <p>Semaine :</p>
-                <Select
-                  options={options}
-                  defaultValue={{ label: week, value: week }}
-                  onChange={(e) => setWeek(e.value)}
-                />
+              <div className="flex flex-row">
+                <div style={SelectWeek}>
+                  <p>Année :</p>
+                  <Select
+                      options={getYearsRange(5)}
+                      defaultValue={{ label: year, value: year }}
+                      onChange={(e) => setYear(e.value)}
+                  />
+                </div>
+                <div style={SelectWeek}>
+                  <p>Semaine :</p>
+                  <Select
+                      options={getWeeksInYear(year)}
+                      defaultValue={{ label: week, value: week }}
+                      onChange={(e) => setWeek(e.value)}
+                  />
+                </div>
               </div>
               <div style={ZoneContainer}>
                 {zones.map((zone) => {
@@ -141,7 +134,7 @@ export default function PlanningZone() {
                       onDeleteAffectation={(id) =>
                         handle_affectation_delete(id)
                       }
-                      week={getWeekDate(week)}
+                      week={getDateFromWeek(year, week)}
                     />
                   );
                 })}
@@ -197,10 +190,11 @@ const ZonePlannifierStyle = {
   overflow: "auto",
 };
 
-const SelectWek = {
+const SelectWeek = {
   display: "flex",
   flexDirection: "row",
   gap: "10px",
   alignItems: "center",
   marginBottom: "10px",
+  marginLeft: "10px",
 };
