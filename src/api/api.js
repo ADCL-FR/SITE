@@ -421,9 +421,9 @@ const recuperer_salaries = async () => {
   return response;
 };
 
-const planning_zone = async (semaine) => {
+const planning_zone = async (annee, semaine) => {
   const response = await axiosInstance
-    .get(`/api/planning/zone`, { params: { semaine: semaine } })
+    .get(`/api/planning/zone`, { params: { semaine: semaine, annee: annee } })
     .then((response) => {
       return response.data;
     })
@@ -434,9 +434,9 @@ const planning_zone = async (semaine) => {
 };
 
 class planning {
-  static get_planning_machine = async (semaine) => {
+  static get_planning_machine = async (semaine, annee) => {
     return await axiosInstance
-      .get(`/api/planning/machine`, { params: { semaine: semaine } })
+      .get(`/api/planning/machine`, { params: { semaine: semaine, annee: annee } })
       .then((response) => {
         return response.data;
       })
